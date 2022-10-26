@@ -1,0 +1,693 @@
+@charset 'utf-8';
+
+/* CSS ì´ˆê¸°í™”
+	Eric Meyer ì˜ ë°©ë²•(http://meyerweb.com/eric/tools/css/reset/) ë³€í˜•
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin:0;
+	padding:0;
+	font-size:100%;
+	vertical-align:baseline;
+	background:transparent;
+}
+html {
+	overflow-y:hidden;
+	scrollbar-face-color:#2F2C27;
+	scrollbar-arrow-color:#DFA83C;
+	scrollbar-track-color:#1A1815;
+	scrollbar-highlight-color:#2F2C27;
+	scrollbar-shadow-color:#2F2C27;
+	scrollbar-3dlight-color:#2F2C27;
+	scrollbar-darkshadow-color:#2F2C27;
+}
+body {background-color:#FFF; color:#7E755C; font-size:11px; font-family:Tahoma,Verdana,Arial,Apple-Gothic,sans-serif; cursor:default;}
+ol, ul {list-style:none;}
+address, em {font-style:normal;}
+img {border:0; vertical-align:top;}
+fieldset {position:relative; border:0;}
+legend {position:absolute; top:0; left:-2010em; width:1px; height:1px; overflow:hidden; font-size:0; line-height:0;}
+input {color:#AB9770; font-size:12px; font-family:Tahoma,Verdana,Arial,Apple-Gothic,sans-serif;}
+input[type='text']:focus {outline:none;}
+button {border:0; padding:0; background:transparent; cursor:pointer; *overflow:visible; color:#898989; font-size:12px; font-family:Tahoma,Verdana,Arial,Apple-Gothic,sans-serif;}
+button::-moz-focus-inner {border:0; padding: 0;}
+button img {*position:relative;}
+select {background-color:#12110F; color:#AB9770; font-size:12px; font-family:Tahoma,Verdana,Arial,Apple-Gothic,sans-serif;}
+textarea {color:#898989; font-size:12px; font-family:Tahoma,Verdana,Arial,Apple-Gothic,sans-serif;}
+table {border-collapse:collapse; border-spacing:0; table-layout:fixed;}
+hr {display:none;}
+a:link {color:#CCC1A3; text-decoration:none;}
+a:visited {color:#CCC1A3; text-decoration:none;}
+a:hover {color:#CCC1A3; text-decoration:underline;}
+a:active {color:#CCC1A3; text-decoration:none;}
+
+/* For hiding */
+.mall-list #content h2, #lead .search h2 {position:absolute; top:0; left:0; width:1px; height:1px; font-size:0; line-height:0; overflow:hidden;}
+
+/* Hides from IE-mac \*/ * html .xb {height: 1%;} /* End hide from IE-mac */
+#developer:after, #gnb:after, .mall-list .list:after, .buyitem-guide .item-def:after,
+.buyitem .details .qty .val:after, .history .lead:after, .xb:after {clear:both; display:block; height:0; font-size:0; line-height:0; content:'.'; visibility:hidden;}
+
+/* Common */
+.setter {float:left; width:100%;}
+.msg {width:482px; padding:25px 20px; border:3px solid #302F29; background-color:#26231F; color:#CCC1A3; text-align:center;}
+
+h1 {float:left; width:147px; min-height:25px; _height:25px; padding:10px 22px; color:#E8CF9A; font-size:20px; font-weight:normal;}
+#wrap {width:800px; min-height:569px; _height:569px; background:url(/dist/images/item_img/ingame_img/win_bg.jpg) no-repeat left top;}
+#header {float:left; width:100%; min-height:45px;_height:45px; margin-bottom:10px; background:url(/dist/images/item_img/ingame_img/header_bg.jpg) no-repeat left top;}
+#developer {clear:both;}
+#gnb {_height:1%; margin:9px 10px 0 193px; _margin-left:0; padding-left:1px;}
+#gnb li, #gnb li a {background:url(/dist/images/item_img/ingame_img/gnb_item_bg.gif) no-repeat 0 -34px;}
+#gnb li.prem, #gnb li.prem a {background-position:0 0;}
+#gnb li.silk, #gnb li.silk a {background-position:0 0;}
+#gnb li.hist, #gnb li.hist a {background-position:0 -68px;}
+#gnb li.current {background-position:0 -102px;}
+#gnb li.current a {background-image:none; color:#FDE1BE;}
+#gnb li {float:left; _position:relative; width:150px; margin-left:-1px;}
+#gnb li a {float:left; width:140px; height:16px; padding:9px 5px; color:#8C7C63; font-size:12px; text-align:center; overflow:hidden;}
+#gnb li a:hover {text-decoration:none; background-position:0 -102px; color:#FDE1BE;}
+#lead {position:relative; float:left; width:170px; padding:0 9px 0 13px;}
+#fol {margin-left:-192px;}
+#content {position:relative; min-height:1em; _height:1em; margin:-1px 9px 0 192px;}
+#screen, #screen .opener, #screen .closer {background:url(/dist/images/item_img/ingame_img/screen_bgset.gif) no-repeat -3000px 0;}
+#screen {position:relative; _height:1%; background-repeat:repeat-y; background-position:-2000px 0;}
+#screen .mold {position:relative; height:5px; margin-right:28px; font-size:0; line-height:0; z-index:1;}
+#screen .opener {background-position:-1000px 0;}
+#screen .closer {background-position:0 100%;}
+#screen .cropped {position:relative; height:479px; margin:-5px 0; padding:15px 22px 3px; overflow:auto;}
+
+.mig .pagex {margin:13px 0; text-align:center;}
+.hidden {display:none;}
+
+/* Lead */
+#lead .pod {clear:both; float:left; width:100%; margin-bottom:9px; background-color:#080706; color:#CCC1A3;}
+#lead .run {position:relative; top:-1px; left:-1px; float:left; width:168px; border:1px solid #3C3730; background-color:#322D28;}
+#lead .pod h2 {min-height:14px; _height:14px; padding:6px 9px 4px; border-bottom:1px solid #7B715F; background-color:#6B6251; color:#D6CCBA;}
+#lead .silkowned .status, #lead .silkowned .help {background:url(/dist/images/item_img/ingame_img/silkowned_bg.gif) no-repeat left top;}
+#lead .silkowned .status {position:relative; float:left; width:100%; padding:8px 0 2px; border-bottom:1px solid #3C3730; background-color:#322D28;}
+#lead .silkowned .status dt {float:left; _display:inline; margin-bottom:5px; margin-left:9px;}
+#lead .silkowned .status dd { height:15px; margin:0 7px 5px 70px; text-align:right;  }
+#lead .silkowned .status a {display:block; position:absolute; top:15px; right:30px;}
+#lead .silkowned .help {clear:left; padding:9px 11px 8px 13px;  background-color:#2B2622; background-position:left bottom; text-align:center;}
+#lead .silkowned .help a {display:block; min-height:22px; _height:22px; background:url(/dist/images/item_img/ingame_img/buyitemguide_btn_bg.gif) no-repeat left top; color:#292520; line-height:19px;}
+#lead .silkowned .help a:hover {text-decoration:none;}
+#lead .search {width:178px; margin:0 -4px;}
+#lead .search .keyword {float:left; width:111px; min-height:19px; _height:19px; padding:6px; background:url(/dist/images/item_img/ingame_img/search_keyword_bg.png) no-repeat left top;}
+#lead .search .keyword input {_position:relative; width:109px; height:19px; padding:0 1px; border:0; font-size:11px; line-height:19px; vertical-align:top; *margin:-1px 0; background-color: transparent;}
+#lead .search .btn {float:left; width:52px; min-height:23px; _height:23px; margin-left:-5px; padding:4px; background:url(/dist/images/item_img/ingame_img/search_btn_bg.png) no-repeat left top;}
+#lead .search .btn button {_position:relative; height:23px; width:52px; *margin:-1px 0 -2px;  color:#C7AD7B; font-size:11px; line-height:23px; text-align:center;}
+.hotshop li {position:relative; float:left; width:100%; _height:1%; background-color:#39342F;}
+.hotshop .run {height:285px; overflow:hidden;}
+.hotshop .intro {float:left; width:100%; min-height:55px; _height:55px; padding:11px 0 9px; background-color:#2B2723;}
+.hotshop .intro .pic {position:relative; float:left; width:53px; padding-left:16px;}
+.hotshop .intro .name {display:block; _height:1%; margin:0 3px 0 72px; _margin-left:0;}
+.hotshop .price {clear:left; min-height:1em; padding:8px 3px 3px 17px;}
+.hotshop .action {float:left; _display:inline; width:150px; margin:2px 9px 0; padding-bottom:7px; text-align:left;}
+.hotshop .action a {vertical-align:top;}
+.hotshop .action .btn-ga {display:block; margin-right:24px;}
+.hotshop .action .btn-ga a {width:106px;}
+.hotshop .action .pre-sel {float:left; width:19px; margin-left:-19px;}
+.hotshop .action .pre-sel button {height:19px; margin:0; vertical-align:top;}
+
+
+/* Content */
+#content h2, #content h2 div {background:url(/dist/images/item_img/ingame_img/content_tit_bg.gif) no-repeat left top;}
+#content h2 {width:504px; margin:0 -2px 10px; padding-left:28px; color:#C8BCA5; font-size:12px;}
+#content h2 div {min-height:17px; _height:17px; padding:8px 10px 6px 0; background-position:100% 0;}
+.ga {width:528px; _height:1%; margin:12px 0; text-align:center;}
+
+/* Content - Buttons */
+.btn-ga, .btn-ga a, .btn-ga button, .btn-ga input {
+	position:relative; display:inline-block; height:19px; margin:0; padding-left:4px; border:0;
+	background:#BE8935 url(/dist/images/item_img/ingame_img/btn_ga_bg.gif) no-repeat;
+	color:#2B2011; font-size:11px; line-height:19px; font-family:Tahoma,Verdana,Arial,Apple-Gothic,sans-serif; letter-spacing:1px; text-align:center;
+	text-decoration:none !important; white-space:nowrap; vertical-align:middle;
+}
+.btn-ga a, .btn-ga button, .btn-ga input {left:3px; overflow:visible; padding:0 10px 0 6px; background-color:transparent; background-position:right top; cursor:pointer; *vertical-align:top;}
+.btn-ga button, .btn-ga input {*margin-bottom:-1px;}
+.btn-ga {margin:0 1px 0 0;}
+.btn-ga-cancel {background-color:#917E60; background-position:0 -20px;}
+.btn-ga-cancel a, .btn-ga-cancel button, .btn-ga-cancel input {background-position:100% -20px;}
+.btn-ga-cancel *, .btn-ga-confirm *, .btn-ga-history *, .btn-ga-purchase * {width:80px;}
+.btn-ga-confirm input {width:96px;}
+.btn-ga a:link, .btn-ga a:visited, .btn-ga a:hover, .btn-ga a:active {color:#2B2011;}
+
+
+
+/* Mall */
+.mall-list #screen {clear:left;}
+.mall-list #screen .cropped {height:424px;}
+
+/* Mall - Category */
+.mall-list .category {position:relative; float:left; width:100%; min-height:30px; _height:30px; z-index:3;}
+.mall-list .category li {position:relative; float:left; margin-bottom:-3px; padding:0 2px 0 3px; background:url(/dist/images/item_img/ingame_img/category_sepr.gif) no-repeat -14px 9px;}
+.mall-list .category li.first {padding-left:2px; background-image:none;}
+.mall-list .category li div.lower {position:absolute; top:24px; left:5px; display:none; width:145px; padding-top:7px; background-color:#191713; }
+.mall-list .category li div.lower ul {position:relative; top:-2px; left:-2px; padding:2px 2px 1px; background-color:#B3A584;}
+.mall-list .category li li {margin-bottom:1px; padding:0; background-image:none;}
+.mall-list .category li li, .mall-list .category li li a {float:none;}
+.mall-list .category li li a {display:block; min-height:0; _height:1%; padding:5px; background-color:#A89C82; background-image:none; color:#1F1C18; font-size:11px;}
+.mall-list .category li li a:hover {background-color:#3E3A30; color:#FFEBD1}
+.mall-list .category a {float:left; min-height:21px; _height:21px; padding:6px 6px 6px; color:#8C7C63; font-size:12px;}
+.mall-list .category a:hover {color:#FFEBD1; text-decoration:none;}
+.mall-list .category .cur, .mall-list .category .cur a {background:url(/dist/images/item_img/ingame_img/category_cur_bg.gif) no-repeat 0 0;}
+.mall-list .category .cur {min-height:33px; _height:33px; margin:0 -1px -3px 0; padding-right:0; z-index:1;}
+.mall-list .category .cur a {min-height:21px; _height:21px; padding:6px 9px 6px 6px; background-position:100% 0; color:#FFEBD1;}
+.mall-list .category .cur li a {min-height:0; _height:1%; padding:5px; background-color:#A89C82; background-image:none; color:#1F1C18;}
+.mall-list .category .hover {z-index:3;}
+.mall-list .category .hidden {display:none;}
+
+/* Mall - Item List */
+.mall-list h3, .mall-list h3 div {background:url(/dist/images/item_img/ingame_img/content_tit_bg.gif) no-repeat left top;}
+.mall-list h3 {clear:both; width:504px; margin:0 -4px 10px -2px; padding-left:28px; font-size:12px; color:#C8BCA5;}
+.mall-list h3 div {min-height:17px; _height:17px; padding:8px 10px 6px 0; background-position:100% 0;}
+.mall-list .list {float:left; width:543px; min-height:130px; margin-right:-16px;}
+.mall-list .list li {float:left; width:163px; min-height:125px; _height:125px; margin:0 16px 14px 0; border:1px solid #2A2722;}
+.mall-list .list .intro {position:relative; width:82px; height:55px; padding:10px 13px 5px 68px; color:#CCC1A3; overflow:hidden;}
+.mall-list .list .intro-cur {z-index:3;}
+.mall-list .list .intro .spec {position:absolute; top:0; left:-9999em; width:204x; display:none;}
+.mall-list .list .pic {position:absolute; top:12px; left:14px; width:45px;}
+.mall-list .list .tag {position:absolute; top:-1px; left:-1px; width:38px;}
+.mall-list .list .tag img {vertical-align:top;}
+.mall-list .list .price {height:28px; margin:5px 13px 3px 14px; padding-top:6px; background:url(/dist/images/item_img/ingame_img/item_price_hbar.gif) repeat-x 0 -10px; color:#A49881; line-height:120%; overflow:hidden;}
+.mall-list .list .price .normal {color:#FFF99B; text-decoration:line-through;}
+.mall-list .list .price .type {float:left; margin:2px 0 0 0; border-bottom:0;}
+.mall-list .list .price .val {display:block; margin-left:20px;}
+.mall-list .list .action {clear:left; float:left; _display:inline; width:145px; margin:2px 9px 7px; text-align:left;}
+.mall-list .list .action button {vertical-align:top;}
+.mall-list .list .action .btn-ga {display:block; margin-right:24px;}
+.mall-list .list .action .btn-ga button {width:117px;}
+.mall-list .list .action .pre-sel {float:left; width:19px; margin-left:-19px;}
+.mall-list .list .action .pre-sel button {height:19px; margin:0; vertical-align:top;}
+
+/* Buy Item */
+.buyitem .details {width:528px; _height:1%; margin-bottom:8px;}
+.buyitem .details table {width:100%; border:0;}
+.buyitem .details th, .buyitem .details td {vertical-align:middle;}
+.buyitem .details th {padding:8px 0; border-width:0 0 0 1px; border-style:solid; border-color:#454038; border-bottom:hidden; border-left-color:#2A2722; background-color:#454038; color:#918564; font-weight:normal;}
+.buyitem .details td {padding:10px 0; border-width:0 0 1px 1px; border-style:solid; border-color:#292623; background-color:#211F1D; color:#B4A680; text-align:center;}
+.buyitem .details td.item {text-align:left;}
+.buyitem .details td.userid {word-break:break-all; word-wrap: break-word;}
+.buyitem .details td.qty {text-align:center;}
+.buyitem .details td.qty input {width:30px; *margin:-1px 0; border:0; background-color:#12110F; color:#B4A680; font-size:11px;}
+.buyitem .details td.price {text-align:right;}
+.buyitem .details .item {position:relative;}
+.buyitem .details .item .pic {position:relative; float:left; width:45px; _height:1%; _margin-right:8px; padding-left:12px;}
+.buyitem .details .item .name {display:block; _height:1%; margin-left:68px; _margin-left:0;}
+.buyitem .details .item .pic .sash_premium {cursor:default;}
+.buyitem .details .item .pic .sash_silk {cursor:default;}
+.buyitem .details .server select {width:68px;}
+.buyitem .details .qty .val {min-height:16px; _height:16px; margin:0 2px 0 3px; padding:1px; border-width:0 1px 1px 0; border-style:solid; border-color:#413D38; background-color:#12110F;}
+.buyitem .details .price, .buyitem .details .end {border-right-width:1px;}
+.buyitem .details .price .normal {color:#FFF99B; text-decoration:line-through;}
+.buyitem .details .price .type {float:left; margin:2px 0 0 5px; border-bottom:0;}
+.buyitem .details .price .val {display:block; margin-left:25px; padding-right:10px;}
+.buyitem .details .action .btn-ga * {width:60px;}
+.buyitem .details .action, .buyitem .details .end {border-right-width:1px;}
+.buyitem .details .total td {border-width:0 0 1px 1px; border-style:solid; border-color:#292623;}
+.buyitem .details .total th, .buyitem .details .total td {border:1px solid #292623; background-color:#292623;}
+.buyitem .details .total th {color:#CCC1A3; text-align:right;}
+.buyitem .details .total th strong {display:block; margin:0 20px; font-weight:normal;}
+.buyitem .details .total td {text-align:right;}
+.buyitem .details .total .price {padding:5px 0;}
+.buyitem .details .total .price .setter {margin-left:-22px;}
+.buyitem .details .total .price .type {float:left; width:22px; margin-left:0; padding:2px 0; text-align:left;}
+.buyitem .details .total .price .val {display:block; margin:0 3px 0 22px; padding:2px; border-width:0 1px 1px 0; border-style:solid; border-color:#413D38; background-color:#12110F; color:#914B00;}
+.buyitem .details .chk {padding:2px 0;}
+.buyitem .detail-view {width:507px; margin:10px 0 20px; padding:10px 10px 10px 11px; background-color:#322F26;}
+.buyitem .detail-view h3 {margin-bottom:10px; color:#918564; font-weight:normal;}
+.buyitem .msg-nesilk {width:382px; padding:20px 50px 25px 90px; background:#26231F url(/dist/images/item_img/ingame_img/icon_caution.gif) no-repeat 50px 22px; text-align:left;}
+.buyitem .msg-nesilk .remainging {margin-bottom:3px;}
+
+
+/* Buy Item Guide */
+.buyitem-guide h3 {_height:1%; margin-bottom:8px; padding:0 15px; background:url(/dist/images/item_img/ingame_img/content_h3_bul.gif) no-repeat -7px 2px; color: #CAC0AC; font-size:12px; font-weight:normal;}
+.buyitem-guide h4 {margin:10px 0 0; padding:0 21px; background:url(/dist/images/item_img/ingame_img/details_caption_bul.gif) no-repeat 0 3px; color:#CCC1A3; font-weight:normal;}
+
+.buyitem-guide .section {padding-top:15px; border-bottom:1px solid #2D2A26;}
+.buyitem-guide .section-lead {padding-top:0;}
+.buyitem-guide .section .lead {margin:2px 0 13px; color:#C58200;}
+.buyitem-guide .section .lead .less {color:#7E755C;}
+.buyitem-guide .list-plain {margin:0 0 15px; _zoom:1;}
+.buyitem-guide .list-plain li {padding:0 8px; background:url(/dist/images/item_img/ingame_img/list_plain_bul.gif) no-repeat -15px 6px;}
+.buyitem-guide .list-plain em {color:#16C2CD;}
+
+.buyitem-guide .item-def {min-height:45px; _height:1%;}
+.buyitem-guide .item-def .item {float:left; padding:3px 0 0 10px;}
+.buyitem-guide .item-def .list-plain {margin-left:74px;}
+
+/* Reserved */
+.reserved h3 {clear:both; width:auto; min-height:1em; margin:15px 7px 7px; padding:0 15px; background:url(/dist/images/item_img/ingame_img/content_h3_bul.gif) no-repeat -7px 2px; color:#CAC0AC; font-size:12px; font-weight:normal;}
+
+/* Item Search */
+.item-search #content h2 {position:static; width:503px; height:auto; font-size:12px; line-height:normal; overflow:visible;}
+.item-search #screen .cropped {height:479px;}
+.item-search h3 {clear:both; width:auto; margin:15px 7px; padding:0 15px; background:url(/dist/images/item_img/ingame_img/content_h3_bul.gif) no-repeat -7px 2px; color:#CAC0AC; font-size:12px; font-weight:normal;}
+.item-search .list {margin-bottom:10px;}
+.item-search .no-results {margin:30px 0 50px;}
+
+/* History */
+.history h3 {float:left; _display:inline; margin:4px 7px 5px; padding:0 15px; background:url(/dist/images/item_img/ingame_img/content_h3_bul.gif) no-repeat -7px 2px; color:#CAC0AC; font-size:12px; font-weight:normal;}
+.history h3 em {color:#DEA10F;}
+.history caption {padding:0 21px 5px; background:url(/dist/images/item_img/ingame_img/details_caption_bul.gif) no-repeat 0 3px; text-align:left;}
+.history .lead {width:528px; min-height:18px; margin-bottom:10px; border-bottom:1px solid #37332E;}
+.history .settings {float:right; width:190px; padding:2px;}
+.history label, .history select, .history .combo {float:left;}
+.history label {padding:3px 4px 0 6px;}
+.history .details {margin-bottom:13px;}
+.history .details th, .history .details td {padding:8px 0;}
+.history .details .price {padding:5px 0;}
+.history .details-remaining th {background-color:#211F1D; color:#CCC1A3;}
+.history .details-remaining th, .history .details-remaining td {border:1px solid #292623;}
+.history .details-buyitem {_height:1%; padding-bottom:100px;}
+.history .details-buyitem th {padding:1px 0;}
+.history .details .total td {border-width:0 0 1px 1px; border-style:solid; border-color:#292623;}
+.history .details .total th, .history .details .total td {border:1px solid #292623; background-color:#292623;}
+.history .details .total th {color:#CCC1A3; text-align:right;}
+.history .details .total th strong {display:block; margin:0 20px; font-weight:normal;}
+.history .details .total td {text-align:right;}
+.history .details .total .price {padding:5px 0;}
+.history .details .total .price .setter {margin-left:-22px;}
+.history .details .total .price .type {float:left; width:22px; margin-left:0; padding:0px 0; text-align:left;}
+.note-serves-details {margin:-3px 0 13px;}
+#sel-history-year {width:68px;}
+#sel-history-moth {width:42px;}
+
+
+.receiving {width:528px; margin:20px 0; padding-bottom:15px;}
+.receiving li {padding:0 13px; text-indent:-13px;}
+.receiving .tit {margin:0 0 2px; padding:0; background-image:none; color:#B6A27E; font-weight:bold;}
+.receiving .steps {margin:7px 0 10px; _margin-right:-4px;}
+
+
+/* Quantity Adjustment */
+.qty .cont {display:block; margin-right:16px;}
+.qty .cont input {height:16px; padding:0; line-height:16px;}
+.qty .ctrl {float:left; width:16px; margin-left:-16px; position:relative;}
+.qty .ctrl span {display:block; width:16px; height:8px; background:url(/dist/images/item_img/ingame_img/btn_qty_control_bg.gif) no-repeat -16px -16px; cursor:pointer; overflow:hidden;}
+.qty .ctrl .add {background-position:0 0;}
+.qty .ctrl .minus {background-position:0 -8px;}
+
+/* For Premium Item */
+.sash_premium {position:absolute; top:0; left:0; width:45px; height:45px; background:url(/dist/images/item_img/ingame_img/sash_premium.gif) no-repeat left top; cursor:pointer;}
+.hotshop .intro .pic .sash_premium {left:16px;}
+.buyitem .details .item .sash_premium {left:12px;}
+
+/* For Silk Item */
+.sash_silk {position:absolute; top:0; left:0; width:45px; height:45px; background:url(/dist/images/item_img/ingame_img/sash_silk.gif) no-repeat left top; cursor:pointer;}
+.hotshop .intro .pic .sash_silk {left:16px;}
+.buyitem .details .item .sash_silk {left:12px;}
+
+
+/* Error */
+.error h1 {float:none; width:auto; min-height:25px; _height:25px; padding:10px 22px; color:#E8CF9A; font-size:20px; font-weight:normal;}
+.error #screen, .error #screen .opener, .error #screen .closer {background-image:url(/dist/images/item_img/ingame_img/screen_bgset_error.gif);}
+.error #screen {margin:0 10px;}
+.error #screen .mold {margin-right:0;}
+.error .msg {width:auto; margin-top:175px;}
+.scroll-helper {padding:30px 0;}
+.scroll-helper2 {padding:5px 0;}
+
+/* ---------- basic theme: these are the most necessary styles --------------------------------- */
+
+.scrollbar-pane {margin-right: 20px;}
+.scrollbar-handle-container {background: #EEE; width: 20px;}
+.scrollbar-handle {width: 20px; background: #999;}
+.scrollbar-handle:hover {background: #666;}
+.scrollbar-handle.move {background: #111;}
+.scrollbar-handle-up {width: 20px; height: 20px; background: #DDD;}
+.scrollbar-handle-up:hover {background: #666;}
+.scrollbar-handle-down {width: 20px; height: 20px; background: #DDD;}
+.scrollbar-handle-down:hover {background: #666;}
+
+/* ---------- simple theme --------------------------------------------------------------------- */
+
+.cropped .scrollbar-pane {margin-right: 16px; padding:15px 22px 3px;}
+.cropped .scrollbar-handle-container {right:0; _right:-1px; width:21px; border:1px solid #433F38; border-top:0; border-bottom:0; background:#161412;}
+.cropped .scrollbar-handle-container.hover, .cropped .scrollbar-handle-container.move {}
+.cropped .scrollbar-handle-up, .cropped .scrollbar-handle-down {background-image: url(/dist/images/item_img/ingame_img/btn_scrollbar_arrow_bg.gif); background-repeat: no-repeat;}
+
+/* handle */
+.cropped .scrollbar-handle {width: 17px; right:1px; _right:0; border: 1px solid #4B4537; background-color: #2F2C27; background-position: -14px 50%;}
+.cropped .scrollbar-handle:hover, .cropped .scrollbar-handle-move {border-color:#716854; background-color:#48443C;}
+
+/* arrow up */
+.cropped .scrollbar-handle-up {right:0; _right:-1px; width:21px; height: 22px; border: 1px solid #433F38; border-bottom-width:0; background-color: #161412; background-position: -1px -1px;}
+.cropped .scrollbar-handle-up-move {background-position: -23px -1px;}
+
+/* arrow down */
+.cropped .scrollbar-handle-down {right:0; _right:-1px; bottom:0; width:21px; height:22px; border: 1px solid #433F38; border-top-width:0;background-color: #161412; background-position: -1px -22px;}
+.cropped .scrollbar-handle-down-move {background-position: -23px -22px;}
+
+
+
+
+.jcarousel-skin-tango .jcarousel-container {}
+.jcarousel-skin-tango .jcarousel-direction-rtl {direction: rtl;}
+.jcarousel-skin-tango .jcarousel-container-vertical {width: 168px; height: 260px;}
+.jcarousel-skin-tango .jcarousel-clip-vertical {width: 168px; height: 260px;}
+.jcarousel-skin-tango .jcarousel-item {width: 168px; height: 130px;}
+.jcarousel-skin-tango .jcarousel-item-vertical {margin-bottom: 0;}
+.jcarousel-skin-tango .jcarousel-item-placeholder {background: #fff;color: #000;}
+
+/**
+ *  Vertical Buttons
+ */
+.jcarousel-skin-tango .jcarousel-next-vertical {position: absolute; top: -22px; right: 4px; width: 20px; height: 20px; cursor: pointer; background:url(/dist/images/item_img/ingame_img/hotshop_btn_next.gif) no-repeat 0 0;}
+.jcarousel-skin-tango .jcarousel-next-vertical:hover {background-position: -20px 0;}
+.jcarousel-skin-tango .jcarousel-next-vertical:active {background-position: -40px 0;}
+.jcarousel-skin-tango .jcarousel-next-disabled-vertical,
+.jcarousel-skin-tango .jcarousel-next-disabled-vertical:hover,
+.jcarousel-skin-tango .jcarousel-next-disabled-vertical:active {cursor: default; background-position: -60px 0;}
+.jcarousel-skin-tango .jcarousel-prev-vertical {position: absolute; top: -22px; right: 24px; width: 20px; height: 20px; cursor: pointer; background:url(/dist/images/item_img/ingame_img/hotshop_btn_prev.gif) no-repeat 0 0;}
+.jcarousel-skin-tango .jcarousel-prev-vertical:hover {background-position: -20px 0;}
+.jcarousel-skin-tango .jcarousel-prev-vertical:active {background-position: -40px 0;}
+.jcarousel-skin-tango .jcarousel-prev-disabled-vertical,
+.jcarousel-skin-tango .jcarousel-prev-disabled-vertical:hover,
+.jcarousel-skin-tango .jcarousel-prev-disabled-vertical:active {cursor: default; background-position: -60px 0;}
+
+
+/**
+	sexy-combo 2.1.3 : http://code.google.com/p/sexy-combo/
+	This is the base structure, a skin css file is also needed
+*/
+
+/*wrapper of all elements*/
+div.combo {position:relative; left: 0px; top: 0px;}
+/*text input*/
+.combo input {position: absolute;}
+/*icon*/
+.combo div.icon {position:absolute;}
+/*list wrapper*/
+.combo div.list-wrapper {
+	position: absolute;overflow: hidden;
+	/*we should set height and max-height explicitly*/
+	height: 200px;
+	max-height: 200px;
+	/*should be always at the top*/
+	z-index: 99999;
+}
+/*"drop-up" list wrapper*/
+.combo div.list-wrapper-up {}
+/*dropdown list*/
+.combo ul {}
+/*dropdown list item*/
+.combo  li {height:14px;}
+/*active (hovered) list item*/
+.combo li.active {}
+.combo .visible {display: block;}
+.combo .invisible {display: none;}
+/*used when emptyText config opt is set. Applied to text input*/
+.combo input.empty {}
+
+/**
+	sexy-combo 2.1.3 : http://code.google.com/p/sexy-combo/
+	This is the default skin.
+*/
+div.sexy, div.sexy-year, div.sexy-month {white-space: nowrap; height: 18px; border: 1px solid #413D38; border-top-width:0; border-left-width:0; margin:0 2px; padding: 0; background-color:#12110F; width: 67px;}
+div.sexy input, div.sexy-year input, div.sexy-month input {margin: 0 0 0 0; font:normal 11px Tahoma,Verdana,Arial,Apple-Gothic,sans-serif; padding:1px 3px; background-color:#12110F; border:0; height: 16px; line-height:16px; vertical-align:middle; left: 0px; top: 0px; width: 43px;}
+div.sexy div.icon, div.sexy-year div.icon, div.sexy-month div.icon {width:18px; height:18px; border: 0; background:transparent url(/dist/images/item_img/ingame_img/combo_trigger.gif) no-repeat 0 0; cursor:pointer; top:0px; left: 49px;}
+div.sexy div.list-wrapper, div.sexy-year div.list-wrapper, div.sexy-month div.list-wrapper {left: 0px; top: 18px; border: 1px solid #413D38; border-top-width:0; border-left-width:0; background-color: #12110F; padding: 0; margin: 0; width: 97px; bottom: auto; text-align:left;}
+div.sexy div.list-wrapper-up, div.sexy-year div.list-wrapper-up, div.sexy-month div.list-wrapper-up {top: auto; bottom: 18px;}
+div.sexy ul, div.sexy-year ul, div.sexy-month ul {list-style-type: none; padding: 0; margin: 0; height: 200px;}
+div.sexy li, div.sexy-year li, div.sexy-month li {padding: 0; padding-left: 5px; font:normal 11px Tahoma,Verdana,Arial,Apple-Gothic,sans-serif; cursor: pointer; margin: 0;}
+div.sexy li.active, div.sexy-year li.active, div.sexy-month li.active {background-color:#33302A;}
+/*for IE*/
+div.sexy a, div.sexy a:visited, div.sexy a:active,
+div.sexy-year a, div.sexy-year a:visited, div.sexy-year a:active,
+div.sexy-month a, div.sexy-month a:visited, div.sexy-month a:active {display: block; width: 100%; width: 67px; text-decoration: none; font:normal 11px Tahoma,Verdana,Arial,Apple-Gothic,sans-serif; color: #B4A680; cursor: pointer; margin: 0; height: 20px;}
+div.sexy input.empty, div.sexy-year input.empty, div.sexy-month input.empty {color: gray;}
+a.to-highlight:hover {background-color:#33302A;}
+
+div.sexy-year {width:67px;}
+div.sexy-year input {width:43px;}
+div.sexy-year div.list-wrapper {width:67px;}
+div.sexy-year div.icon {left:49px;}
+div.sexy-month {width:41px;}
+div.sexy-month input {width:17px;}
+div.sexy-month div.list-wrapper {width:41px;}
+div.sexy-month div.icon {left:23px;}
+
+/* global */
+#cluetip-close img {border: 0;}
+#cluetip-title {overflow: hidden;}
+#cluetip-title #cluetip-close {float: right; position: relative;}
+#cluetip-waitimage {width: 43px; height: 11px; position: absolute;}
+.cluetip-arrows {display: none; position: absolute; top: 0; left: -11px; height: 22px; width: 11px; background-repeat: no-repeat; background-position: 0 0;}
+#cluetip-extra {display: none;}
+
+/***************************************
+=cluetipClass: 'spec'
+-------------------------------------- */
+.cluetip-spec {background-color:#59544A; color:#D0C7B9;}
+.cluetip-spec #cluetip-outer {position: relative;}
+.cluetip-spec #cluetip-inner {display: inline-block; background-color:#59544A;}
+.cluetip-spec div#cluetip-close {text-align: right; margin: 0 5px 5px; color: #900;}
+.cluetip-spec .spec-name {border-bottom:1px solid #503915; background-color:#B98531;}
+.cluetip-spec .spec-name strong {display:block; padding:4px 6px; border-bottom:1px solid #DEAF64; color:#151411;}
+.cluetip-spec ul {padding:6px; border:1px solid #6D6656; border-top-width:0;}
+.cluetip-spec li {margin-top:13px;}
+.cluetip-spec li.first {margin-top:0;}
+
+/* Support Arabic */
+.lang_eg h1 {float:right;}
+.lang_eg #header {float:right; background:url(/dist/images/item_img/ingame_img/header_bg_eg.jpg) no-repeat right top;}
+.lang_eg #gnb {_height:1%; margin:9px 193px 0 10px; _margin-right:0; padding-left:0; padding-right:1px;}
+.lang_eg #gnb li {float:right; margin-left:0; margin-right:-1px;}
+.lang_eg #lead {float:right; width:170px; padding:0 13px 0 9px;}
+.lang_eg #fol {margin-left:0; margin-right:-192px;}
+.lang_eg #content {margin:-1px 192px 0 9px;}
+.lang_eg #gnb li a {float:right;}
+
+/* Lead */
+.lang_eg #lead .silkowned .status {float:right;}
+.lang_eg #lead .silkowned .status dt {float:right; margin-left:0; margin-right:9px;}
+.lang_eg #lead .silkowned .status dd {margin:0 70px 5px 7px; text-align:left;}
+.lang_eg #lead .silkowned .status a {display:block; position:absolute; top:15px; right:100px;}
+.lang_eg #lead .silkowned .help {clear:right; padding:9px 13px 8px 11px;}
+.lang_eg #lead .search .keyword {float:right;}
+.lang_eg #lead .search .btn {float:right; width:52px; margin-left:0; margin-right:-5px;}
+.lang_eg .hotshop li {float:right;}
+.lang_eg .hotshop .intro {float:right;}
+.lang_eg .hotshop .intro .pic {float:right; width:53px; padding-left:0; padding-right:16px; text-align:right;}
+.lang_eg .hotshop .intro .name {display:block; _height:1%; margin:0 72px 0 3px; _margin-right:0;}
+.lang_eg .hotshop .price {clear:both; padding:8px 17px 3px 3px;}
+.lang_eg .hotshop .action {float:right;}
+.lang_eg .hotshop .action .setter {float:right;}
+.lang_eg .hotshop .action .btn-ga {margin-right:0; margin-left:24px;}
+.lang_eg .hotshop .action .pre-sel {float:right; margin-right:-19px; margin-left:0;}
+
+/* Content */
+.lang_eg #content h2, .lang_eg #content h2 div {background:url(/dist/images/item_img/ingame_img/content_tit_bg_eg.gif) no-repeat left top;}
+.lang_eg #content h2 {padding-left:0; padding-right:28px;}
+.lang_eg #content h2 div {padding:8px 0 6px 10px;}
+.lang_eg #screen {background-position:-1972px 0;}
+.lang_eg #screen .mold {margin-right:0; margin-left:28px;}
+
+/* Content - Buttons */
+.lang_eg .btn-ga a, .lang_eg .btn-ga button, .lang_eg .btn-ga input {_left:2px;}
+
+/* Mall */
+.lang_eg .mall-list #screen {clear:right;}
+.lang_eg .mall-list #screen .cropped {height:424px;}
+
+/* Mall - Category */
+.lang_eg .mall-list .category {float:right;}
+.lang_eg .mall-list .category li {float:right; padding:0 2px 0 3px; background-position:100% 9px;}
+.lang_eg .mall-list .category li.first {padding-left:0; padding-right:2px; background-image:none;}
+.lang_eg .mall-list .category li div.lower ul {_height:1%; padding:2px 2px 1px;}
+.lang_eg .mall-list .category li li {_height:1%; padding:0;}
+.lang_eg .mall-list .category li li, .lang_eg .mall-list .category li li a {float:none;}
+.lang_eg .mall-list .category li li a {display:block; min-height:0; _height:1%; padding:5px; background-color:#A89C82; background-image:none; color:#1F1C18; font-size:11px;}
+.lang_eg .mall-list .category li li a:hover {background-color:#3E3A30; color:#FFEBD1}
+.lang_eg .mall-list .category a {float:left; min-height:21px; _height:21px; padding:6px 6px 6px; color:#8C7C63; font-size:12px;}
+.lang_eg .mall-list .category a:hover {color:#FFEBD1; text-decoration:none;}
+.lang_eg .mall-list .category .cur, .lang_eg .mall-list .category .cur a {background:url(/dist/images/item_img/ingame_img/category_cur_bg.gif) no-repeat 0 0;}
+.lang_eg .mall-list .category .cur {min-height:33px; _height:33px; margin:0 0 -3px -1px; padding-right:0; z-index:1;}
+.lang_eg .mall-list .category .cur a {min-height:21px; _height:21px; padding:6px 6px 6px 9px; background-position:100% 0; color:#FFEBD1;}
+.lang_eg .mall-list .category .cur li a {min-height:0; _height:1%; padding:5px; background-color:#A89C82; background-image:none; color:#1F1C18;}
+.lang_eg .mall-list .category .hover {z-index:3;}
+
+/* Mall - Item List */
+.lang_eg .mall-list h3, .lang_eg .mall-list h3 div {background:url(/dist/images/item_img/ingame_img/content_tit_bg_eg.gif) no-repeat right top;}
+.lang_eg .mall-list h3 {padding-right:28px; padding-left:0;}
+.lang_eg .mall-list h3 div {padding:8px 0 6px 10px; background-position:0 0;}
+.lang_eg .mall-list .list {float:right; margin-right:0; margin-left:-16px;}
+.lang_eg .mall-list .list li {float:right; margin:0 0 14px 16px !important;}
+.lang_eg .mall-list .list .intro {padding:10px 68px 5px 13px;}
+.lang_eg .mall-list .list .intro-cur {z-index:3;}
+.lang_eg .mall-list .list .intro .spec {position:absolute; top:0; left:-9999em; width:204x; display:none;}
+.lang_eg .mall-list .list .pic {top:12px; right:14px; left:auto;}
+.lang_eg .mall-list .list .tag {top:0; right:0; _right:-1px; left:auto; width:38px;}
+.lang_eg .mall-list .list .tag span {_height:1%;}
+.lang_eg .mall-list .list .price {margin:5px 14px 3px 11px;}
+.lang_eg .mall-list .list .price .type {float:right;}
+.lang_eg .mall-list .list .price .val {margin-right:20px; margin-left:0;}
+.lang_eg .mall-list .list .action {clear:right; float:right; text-align:right;}
+.lang_eg .mall-list .list .action .setter {float:right;}
+.lang_eg .mall-list .list .action .btn-ga {margin-right:0; margin-left:24px;}
+.lang_eg .mall-list .list .action .pre-sel {float:right; margin-right:-19px; margin-left:0;}
+.lang_eg .mall-list .scrollbar-pane .list {*margin-right:25px; _margin-right:0;}
+
+/* Buy Item */
+.lang_eg .buyitem .details th {padding:8px 0; border-width:0 0 0 1px; border-style:solid; border-color:#454038; border-bottom:hidden; border-left-color:#2A2722; background-color:#454038; color:#918564; font-weight:normal;}
+.lang_eg .buyitem .details td {padding:10px 0; border-width:0 0 1px 1px; border-style:solid; border-color:#292623; background-color:#211F1D; color:#B4A680; text-align:center;}
+.lang_eg .buyitem .details td.item {text-align:right;}
+.lang_eg .buyitem .details td.userid {word-break:break-all; word-wrap: break-word;}
+.lang_eg .buyitem .details td.qty {text-align:center;}
+.lang_eg .buyitem .details td.qty input {width:30px; *margin:-1px 0; border:0; background-color:#12110F; color:#B4A680; font-size:11px;}
+.lang_eg .buyitem .details td.price {text-align:left;}
+.lang_eg .buyitem .details .item .pic {float:right; width:45px; _margin-right:0; _margin-left:8px; padding-right:12px; padding-left:0;}
+.lang_eg .buyitem .details .item .name {display:block; _height:1%; margin-left:0; margin-right:68px; _margin-right:0;}
+.lang_eg .buyitem .details .server select {width:68px;}
+.lang_eg .buyitem .details .qty .val {position:relative; min-height:16px; _height:16px; margin:0 3px 0 2px; padding:1px; border-width:0 1px 1px 0; border-style:solid; border-color:#413D38; background-color:#12110F;}
+.lang_eg .buyitem .details .price, .lang_eg .buyitem .details .end, .lang_eg .buyitem .details .regdate {border-right-width:1px;}
+.lang_eg .buyitem .details .price .normal {color:#FFF99B; text-decoration:line-through;}
+.lang_eg .buyitem .details .price .type {float:right; margin:2px 5px 0 0; border-bottom:0;}
+.lang_eg .buyitem .details .price .val {display:block; margin-right:25px; margin-left:0; padding-right:0; padding-left:10px;}
+.lang_eg .buyitem .details .action .btn-ga * {width:60px;}
+.lang_eg .buyitem .details .total td {border-width:0 0 1px 1px; border-style:solid; border-color:#292623;}
+.lang_eg .buyitem .details .total th, .lang_eg .buyitem .details .total td {border:1px solid #292623; background-color:#292623;}
+.lang_eg .buyitem .details .total th {color:#CCC1A3; text-align:left;}
+.lang_eg .buyitem .details .total th strong {display:block; margin:0 20px; font-weight:normal;}
+.lang_eg .buyitem .details .total td {text-align:right;}
+.lang_eg .buyitem .details .total .price {padding:5px 0;}
+.lang_eg .buyitem .details .total .price .setter {margin-right:-22px; margin-left:0;}
+.lang_eg .buyitem .details .total .price .type {float:right; width:22px; margin-right:0; padding:2px 0; text-align:right;}
+.lang_eg .buyitem .details .total .price .val {display:block; margin:0 22px 0 3px; padding:2px; border-width:0 1px 1px 0; border-style:solid; border-color:#413D38; background-color:#12110F; color:#914B00; text-align:left;}
+.lang_eg .buyitem .details .chk {padding:2px 0;}
+.lang_eg .buyitem .detail-view {width:507px; margin:10px 0 20px; padding:10px 10px 10px 11px; background-color:#322F26;}
+.lang_eg .buyitem .detail-view h3 {margin-bottom:10px; color:#918564; font-weight:normal;}
+.lang_eg .buyitem .msg-nesilk {width:382px; padding:20px 50px 25px 90px; background:#26231F url(/dist/images/item_img/ingame_img/icon_caution.gif) no-repeat 50px 22px; text-align:left;}
+
+/* Buy Item Guide */
+.lang_eg .buyitem-guide h3 {background-position:100% 2px;}
+.lang_eg .buyitem-guide h4 {background-position:100% 3px;}
+
+.lang_eg .buyitem-guide .list-plain li {padding:0 8px; background-position:100% 6px;}
+
+.lang_eg .buyitem-guide .item-def .item {float:right; padding:3px 10px 0 0;}
+.lang_eg .buyitem-guide .item-def .list-plain {margin-right:74px; margin-left:0;}
+
+/* Reserved */
+.lang_eg .reserved h3 {background-position:100% 2px;}
+
+/* Item Search */
+.lang_eg .item-search h3 {padding:0 15px; background:url(/dist/images/item_img/ingame_img/content_h3_bul.gif) no-repeat 100% 2px;}
+
+/* History */
+.lang_eg .history h3 {float:right; _display:inline; background-position:100% 2px;}
+.lang_eg .history caption {background-position:100% 3px; text-align:right;}
+.lang_eg .history .settings {float:left; width:200px; padding:2px;}
+.lang_eg .history label, .lang_eg .history select, .lang_eg .history .combo {float:right;}
+.lang_eg .history label {padding:3px 4px 0 6px;}
+.lang_eg .history .details {margin-bottom:13px;}
+.lang_eg .history .details th, .lang_eg .history .details td {padding:8px 0;}
+.lang_eg .history .details .price {padding:5px 0;}
+.lang_eg .history .details-remaining th {background-color:#211F1D; color:#CCC1A3;}
+.lang_eg .history .details-remaining th, .lang_eg .history .details-remaining td {border:1px solid #292623;}
+.lang_eg .history .details-buyitem {_height:1%; margin-bottom:0;}
+.lang_eg .history .details-buyitem th {padding:1px 0;}
+.lang_eg .note-serves-details {margin:-3px 0 13px;}
+.lang_eg #sel-history-year {width:68px;}
+.lang_eg #sel-history-moth {width:42px;}
+
+
+
+/* Quantity Adjustment */
+.lang_eg .qty {}
+.lang_eg .qty .setter {float:right; margin-left:-16px;}
+.lang_eg .qty .cont {display:block; margin-right:0; margin-left:16px;}
+.lang_eg .qty .ctrl {float:right; margin-left:0;}
+
+/* For Premium Item */
+.lang_eg .buyitem .details .item .sash_premium {left:0;}
+.lang_eg .hotshop .intro .pic .sash_premium {right:16px; _right:15px; left:auto;}
+
+/* For Silk Item */
+.lang_eg .buyitem .details .item .sash_silk {left:0;}
+.lang_eg .hotshop .intro .pic .sash_silk {right:16px; _right:15px; left:auto;}
+
+
+/* ---------- basic theme: these are the most necessary styles --------------------------------- */
+
+.lang_eg .scrollbar-pane {margin-right:0; margin-left: 20px;}
+
+/* ---------- simple theme --------------------------------------------------------------------- */
+
+.lang_eg .cropped .scrollbar-pane {margin-right:0; margin-left:16px; padding:15px 22px 3px 0;}
+.lang_eg .cropped .scrollbar-handle-container {right:auto; left:0; width:21px; border:1px solid #433F38; border-top:0; border-bottom:0; background:#161412;}
+.lang_eg .cropped .scrollbar-handle-up, .lang_eg .cropped .scrollbar-handle-down {background-image: url(/dist/images/item_img/ingame_img/btn_scrollbar_arrow_bg.gif); background-repeat: no-repeat;}
+
+/* handle */
+.lang_eg .cropped .scrollbar-handle {width: 17px; right:auto; left:1px; border: 1px solid #4B4537; background-color: #2F2C27; background-position: -14px 50%;}
+.lang_eg .cropped .scrollbar-handle:hover, .lang_eg .cropped .scrollbar-handle-move {border-color:#716854; background-color:#48443C;}
+
+/* arrow up */
+.lang_eg .cropped .scrollbar-handle-up {right:auto; left:0; width:21px; height: 22px; border: 1px solid #433F38; border-bottom-width:0; background-color: #161412; background-position: -1px -1px;}
+.lang_eg .cropped .scrollbar-handle-up-move {background-position: -23px -1px;}
+
+/* arrow down */
+.lang_eg .cropped .scrollbar-handle-down {right:auto; left:0; bottom:0; width:21px; height:22px; border: 1px solid #433F38; border-top-width:0;background-color: #161412; background-position: -1px -22px;}
+.lang_eg .cropped .scrollbar-handle-down-move {background-position: -23px -22px;}
+
+
+/**
+ *  Vertical Buttons
+ */
+.lang_eg .jcarousel-skin-tango .jcarousel-next-vertical {right:auto; left:4px; background-image:url(/dist/images/item_img/ingame_img/hotshop_btn_prev.gif)}
+.lang_eg .jcarousel-skin-tango .jcarousel-prev-vertical {right:auto; left: 24px; background-image:url(/dist/images/item_img/ingame_img/hotshop_btn_next.gif)}
+
+
+/**
+	sexy-combo 2.1.3 : http://code.google.com/p/sexy-combo/
+	This is the default skin.
+*/
+div.sexy, div.sexy-year, div.sexy-month {white-space: nowrap; height: 18px; border: 1px solid #413D38; border-top-width:0; border-left-width:0; margin:0 2px; padding: 0; background-color:#12110F; width: 67px;}
+div.sexy input, div.sexy-year input, div.sexy-month input {margin: 0 0 0 0; font:normal 11px Tahoma,Verdana,Arial,Apple-Gothic,sans-serif; padding:1px 3px; background-color:#12110F; border:0; height: 16px; line-height:16px; vertical-align:middle; left: 0px; top: 0px; width: 43px;}
+div.sexy div.icon, div.sexy-year div.icon, div.sexy-month div.icon {width:18px; height:18px; border: 0; background:transparent url(/dist/images/item_img/ingame_img/combo_trigger.gif) no-repeat 0 0; cursor:pointer; top:0px; left: 49px;}
+div.sexy div.list-wrapper, div.sexy-year div.list-wrapper, div.sexy-month div.list-wrapper {left: 0px; top: 18px; border: 1px solid #413D38; border-top-width:0; border-left-width:0; background-color: #12110F; padding: 0; margin: 0; width: 97px; bottom: auto; text-align:left;}
+div.sexy div.list-wrapper-up, div.sexy-year div.list-wrapper-up, div.sexy-month div.list-wrapper-up {top: auto; bottom: 18px;}
+div.sexy ul, div.sexy-year ul, div.sexy-month ul {list-style-type: none; padding: 0; margin: 0; height: 200px;}
+div.sexy li, div.sexy-year li, div.sexy-month li {padding: 0; padding-left: 5px; font:normal 11px Tahoma,Verdana,Arial,Apple-Gothic,sans-serif; cursor: pointer; margin: 0;}
+div.sexy li.active, div.sexy-year li.active, div.sexy-month li.active {background-color:#33302A;}
+/*for IE*/
+div.sexy a, div.sexy a:visited, div.sexy a:active,
+div.sexy-year a, div.sexy-year a:visited, div.sexy-year a:active,
+div.sexy-month a, div.sexy-month a:visited, div.sexy-month a:active {display: block; width: 100%; width: 67px; text-decoration: none; font:normal 11px Tahoma,Verdana,Arial,Apple-Gothic,sans-serif; color: #B4A680; cursor: pointer; margin: 0; height: 20px;}
+div.sexy input.empty, div.sexy-year input.empty, div.sexy-month input.empty {color: gray;}
+a.to-highlight:hover {background-color:#33302A;}
+
+div.sexy-year {width:67px;}
+div.sexy-year input {width:43px;}
+div.sexy-year div.list-wrapper {width:67px;}
+div.sexy-year div.icon {left:49px;}
+div.sexy-month {width:41px;}
+div.sexy-month input {width:17px;}
+div.sexy-month div.list-wrapper {width:41px;}
+div.sexy-month div.icon {left:23px;}
+
+
+/* ìˆ¨ê²¨ì§„ ë³´ë¬¼ ì´ë²¤íŠ¸ (ì¢…ë£Œ í›„ ì‚­ì œí•´ë„ ë¨)*/
+#popWinTreasure {position:absolute; top:0px; left:0px; width:415px; height:440px; z-index:7; text-align:center;}
+#popWinTreasure .bgiframe {position:absolute; top:0; left:0; z-index:-1; filter:Alpha(Opacity=0);}
+#popWinTreasure .cont {position:relative; height:440px; background:url(/dist/images/us/item_img/treasure_win_bg.gif) no-repeat left top; z-index:1;}
+#popWinTreasure .title {_height:52px; min-height:52px; margin-bottom:17px; padding-top:14px; color:#E8CF9A; font-size:36px; line-height:1.2; font-weight:normal; font-family:Tahoma,Verdana,Arial,Apple-Gothic,sans-serif;}
+#popWinTreasure .details {width:auto; min-height:295px; _height:295px; margin:17px 23px 10px; border-width:0; background:url(/dist/images/us/item_img/treasure_details_bg.gif) no-repeat left top;}
+#popWinTreasure .lead {_height:70px; min-height:70px; margin:0 0 10px; padding-top:27px; color:#AB9770;}
+#popWinTreasure .clapping {font-size:20px; line-height:2;}
+#popWinTreasure .treasure-item {min-height:160px; _height:160px;}
+#popWinTreasure .treasure-item .pic {width:45px; margin:0 auto; padding:27px 40px 29px; background:transparent url(/dist/images/us/item_img/treasure_pic_bg.gif) no-repeat left top;}
+#popWinTreasure .treasure-item .name {color:#CCC1A3;}
+#popWinTreasure .help {color:#E27500;}
+#popWinTreasure .ok {display:block; width:111px; height:23px; margin:10px auto; padding:5px; background:url(/dist/images/us/item_img/treasure_ok_btn.gif) no-repeat left top; line-height:23px;}
+#popWinTreasure .ok:link, #popWinTreasure .ok:visited, #popWinTreasure .ok:hover, #popWinTreasure .ok:active {color:#C7AD7B;}
+#popWinTreasure .close {position:absolute; top:2px; right:0; _right:-1px; width:30px; height:30px; background:url(/dist/images/us/item_img/treasure_win_close_btn.gif) no-repeat left top; cursor:pointer;}
+.lang-eg #popWinTreasure .close {right:auto; left:0; background-image:url(/dist/images/us/item_img/treasure_win_close_btn_eg.gif);}
+/* ìˆ¨ê²¨ì§„ ë³´ë¬¼ ì´ë²¤íŠ¸ */
