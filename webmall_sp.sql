@@ -70,7 +70,7 @@ GO
 		   (silk_gift->silk_own->silk_gift_premium->silk_own_premium)
 2022-10-26 FIX PURCHASE TIME FLOWS
 ******************************************************************************/ 
-ALTER PROC [dbo].[WEB_ITEM_BUY_X]
+CREATE PROC [dbo].[WEB_ITEM_BUY_X]
 	@i_cp_jid				INT,
 	@i_silk_type			TINYINT,
 	@i_silk_offset			INT,
