@@ -3,7 +3,7 @@ require_once('adodb5/adodb.inc.php');
 require_once('defines.php');
 require_once('functions.php');
 
-class db extends functions
+class db extends func
 {
 	function connect_mssql($dbName)
 	{
@@ -72,7 +72,7 @@ class db extends functions
 			}
 		}
 		
-		$this->writelog("[Query Error]\t".$dbo->errorMsg()."Query: ".$query." Values(".($value==null ? 'null' : (is_array($value)==true ? implode(",", $value) : $value)).")", "db_errors.log");
+		func::writelog("[Query Error]\t".$dbo->errorMsg()."Query: ".$query." Values(".($value==null ? 'null' : (is_array($value)==true ? implode(",", $value) : $value)).")", "db_errors.log");
 		$dbo->Close();
 		die();
 	}

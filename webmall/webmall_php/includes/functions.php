@@ -1,28 +1,28 @@
 <?php
-class functions
+class func
 {
 	function billing($type, $uid)
 	{
-		if ($type==1) $dbo=$this->mssqlexec("SELECT A.*, B.[EmailAddr], B.[SHA256] FROM [TB_User] AS A INNER JOIN [MU_Email] AS B ON B.[JID] = A.[JID] WHERE A.[StrUserID]=?", $uid);
-		if ($type==2) $dbo=$this->mssqlexec("SELECT A.*, B.[EmailAddr], B.[SHA256] FROM [TB_User] AS A INNER JOIN [MU_Email] AS B ON B.[JID] = A.[JID] WHERE B.[EmailAddr]=?", $uid);
+		if ($type==1) $dbo=db::mssqlexec("SELECT A.*, B.[EmailAddr], B.[SHA256] FROM [TB_User] AS A INNER JOIN [MU_Email] AS B ON B.[JID] = A.[JID] WHERE A.[StrUserID]=?", $uid);
+		if ($type==2) $dbo=db::mssqlexec("SELECT A.*, B.[EmailAddr], B.[SHA256] FROM [TB_User] AS A INNER JOIN [MU_Email] AS B ON B.[JID] = A.[JID] WHERE B.[EmailAddr]=?", $uid);
 		if (!$dbo || $dbo->RowCount() == 0) return false;
 		return $dbo->FetchRow();
 	}
 	function tbuserinfo($jid)
 	{
-		$dbo=$this->mssqlexec("SELECT * FROM [TB_User] WITH (NOLOCK) WHERE [JID]=?", $jid);
+		$dbo=db::mssqlexec("SELECT * FROM [TB_User] WITH (NOLOCK) WHERE [JID]=?", $jid);
 		if (!$dbo || $dbo->RowCount() == 0) return false;
 		return $dbo->FetchRow();	
 	}
 	function getpurchasehistorymaxrow($jid)
 	{
-		$dbo=$this->mssqlexec("SELECT * FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [cp_jid]=? ORDER BY [reg_date] DESC", $jid);
+		$dbo=db::mssqlexec("SELECT * FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [cp_jid]=? ORDER BY [reg_date] DESC", $jid);
 		if (!$dbo || $dbo->RowCount() == 0) return -1;
 		return $dbo->RowCount();
 	}
 	function gethistoryspent($jid)
 	{
-		$dbo=$this->mssqlexec("SELECT SUM(silk_own), SUM(silk_own_premium) FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [cp_jid]=?", $jid);
+		$dbo=db::mssqlexec("SELECT SUM(silk_own), SUM(silk_own_premium) FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [cp_jid]=?", $jid);
 		if (!$dbo || $dbo->RowCount() == 0) return [0,0];
 		return $dbo->FetchRow();
 	}
@@ -30,24 +30,24 @@ class functions
 	{
 		$offset = ($rows * $page) - $rows;
 		
-		$dbo=$this->mssqlexec("SELECT * FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [cp_jid]=? AND DATEPART(YEAR, [reg_date])=?", [$jid, $yr]);
+		$dbo=db::mssqlexec("SELECT * FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [cp_jid]=? AND DATEPART(YEAR, [reg_date])=?", [$jid, $yr]);
 		if (!$dbo || $dbo->RowCount() == 0) return [0, null];
 		$maxpurchase = $dbo->RowCount();
 		
 		if ($mn == 0)
 		{
-			$dbo=$this->mssqlexec("SELECT * FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [cp_jid]=? AND DATEPART(YEAR, [reg_date])=? ORDER BY [reg_date] DESC", [$jid, $yr], null, $rows, $offset);
+			$dbo=db::mssqlexec("SELECT * FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [cp_jid]=? AND DATEPART(YEAR, [reg_date])=? ORDER BY [reg_date] DESC", [$jid, $yr], null, $rows, $offset);
 		}
 		else
 		{
-			$dbo=$this->mssqlexec("SELECT * FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [cp_jid]=? AND DATEPART(YEAR, [reg_date])=? AND DATEPART(MONTH, [reg_date])=? ORDER BY [reg_date] DESC", [$jid, $yr, $mn], null, $rows, $offset);
+			$dbo=db::mssqlexec("SELECT * FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [cp_jid]=? AND DATEPART(YEAR, [reg_date])=? AND DATEPART(MONTH, [reg_date])=? ORDER BY [reg_date] DESC", [$jid, $yr, $mn], null, $rows, $offset);
 		}
 		if (!$dbo || $dbo->RowCount() == 0) return false;
 		return [$maxpurchase, $dbo];
 	}
 	function getreserved($jid)
 	{
-		$dbo=$this->mssqlexec("SELECT A.[idx], B.* FROM [WEB_ITEM_RESERVED] AS A WITH (NOLOCK) INNER JOIN [VW_WEB_MALL_LIST] AS B WITH (NOLOCK) ON B.[package_id] = A.[package_id] WHERE A.[userjid]=? ORDER BY A.[idx] DESC", $jid, 2);
+		$dbo=db::mssqlexec("SELECT A.[idx], B.* FROM [WEB_ITEM_RESERVED] AS A WITH (NOLOCK) INNER JOIN [VW_WEB_MALL_LIST] AS B WITH (NOLOCK) ON B.[package_id] = A.[package_id] WHERE A.[userjid]=? ORDER BY A.[idx] DESC", $jid, 2);
 		if (!$dbo || $dbo->RowCount() == 0) return false;
 		return $dbo;
 	}
@@ -55,11 +55,11 @@ class functions
 	{
 		if ($idx == "all")
 		{
-			$this->mssqlexec("DELETE FROM [WEB_ITEM_RESERVED] WHERE [userjid]=?", $jid);
+			db::mssqlexec("DELETE FROM [WEB_ITEM_RESERVED] WHERE [userjid]=?", $jid);
 		}
 		else if ($idx != null)
 		{
-			$this->mssqlexec("DELETE FROM [WEB_ITEM_RESERVED] WHERE [userjid]=? AND [idx]=?", [$jid, $idx]);
+			db::mssqlexec("DELETE FROM [WEB_ITEM_RESERVED] WHERE [userjid]=? AND [idx]=?", [$jid, $idx]);
 		}
 		else
 		{
@@ -70,51 +70,51 @@ class functions
 	{
 		$args = [$p, $ps, $st0, $st1, $st2, $io, $kw];
 		//page, page_size, silk_type, shop_type1, shop_type2, is_open, keyword
-		$dbo=$this->mssqlexec("EXEC [WEB_ITEM_BUY_GAME_LIST_X] ?,?,?,?,?,?,?", $args, 2);
+		$dbo=db::mssqlexec("EXEC [WEB_ITEM_BUY_GAME_LIST_X] ?,?,?,?,?,?,?", $args, 2);
 		if (!$dbo || $dbo->RowCount() == 0) return false;
 		return $dbo;
 	}
 	function getcharinfo($charid)
 	{
-		$dbo=$this->mssqlexec("SELECT * FROM [SILKROAD_R_SHARD].[DBO].[_Char] WITH (NOLOCK) WHERE [CharID]=?", $charid);
-		if (!$dbo || $dbo->RowCount() == 0) -1;
+		$dbo=db::mssqlexec("SELECT * FROM [SILKROAD_R_SHARD].[DBO].[_Char] WITH (NOLOCK) WHERE [CharID]=?", $charid);
+		if (!$dbo || $dbo->RowCount() == 0) return -1;
 		return $dbo->FetchRow();
 	}
 	function addreserved($jid, $pid)
 	{
-		$dbo=$this->mssqlexec("EXEC [WEB_ITEM_RESERVED_X] ?,?", [$jid, $pid]);
-		if (!$dbo || $dbo->RowCount() == 0) -1;
+		$dbo=db::mssqlexec("EXEC [WEB_ITEM_RESERVED_X] ?,?", [$jid, $pid]);
+		if (!$dbo || $dbo->RowCount() == 0) return -1;
 		return $dbo->FetchRow()[0];
 	}
 	function itempurchase($jid, $st0, $price, $pid, $section, $ip, $inv_id, $cp_inv_id)
 	{
 		$args = [$jid, $st0, $price, 323, 'TEST', $pid, $section, '$game', $ip, $inv_id, $cp_inv_id];
-		$dbo=$this->mssqlexec("EXEC [WEB_ITEM_BUY_X] ?,?,?,?,?,?,?,?,?,?,?", $args);
-		if (!$dbo || $dbo->RowCount() == 0) -1;
+		$dbo=db::mssqlexec("EXEC [WEB_ITEM_BUY_X] ?,?,?,?,?,?,?,?,?,?,?", $args);
+		if (!$dbo || $dbo->RowCount() == 0) return -1;
 		return $dbo->FetchRow()[0];
 	}
 	function getsilkusage($jid)
 	{
-		$o = $dbo=$this->mssqlexec("SELECT ISNULL(SUM([silk_own_premium]), 0) FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE DATEPART(month, [reg_date]) = DATEPART(month, GETDATE()) AND [cp_jid]=?", $jid);
-		$x = $dbo=$this->mssqlexec("SELECT ISNULL(SUM([silk_own_premium]), 0) FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [reg_date] >= DATEADD(MONTH, -3, GETDATE()) AND [cp_jid]=?", $jid);
+		$o = $dbo=db::mssqlexec("SELECT ISNULL(SUM([silk_own_premium]), 0) FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE DATEPART(month, [reg_date]) = DATEPART(month, GETDATE()) AND [cp_jid]=?", $jid);
+		$x = $dbo=db::mssqlexec("SELECT ISNULL(SUM([silk_own_premium]), 0) FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [reg_date] >= DATEADD(MONTH, -3, GETDATE()) AND [cp_jid]=?", $jid);
 		return [$o->FetchRow()[0] ?? 0, $x->FetchRow()[0] ?? 0];
 		
 	}
 	function getpackagedetail($pid)
 	{
-		$dbo=$this->mssqlexec("SELECT * FROM [VW_WEB_MALL_LIST] WITH (NOLOCK) WHERE [package_id]=? AND [service]=1", $pid, 2);
-		if (!$dbo || $dbo->RowCount() == 0) -1;
+		$dbo=db::mssqlexec("SELECT * FROM [VW_WEB_MALL_LIST] WITH (NOLOCK) WHERE [package_id]=? AND [service]=1", $pid, 2);
+		if (!$dbo || $dbo->RowCount() == 0) return -1;
 		return $dbo->FetchRow();
 	}
 	function getitemscount($st0, $st1, $st2)
 	{
-		$dbo=$this->mssqlexec("SELECT * FROM [WEB_PACKAGE_ITEM] WITH (NOLOCK) WHERE [service]=1 AND [silk_type]=? AND [shop_no]=? AND [shop_no_sub]=?", [$st0, $st1, $st2]);
-		if (!$dbo || $dbo->RowCount() == 0) -1;
+		$dbo=db::mssqlexec("SELECT * FROM [WEB_PACKAGE_ITEM] WITH (NOLOCK) WHERE [service]=1 AND [silk_type]=? AND [shop_no]=? AND [shop_no_sub]=?", [$st0, $st1, $st2]);
+		if (!$dbo || $dbo->RowCount() == 0) return -1;
 		return $dbo->RowCount();
 	}
 	function popularitem()
 	{
-		$dbo=$this->mssqlexec("SELECT A.*, B.[package_code], B.[silk_price], B.[silk_type] FROM [WEB_ITEM_POPULAR] AS A WITH (NOLOCK) INNER JOIN [VW_WEB_MALL_LIST] AS B WITH (NOLOCK) ON B.[package_id] = A.[package_id] ORDER BY A.[idx]", null, 2);
+		$dbo=db::mssqlexec("SELECT A.*, B.[package_code], B.[silk_price], B.[silk_type] FROM [WEB_ITEM_POPULAR] AS A WITH (NOLOCK) INNER JOIN [VW_WEB_MALL_LIST] AS B WITH (NOLOCK) ON B.[package_id] = A.[package_id] ORDER BY A.[idx]", null, 2);
 		if (!$dbo || $dbo->RowCount() == 0) return false;
 		return $dbo;	
 	}
@@ -123,10 +123,10 @@ class functions
 		switch ($type)
 		{
 			case "new":
-				$dbo=$this->mssqlexec("SELECT * FROM [VW_WEB_MALL_LIST] WHERE [is_new]=1 AND [service]=1 AND [silk_type]=? ORDER BY [reg_date] DESC", $silk, 2, $count);
+				$dbo=db::mssqlexec("SELECT * FROM [VW_WEB_MALL_LIST] WHERE [is_new]=1 AND [service]=1 AND [silk_type]=? ORDER BY [reg_date] DESC", $silk, 2, $count);
 				break;
 			case "best":
-				$dbo=$this->mssqlexec("SELECT * FROM [VW_WEB_MALL_LIST] WHERE [is_best]=1 AND [service]=1 AND [silk_type]=? ORDER BY [reg_date] DESC", $silk, 2, $count);
+				$dbo=db::mssqlexec("SELECT * FROM [VW_WEB_MALL_LIST] WHERE [is_best]=1 AND [service]=1 AND [silk_type]=? ORDER BY [reg_date] DESC", $silk, 2, $count);
 				break;
 			default: return false;
 		}
@@ -138,16 +138,16 @@ class functions
 		switch($type)
 		{
 			case 0:
-				$dbo=$this->mssqlexec("SELECT [silk_own] FROM [SK_Silk] WHERE [JID]=?", $jid, 1);
+				$dbo=db::mssqlexec("SELECT [silk_own] FROM [SK_Silk] WHERE [JID]=?", $jid, 1);
 				break;
 			case 1:
-				$dbo=$this->mssqlexec("SELECT [silk_gift] FROM [SK_Silk] WHERE [JID]=?", $jid, 1);
+				$dbo=db::mssqlexec("SELECT [silk_gift] FROM [SK_Silk] WHERE [JID]=?", $jid, 1);
 				break;
 			case 3:
-				$dbo=$this->mssqlexec("SELECT [silk_own_premium] FROM [SK_Silk] WHERE [JID]=?", $jid, 1);
+				$dbo=db::mssqlexec("SELECT [silk_own_premium] FROM [SK_Silk] WHERE [JID]=?", $jid, 1);
 				break;
 			case 4:
-				$dbo=$this->mssqlexec("SELECT [silk_gift_premium] FROM [SK_Silk] WHERE [JID]=?", $jid, 1);
+				$dbo=db::mssqlexec("SELECT [silk_gift_premium] FROM [SK_Silk] WHERE [JID]=?", $jid, 1);
 				break;
 			default: break;
 		}		
@@ -156,7 +156,7 @@ class functions
 	}		
 	function certifykey($jid)
 	{
-		if ($dbo=$this->mssqlexec("SELECT [Certifykey] FROM [WEB_ITEM_CERTIFYKEY] WITH (NOLOCK) WHERE [UserJID]=? ORDER BY [reg_date] DESC", $jid, null, 1))
+		if ($dbo=db::mssqlexec("SELECT [Certifykey] FROM [WEB_ITEM_CERTIFYKEY] WITH (NOLOCK) WHERE [UserJID]=? ORDER BY [reg_date] DESC", $jid, null, 1))
 		{
 			return ($dbo->RowCount() == 0 ? -1 : $dbo->FetchRow()[0]);
 		}
@@ -174,7 +174,7 @@ class functions
 				if ($lang=="tr") return ["<b>Popüler</b>","Yeni","En İyi"];
 				if ($lang=="eg") return ["<b>جمع</b>","جديد","الأفضل"];
 			}
-			$dbo=$this->mssqlexec("SELECT A.[shop_name_$lang], B.[sub_name_$lang] FROM WEB_MALL_CATEGORY AS A WITH (NOLOCK) INNER JOIN WEB_MALL_CATEGORY_SUB AS B WITH (NOLOCK) ON B.[ref_no] = A.[shop_no] WHERE A.[shop_no]=? AND B.[sub_no]=?", [$cat1,$cat2]);
+			$dbo=db::mssqlexec("SELECT A.[shop_name_$lang], B.[sub_name_$lang] FROM WEB_MALL_CATEGORY AS A WITH (NOLOCK) INNER JOIN WEB_MALL_CATEGORY_SUB AS B WITH (NOLOCK) ON B.[ref_no] = A.[shop_no] WHERE A.[shop_no]=? AND B.[sub_no]=?", [$cat1,$cat2]);
 			if (!$dbo || $dbo->RowCount() == 0) return 0;
 			return $dbo->FetchRow();
 		}
@@ -238,7 +238,7 @@ class functions
 	}
 	function getservtime()
 	{
-		$dbo=$this->mssqlexec("SELECT GETDATE()");
+		$dbo=db::mssqlexec("SELECT GETDATE()");
 		if (!$dbo || $dbo->RowCount() == 0) return 0;
 		return date_create($dbo->FetchRow()[0]);
 	}
