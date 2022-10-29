@@ -1,32 +1,25 @@
 <?php
 class func
 {
-	function billing($type, $uid)
-	{
-		if ($type==1) $dbo=db::mssqlexec("SELECT A.*, B.[EmailAddr], B.[SHA256] FROM [TB_User] AS A INNER JOIN [MU_Email] AS B ON B.[JID] = A.[JID] WHERE A.[StrUserID]=?", $uid);
-		if ($type==2) $dbo=db::mssqlexec("SELECT A.*, B.[EmailAddr], B.[SHA256] FROM [TB_User] AS A INNER JOIN [MU_Email] AS B ON B.[JID] = A.[JID] WHERE B.[EmailAddr]=?", $uid);
-		if (!$dbo || $dbo->RowCount() == 0) return false;
-		return $dbo->FetchRow();
-	}
-	function tbuserinfo($jid)
+	public static function tbuserinfo($jid)
 	{
 		$dbo=db::mssqlexec("SELECT * FROM [TB_User] WITH (NOLOCK) WHERE [JID]=?", $jid);
 		if (!$dbo || $dbo->RowCount() == 0) return false;
 		return $dbo->FetchRow();	
 	}
-	function getpurchasehistorymaxrow($jid)
+	public static function getpurchasehistorymaxrow($jid)
 	{
 		$dbo=db::mssqlexec("SELECT * FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [cp_jid]=? ORDER BY [reg_date] DESC", $jid);
 		if (!$dbo || $dbo->RowCount() == 0) return -1;
 		return $dbo->RowCount();
 	}
-	function gethistoryspent($jid)
+	public static function gethistoryspent($jid)
 	{
 		$dbo=db::mssqlexec("SELECT SUM(silk_own), SUM(silk_own_premium) FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [cp_jid]=?", $jid);
 		if (!$dbo || $dbo->RowCount() == 0) return [0,0];
 		return $dbo->FetchRow();
 	}
-	function gethistory($jid, $yr, $mn, $rows, $page)
+	public static function gethistory($jid, $yr, $mn, $rows, $page)
 	{
 		$offset = ($rows * $page) - $rows;
 		
@@ -45,13 +38,13 @@ class func
 		if (!$dbo || $dbo->RowCount() == 0) return false;
 		return [$maxpurchase, $dbo];
 	}
-	function getreserved($jid)
+	public static function getreserved($jid)
 	{
 		$dbo=db::mssqlexec("SELECT A.[idx], B.* FROM [WEB_ITEM_RESERVED] AS A WITH (NOLOCK) INNER JOIN [VW_WEB_MALL_LIST] AS B WITH (NOLOCK) ON B.[package_id] = A.[package_id] WHERE A.[userjid]=? ORDER BY A.[idx] DESC", $jid, 2);
 		if (!$dbo || $dbo->RowCount() == 0) return false;
 		return $dbo;
 	}
-	function delreserved($jid, $idx=null)
+	public static function delreserved($jid, $idx=null)
 	{
 		if ($idx == "all")
 		{
@@ -66,59 +59,58 @@ class func
 			return;
 		}
 	}
-	function getmallitems($p, $ps, $st0, $st1, $st2, $io=1, $kw='')
+	public static function getmallitems($p, $ps, $st0, $st1, $st2, $io=1, $kw='')
 	{
 		$args = [$p, $ps, $st0, $st1, $st2, $io, $kw];
-		//page, page_size, silk_type, shop_type1, shop_type2, is_open, keyword
 		$dbo=db::mssqlexec("EXEC [WEB_ITEM_BUY_GAME_LIST_X] ?,?,?,?,?,?,?", $args, 2);
 		if (!$dbo || $dbo->RowCount() == 0) return false;
 		return $dbo;
 	}
-	function getcharinfo($charid)
+	public static function getcharinfo($charid)
 	{
 		$dbo=db::mssqlexec("SELECT * FROM [SILKROAD_R_SHARD].[DBO].[_Char] WITH (NOLOCK) WHERE [CharID]=?", $charid);
 		if (!$dbo || $dbo->RowCount() == 0) return -1;
 		return $dbo->FetchRow();
 	}
-	function addreserved($jid, $pid)
+	public static function addreserved($jid, $pid)
 	{
 		$dbo=db::mssqlexec("EXEC [WEB_ITEM_RESERVED_X] ?,?", [$jid, $pid]);
 		if (!$dbo || $dbo->RowCount() == 0) return -1;
 		return $dbo->FetchRow()[0];
 	}
-	function itempurchase($jid, $st0, $price, $pid, $section, $ip, $inv_id, $cp_inv_id)
+	public static function itempurchase($jid, $st0, $price, $pid, $section, $ip, $inv_id, $cp_inv_id)
 	{
 		$args = [$jid, $st0, $price, 323, 'TEST', $pid, $section, '$game', $ip, $inv_id, $cp_inv_id];
 		$dbo=db::mssqlexec("EXEC [WEB_ITEM_BUY_X] ?,?,?,?,?,?,?,?,?,?,?", $args);
 		if (!$dbo || $dbo->RowCount() == 0) return -1;
 		return $dbo->FetchRow()[0];
 	}
-	function getsilkusage($jid)
+	public static function getsilkusage($jid)
 	{
 		$o = $dbo=db::mssqlexec("SELECT ISNULL(SUM([silk_own_premium]), 0) FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE DATEPART(month, [reg_date]) = DATEPART(month, GETDATE()) AND [cp_jid]=?", $jid);
 		$x = $dbo=db::mssqlexec("SELECT ISNULL(SUM([silk_own_premium]), 0) FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [reg_date] >= DATEADD(MONTH, -3, GETDATE()) AND [cp_jid]=?", $jid);
 		return [$o->FetchRow()[0] ?? 0, $x->FetchRow()[0] ?? 0];
 		
 	}
-	function getpackagedetail($pid)
+	public static function getpackagedetail($pid)
 	{
 		$dbo=db::mssqlexec("SELECT * FROM [VW_WEB_MALL_LIST] WITH (NOLOCK) WHERE [package_id]=? AND [service]=1", $pid, 2);
 		if (!$dbo || $dbo->RowCount() == 0) return -1;
 		return $dbo->FetchRow();
 	}
-	function getitemscount($st0, $st1, $st2)
+	public static function getitemscount($st0, $st1, $st2)
 	{
 		$dbo=db::mssqlexec("SELECT * FROM [WEB_PACKAGE_ITEM] WITH (NOLOCK) WHERE [service]=1 AND [silk_type]=? AND [shop_no]=? AND [shop_no_sub]=?", [$st0, $st1, $st2]);
 		if (!$dbo || $dbo->RowCount() == 0) return -1;
 		return $dbo->RowCount();
 	}
-	function popularitem()
+	public static function popularitem()
 	{
 		$dbo=db::mssqlexec("SELECT A.*, B.[package_code], B.[silk_price], B.[silk_type] FROM [WEB_ITEM_POPULAR] AS A WITH (NOLOCK) INNER JOIN [VW_WEB_MALL_LIST] AS B WITH (NOLOCK) ON B.[package_id] = A.[package_id] ORDER BY A.[idx]", null, 2);
 		if (!$dbo || $dbo->RowCount() == 0) return false;
 		return $dbo;	
 	}
-	function newbestcount($type, $silk, $count)
+	public static function newbestcount($type, $silk, $count)
 	{
 		switch ($type)
 		{
@@ -133,7 +125,7 @@ class func
 		if (!$dbo || $dbo->RowCount() == 0) return false;
 		return [true, $dbo];
 	}
-	function getusersilk(int $jid, int $type = 0)
+	public static function getusersilk(int $jid, int $type = 0)
 	{
 		switch($type)
 		{
@@ -154,7 +146,7 @@ class func
 		if (!$dbo || $dbo->RowCount() == 0) return 0;
 		return $dbo->FetchRow()[0];		
 	}		
-	function certifykey($jid)
+	public static function certifykey($jid)
 	{
 		if ($dbo=db::mssqlexec("SELECT [Certifykey] FROM [WEB_ITEM_CERTIFYKEY] WITH (NOLOCK) WHERE [UserJID]=? ORDER BY [reg_date] DESC", $jid, null, 1))
 		{
@@ -162,7 +154,7 @@ class func
 		}
 		return -1;		
 	}
-	function category($cat1, $cat2, $lang="us")
+	public static function category($cat1, $cat2, $lang="us")
 	{
 		if (in_array($lang, ['us','tr','eg','de','es']))
 		{
@@ -211,13 +203,13 @@ class func
 			if ($cat1==6 && $cat2==3) return ["Fellow","Others"];
 		}
 	}
-	function writelog($logmsg,$file="error.log")
+	public static function writelog($logmsg,$file="error.log")
 	{
 		$logdir = $_SERVER['DOCUMENT_ROOT'] . "/logs/";
 		if (!is_dir($logdir)) mkdir($logdir);
 		error_log(date('[Y-m-d H:i:s]: '). $logmsg . PHP_EOL, 3, $logdir . $file);
 	}
-	function sessionlog($contents,$file)
+	public static function sessionlog($contents,$file)
 	{
 		$sessiondir=$_SERVER['DOCUMENT_ROOT']."/sessions/";
 		if (!is_dir($sessiondir)) mkdir($sessiondir);
@@ -225,24 +217,24 @@ class func
 		error_log($contents, 3, $sessiondir . $file);
 		return true;
 	}
-	function matchreferer($referer)
+	public static function matchreferer($referer)
 	{
 		$domain = parse_url(HTTP_DOMAIN, PHP_URL_HOST);
 		return ($domain == parse_url($referer, PHP_URL_HOST));
 	}
-	function nbetween($varToCheck, $high, $low)
+	public static function nbetween($varToCheck, $high, $low)
 	{
 		if($varToCheck < $low) return false;
 		if($varToCheck > $high) return false;
 		return true;
 	}
-	function getservtime()
+	public static function getservtime()
 	{
 		$dbo=db::mssqlexec("SELECT GETDATE()");
 		if (!$dbo || $dbo->RowCount() == 0) return 0;
 		return date_create($dbo->FetchRow()[0]);
 	}
-	function getipvisitor()
+	public static function getipvisitor()
 	{
 		$visitor_ip = '0.0.0.0';
 		if (!empty($_SERVER["HTTP_CF_CONNECTING_IP"]))
@@ -263,18 +255,18 @@ class func
 		}
 		return $visitor_ip;
 	}
-	function str_clean($str)
+	public static function str_clean($str)
 	{
 		return (preg_match("#[^a-zA-Z0-9]#", $str) == true ? false : $str);
 	}
-	function param_encrypt($string, $key)
+	private static function param_encrypt($string, $key)
 	{
 	  $result = '';
 	  $result = openssl_encrypt($string, "AES-256-CBC", $key, 0, substr(md5($key),0,-16));
 	  if (!$result) return $result; //return false
 	  return base64_encode($result);
 	}	
-	function param_decrypt($string, $key)
+	private static function param_decrypt($string, $key)
 	{
 	  $result = '';
 	  $string = base64_decode($string);
@@ -282,16 +274,16 @@ class func
 	  if (!$result) return $result; //return false
 	  return $result;
 	}	
-	function gentoken($params,$pass)
+	public static function gentoken($params,$pass)
 	{
-		if (!$token_enc = $this->param_encrypt($params.md5($params),$pass)) return false;
+		if (!$token_enc = func::param_encrypt($params.md5($params),$pass)) return false;
 		setcookie("mlanguage1", explode("|",$params)[3], ['samesite'=>'strict']);
 		setcookie("webmallkey", $token_enc, ['samesite'=>'strict']);
 		return $token_enc;
 	}
-	function readtoken($token,$pass,$checkspan=true)
+	public static function readtoken($token,$pass,$checkspan=true)
 	{
-		$token_dec = $this->param_decrypt($token,$pass);
+		$token_dec = func::param_decrypt($token,$pass);
 		$mdhash = substr($token_dec,(strlen($token_dec)-32),32);
 		$string = substr($token_dec,0,(strlen($token_dec)-32));
 		$explod = explode("|",$string);
@@ -302,15 +294,15 @@ class func
 		if (count($explod) == 4) return array('jid'=>$explod[1],'key'=>$explod[2],'loc'=>$explod[3]);
 		if (count($explod) == 5) return array('jid'=>$explod[1],'key'=>$explod[2],'loc'=>$explod[3],'day'=>$explod[4]);
 	}
-	function str_starts_with($haystack, $needle)
+	public static function str_starts_with($haystack, $needle)
 	{
 		return (string)$needle !== '' && strncmp($haystack, $needle, strlen($needle)) === 0;
 	}
-	function str_ends_with($haystack, $needle)
+	public static function str_ends_with($haystack, $needle)
 	{
 		return $needle !== '' && substr($haystack, -strlen($needle)) === (string)$needle;
 	}
-	function str_contains($haystack, $needle)
+	public static function str_contains($haystack, $needle)
 	{
 		return $needle !== '' && mb_strpos($haystack, $needle) !== false;
 	}

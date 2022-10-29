@@ -5,27 +5,27 @@ require_once('functions.php');
 
 class db extends func
 {
-	function connect_mssql($dbName)
+	private static function connect_mssql($dbName)
 	{
 		$dbo=ADONewConnection("mssqlnative");
 		$dbo->setConnectionParameter('CharacterSet','UTF-8');
 		if (!$dbo->Connect(RDBHOST0, RDBUSER0, RDBPASS0, $dbName))
 		{
-			$this->writelog("[Connection Error]\t".$dbo->errorMsg(), "db_errors.log");
+			func::writelog("[Connection Error]\t".$dbo->errorMsg(), "db_errors.log");
 			$dbo->Close();
 			die();
 		}
 		return $dbo;
 	}
-	function mssqlexec($query, $value=null, $fmode=null, $rowstoreturn=-1, $startoffset=-1)
+	public static function mssqlexec($query, $value=null, $fmode=null, $rowstoreturn=-1, $startoffset=-1)
 	{
-		$dbo=$this->connect_mssql(RDBNAME0);
+		$dbo=db::connect_mssql(RDBNAME0);
 		
 		$dbo->SetFetchMode(($fmode==null ? 3 : $fmode));
 				
 		if (is_array($value))
 		{
-			if ($this->str_starts_with(strtolower($query), "select"))
+			if (func::str_starts_with(strtolower($query), "select"))
 			{
 				if ($dbq = $dbo->selectLimit($dbo->prepare($query), $rowstoreturn, $startoffset, $value))
 				{
@@ -41,7 +41,7 @@ class db extends func
 		}
 		else if ($value != null && !is_array($value))
 		{
-			if ($this->str_starts_with(strtolower($query), "select"))
+			if (func::str_starts_with(strtolower($query), "select"))
 			{
 				if ($dbq = $dbo->selectLimit($dbo->prepare($query), $rowstoreturn, $startoffset, [$value]))
 				{
@@ -57,7 +57,7 @@ class db extends func
 		}
 		else
 		{
-			if ($this->str_starts_with(strtolower($query), "select"))
+			if (func::str_starts_with(strtolower($query), "select"))
 			{
 				if ($dbq = $dbo->selectLimit($dbo->prepare($query), $rowstoreturn, $startoffset))
 				{
