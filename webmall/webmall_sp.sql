@@ -68,9 +68,10 @@ GO
 2022-10-20 SILK ITEMS CAN BE PAYED WITH PREMIUM SILK
 2022-10-22 SILK PURCHASE METHOD IMPROVED
 		   (silk_gift->silk_own->silk_gift_premium->silk_own_premium)
-2022-10-26 FIX PURCHASE TIME FLOWS
+2022-10-26 FIX PURCHASE FLOWS
+2022-10-29 FIX PURCHASE FLOWS 2 - ADDED @ispaid indicator
 ******************************************************************************/ 
-CREATE PROC [dbo].[WEB_ITEM_BUY_X]
+ALTER PROC [dbo].[WEB_ITEM_BUY_X]
 	@i_cp_jid				INT,
 	@i_silk_type			TINYINT,
 	@i_silk_offset			INT,
@@ -265,6 +266,7 @@ BEGIN TRANSACTION
 	DECLARE @remainder_silk_gift INT = 0
 	DECLARE @remainder_silk_own_premium INT = 0
 	DECLARE @remainder_silk_gift_premium INT = 0
+	DECLARE @ispaid BIT = 0
 
 	SELECT @silk_price = silk_price FROM WEB_PACKAGE_ITEM WITH (NOLOCK) WHERE package_id = @i_package_id
 
@@ -285,83 +287,95 @@ BEGIN TRANSACTION
 					SELECT @silk_gift = 0
 				END ELSE
 				BEGIN
-					SELECT @silk_gift = @remainder_silk_gift
+					SELECT @silk_gift = @remainder_silk_gift, @ispaid = 1
 				END
-			END ELSE
-			IF (@silk_own > 0 OR @remainder_silk_gift < 0)
-			BEGIN
-				SET @remainder_silk_own = @silk_own-@silk_price
+			END
 
-				IF (@remainder_silk_gift < 0)
+			IF (@ispaid = 0)
+			BEGIN
+				IF (@silk_own > 0)
 				BEGIN
-					IF (@silk_own+@remainder_silk_gift < 0)
+					SET @remainder_silk_own = @silk_own-@silk_price
+
+					IF (@remainder_silk_gift < 0)
 					BEGIN
-						SELECT @remainder_silk_own = @silk_own+@remainder_silk_gift, @silk_own = 0
+						IF (@silk_own+@remainder_silk_gift < 0)
+						BEGIN
+							SELECT @remainder_silk_own = @silk_own+@remainder_silk_gift, @silk_own = 0
+						END ELSE
+						BEGIN
+							SELECT @silk_own = @silk_own+@remainder_silk_gift, @remainder_silk_own = 0, @ispaid = 1
+						END
+					END ELSE
+					IF (@remainder_silk_own < 0)
+					BEGIN
+						SELECT @silk_own = 0
 					END ELSE
 					BEGIN
-						SELECT @silk_own = @silk_own+@remainder_silk_gift, @remainder_silk_own = 0
+						SELECT @silk_own = @remainder_silk_own, @ispaid = 1
 					END
-				END ELSE
-				IF (@remainder_silk_own < 0)
-				BEGIN
-					SELECT @silk_own = 0
-				END ELSE
-				BEGIN
-					SELECT @silk_own = @remainder_silk_own
 				END
-			END ELSE
-			IF (@silk_gift_premium > 0 OR @remainder_silk_own < 0)
-			BEGIN
-				SET @remainder_silk_gift_premium = @silk_gift_premium-@silk_price
+			END
 
-				IF (@remainder_silk_own < 0)
+			IF (@ispaid = 0)
+			BEGIN
+				IF (@silk_gift_premium > 0)
 				BEGIN
-					IF (@silk_gift_premium+@remainder_silk_own < 0)
+					SET @remainder_silk_gift_premium = @silk_gift_premium-@silk_price
+
+					IF (@remainder_silk_own < 0)
 					BEGIN
-						SELECT @remainder_silk_gift_premium = @silk_gift_premium+@remainder_silk_own, @silk_gift_premium = 0
+						IF (@silk_gift_premium+@remainder_silk_own < 0)
+						BEGIN
+							SELECT @remainder_silk_gift_premium = @silk_gift_premium+@remainder_silk_own, @silk_gift_premium = 0
+						END ELSE
+						BEGIN
+							SELECT @silk_gift_premium = @silk_gift_premium+@remainder_silk_own, @remainder_silk_gift_premium = 0, @ispaid = 1
+						END
+					END ELSE
+					IF (@remainder_silk_gift_premium < 0)
+					BEGIN
+						SELECT @silk_gift_premium = 0
 					END ELSE
 					BEGIN
-						SELECT @silk_gift_premium = @silk_gift_premium+@remainder_silk_own, @remainder_silk_gift_premium = 0
+						SELECT @silk_gift_premium = @remainder_silk_gift_premium, @ispaid = 1
 					END
-				END ELSE
-				IF (@remainder_silk_gift_premium < 0)
-				BEGIN
-					SELECT @silk_gift_premium = 0
-				END ELSE
-				BEGIN
-					SELECT @silk_gift_premium = @remainder_silk_gift_premium
 				END
-			END ELSE
-			IF (@silk_own_premium > 0 OR @remainder_silk_gift_premium < 0)
-			BEGIN
-				SET @remainder_silk_own_premium = @silk_own_premium-@silk_price
+			END
 
-				IF (@remainder_silk_gift_premium < 0)
+			IF (@ispaid = 0)
+			BEGIN
+				IF (@silk_own_premium > 0)
 				BEGIN
-					IF (@silk_own_premium+@remainder_silk_gift_premium < 0)
+					SET @remainder_silk_own_premium = @silk_own_premium-@silk_price
+
+					IF (@remainder_silk_gift_premium < 0)
 					BEGIN
-						SELECT -35 AS 'RetVal'
-						SET @o_result = -35
+						IF (@silk_own_premium+@remainder_silk_gift_premium < 0)
+						BEGIN
+							SELECT -35 AS 'RetVal'
+							SET @o_result = -35
+							GOTO ErrorHandler
+						END ELSE
+						BEGIN
+							SELECT @silk_own_premium = @silk_own_premium+@remainder_silk_gift_premium
+						END
+					END ELSE
+					IF (@remainder_silk_own_premium < 0)
+					BEGIN
+						SELECT -36 AS 'RetVal'
+						SET @o_result = -36
 						GOTO ErrorHandler
 					END ELSE
 					BEGIN
-						SELECT @silk_own_premium = @silk_own_premium+@remainder_silk_gift_premium
+						SELECT @silk_own_premium = @silk_own_premium-@silk_price
 					END
 				END ELSE
-				IF (@remainder_silk_own_premium < 0)
 				BEGIN
-					SELECT -36 AS 'RetVal'
-					SET @o_result = -36
+					SELECT -40 AS 'RetVal'
+					SET @o_result = -40
 					GOTO ErrorHandler
-				END ELSE
-				BEGIN
-					SELECT @silk_own_premium = @silk_own_premium-@silk_price
 				END
-			END ELSE
-			BEGIN
-				SELECT -40 AS 'RetVal'
-				SET @o_result = -40
-				GOTO ErrorHandler
 			END
 
 			UPDATE SK_Silk SET
@@ -396,41 +410,45 @@ BEGIN TRANSACTION
 					SELECT @silk_gift_premium = 0
 				END ELSE
 				BEGIN
-					SELECT @silk_gift_premium = @remainder_silk_gift_premium
+					SELECT @silk_gift_premium = @remainder_silk_gift_premium, @ispaid = 1
 				END
-			END ELSE
-			IF (@silk_own_premium > 0 OR @remainder_silk_gift_premium < 0)
-			BEGIN
-				SET @remainder_silk_own_premium = @silk_own_premium-@silk_price
+			END
 
-				IF (@remainder_silk_gift_premium < 0)
+			IF (@ispaid = 1)
+			BEGIN
+				IF (@silk_own_premium > 0)
 				BEGIN
-					IF (@silk_own_premium+@remainder_silk_gift_premium < 0)
+					SET @remainder_silk_own_premium = @silk_own_premium-@silk_price
+
+					IF (@remainder_silk_gift_premium < 0)
 					BEGIN
-						SELECT -35 AS 'RetVal'
-						SET @o_result = -35
+						IF (@silk_own_premium+@remainder_silk_gift_premium < 0)
+						BEGIN
+							SELECT -35 AS 'RetVal'
+							SET @o_result = -35
+							GOTO ErrorHandler
+						END ELSE
+						BEGIN
+							SELECT @silk_own_premium = @silk_own_premium+@remainder_silk_gift_premium
+						END
+					END ELSE
+					IF (@remainder_silk_own_premium < 0)
+					BEGIN
+						SELECT -36 AS 'RetVal'
+						SET @o_result = -36
 						GOTO ErrorHandler
 					END ELSE
 					BEGIN
-						SELECT @silk_own_premium = @silk_own_premium+@remainder_silk_gift_premium
+						SELECT @silk_own_premium = @silk_own_premium-@silk_price
 					END
 				END ELSE
-				IF (@remainder_silk_own_premium < 0)
 				BEGIN
-					SELECT -36 AS 'RetVal'
-					SET @o_result = -36
+					SELECT -41 AS 'RetVal'
+					SET @o_result = -41
 					GOTO ErrorHandler
-				END ELSE
-				BEGIN
-					SELECT @silk_own_premium = @silk_own_premium-@silk_price
 				END
-			END ELSE
-			BEGIN
-				SELECT -41 AS 'RetVal'
-				SET @o_result = -41
-				GOTO ErrorHandler
 			END
-
+			
 			UPDATE SK_Silk SET
 				silk_own = @silk_own, silk_gift = @silk_gift,
 				silk_own_premium = @silk_own_premium, silk_gift_premium = @silk_gift_premium
