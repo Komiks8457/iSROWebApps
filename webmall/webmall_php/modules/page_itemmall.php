@@ -131,7 +131,7 @@ else
 <meta http-equiv='Page-Enter' content='blendTrans(Duration=0.2)'>
 <meta http-equiv='Page-Exit' content='blendTrans(Duration=0.2)'>
 <link rel="stylesheet" type="text/css" media="all" href="dist/css/droidarabickufi.css" />
-<link rel="stylesheet" type="text/css" media="all" href="dist/css/itemmall_game.css" />
+<link rel="stylesheet" type="text/css" media="all" href="dist/css/itemmall_game.css?v=<?=rand(1111111111,9999999999)?>" />
 <title>Silkroad Online</title>
 </head>
 <body class="mig<?=null//(in_array($_COOKIE['mlanguage1'], ['tr','eg']) == true ? " lang_eg" : null)?>" ondragstart="return false" onselectstart="return false">
