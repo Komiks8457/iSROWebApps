@@ -70,6 +70,7 @@ GO
 		   (silk_gift->silk_own->silk_gift_premium->silk_own_premium)
 2022-10-26 FIX PURCHASE FLOWS
 2022-10-29 FIX PURCHASE FLOWS 2 - ADDED @ispaid indicator
+2022-11-01 FIX PURCHASE PREMIUM SILK ERROR
 ******************************************************************************/ 
 ALTER PROC [dbo].[WEB_ITEM_BUY_X]
 	@i_cp_jid				INT,
@@ -414,7 +415,7 @@ BEGIN TRANSACTION
 				END
 			END
 
-			IF (@ispaid = 1)
+			IF (@ispaid = 0)
 			BEGIN
 				IF (@silk_own_premium > 0)
 				BEGIN
