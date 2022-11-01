@@ -95,11 +95,14 @@
 								<div class="action">
 <?php if($_vip[1] >= $_item['vip_level']) { if ($_st1==7) { ?>
 									<span class="setter">
-										<span class="btn-ga <?=($fn->getboughtcount($_jid, $_item['package_code']) >= $_item['month_limit'] ? "disabled" : null)?>"><button type="button" onclick="location.href='/itemBuyGame<?=EXT?>?st3=6&pid=<?=$_item['package_id']?>&buy=1'" <?=($fn->getboughtcount($_jid, $_item['package_code']) >= $_item['month_limit'] ? "disabled" : null)?>>Purchase</button></span>
+										<span class="btn-ga vip <?=($fn->getboughtcount($_jid, $_item['package_code']) >= $_item['month_limit'] ? "disabled" : null)?>"><button type="button" onclick="location.href='/itemBuyGame<?=EXT?>?st3=6&pid=<?=$_item['package_id']?>&buy=1'" <?=($fn->getboughtcount($_jid, $_item['package_code']) >= $_item['month_limit'] ? "disabled" : null)?>>Purchase</button></span>
 									</span>
 <?php } else { ?>
 									<span class="setter">
 										<span class="btn-ga"><button type="button" onclick="location.href='/itemBuyGame<?=EXT?>?st3=6&pid=<?=$_item['package_id']?>&buy=1'">Purchase</button></span>
+									</span>
+									<span class="pre-sel" >
+										<button type="button" onclick="addReserved('<?=$_item['package_id']?>')"><img src="/dist/images/item_img/ingame_img/btn_presel.gif" alt="You can manage Pre-select'ed items that added on Reserved list." /></button>
 									</span>
 <?php } } else {?>
 									<div class="setter" style="color:red;width:120px;margin:3px 0 0;height:16px;">Required VIP Level: <?=$_item['vip_level']?></div>
