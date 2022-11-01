@@ -187,3 +187,16 @@ function getUserSilk(type)
 		}
 	});
 }
+
+function alertmodal(texts,title){
+	if (title === undefined) {
+		title = 'Confirmation Window';
+	}
+	$('#alert_title').html(title).val();
+	$('#alert_content').html(texts).val();
+	$('#alert_modal').show();
+}
+
+$('.modal #alert_close').click(function(){
+	$('#alert_modal').hide();
+});

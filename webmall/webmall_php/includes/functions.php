@@ -1,6 +1,27 @@
 <?php
 class func
 {
+	public static function getboughtcount($jid, $pcode)
+	{
+		$dbo=db::mssqlexec("SELECT * FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [cp_jid]=? AND [item_code_package]=? AND DATEPART(MONTH, [reg_date])=?", [$jid, $pcode, func::getservtime()->format('m')]);
+		if ($dbo) return $dbo->RowCount();
+		return -1;
+	}
+	public static function getvipinfo($jid)
+	{
+		$dbo=db::mssqlexec("SELECT * FROM [".PORTALDB."]..[".VIPTABLE."] WITH (NOLOCK) WHERE [JID]=?", $jid);
+		if (!$dbo || $dbo->RowCount() == 0) return [0,0];
+
+		if ($vip = $dbo->FetchRow())
+		{
+			$_expiry_date = new DateTime($vip['ExpireDate']);
+			if ($_expiry_date->format('Y-m-d H:i:s') > func::getservtime()->format('Y-m-d H:i:s'))
+			{
+				return [$vip['VIPUserType'], $vip['VIPLv']];
+			}
+			else return [0,0];
+		}
+	}
 	public static function tbuserinfo($jid)
 	{
 		$dbo=db::mssqlexec("SELECT * FROM [TB_User] WITH (NOLOCK) WHERE [JID]=?", $jid);
@@ -54,10 +75,7 @@ class func
 		{
 			db::mssqlexec("DELETE FROM [WEB_ITEM_RESERVED] WHERE [userjid]=? AND [idx]=?", [$jid, $idx]);
 		}
-		else
-		{
-			return;
-		}
+		else return;
 	}
 	public static function getmallitems($p, $ps, $st0, $st1, $st2, $io=1, $kw='')
 	{
@@ -90,7 +108,6 @@ class func
 		$o = $dbo=db::mssqlexec("SELECT ISNULL(SUM([silk_own_premium]), 0) FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE DATEPART(month, [reg_date]) = DATEPART(month, GETDATE()) AND [cp_jid]=?", $jid);
 		$x = $dbo=db::mssqlexec("SELECT ISNULL(SUM([silk_own_premium]), 0) FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [reg_date] >= DATEADD(MONTH, -3, GETDATE()) AND [cp_jid]=?", $jid);
 		return [$o->FetchRow()[0] ?? 0, $x->FetchRow()[0] ?? 0];
-		
 	}
 	public static function getpackagedetail($pid)
 	{
@@ -101,7 +118,7 @@ class func
 	public static function getitemscount($st0, $st1, $st2)
 	{
 		$dbo=db::mssqlexec("SELECT * FROM [WEB_PACKAGE_ITEM] WITH (NOLOCK) WHERE [service]=1 AND [silk_type]=? AND [shop_no]=? AND [shop_no_sub]=?", [$st0, $st1, $st2]);
-		if (!$dbo || $dbo->RowCount() == 0) return -1;
+		if (!$dbo || $dbo->RowCount() == 0) return 0;
 		return $dbo->RowCount();
 	}
 	public static function popularitem()
@@ -201,6 +218,8 @@ class func
 			if ($cat1==6 && $cat2==1) return ["Fellow","Growth"];
 			if ($cat1==6 && $cat2==2) return ["Fellow","Equipment"];
 			if ($cat1==6 && $cat2==3) return ["Fellow","Others"];
+			//vip tab
+			if ($cat1==6 && $cat2==1) return ["VIP","VIP"];
 		}
 	}
 	public static function writelog($logmsg,$file="error.log")

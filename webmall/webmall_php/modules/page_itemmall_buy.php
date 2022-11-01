@@ -171,6 +171,13 @@ $_silks_icon[$_index] = $_item['silk_type'];
 								<span class="btn-ga btn-ga-cancel"><button type="button" onclick="history.back()"><?=MESSAGE[$_loc][8][18]?></button></span>
 								<span class="btn-ga btn-ga-confirm"><input type="submit" name="confirm" value="<?=MESSAGE[$_loc][8][17]?>" /></span>
 							</div>
+<?php } else if ($_confirm == 1 && $_success == -39) { ?>
+							<p class="msg msg-result">
+								<strong style="color:red;">Monthly limit purchase for this item has been reached.</strong>
+							</p>
+							<div class="ga">
+								<span class="btn-ga btn-ga-cancel"><button type="button" onclick="location.href='/itemBuyGame<?=EXT?>'"><?=MESSAGE[$_loc][8][19]?></button></span>
+							</div>
 <?php } else if ($_confirm == 1 && $_success < 0) { ?>
 							<p class="msg msg-result">
 								<strong><?=MESSAGE[$_loc][8][13]?></strong><br>

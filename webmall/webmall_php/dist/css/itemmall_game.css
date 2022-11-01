@@ -125,7 +125,7 @@ h1 {float:left; width:147px; min-height:25px; _height:25px; padding:10px 22px; c
 /* Content - Buttons */
 .btn-ga, .btn-ga a, .btn-ga button, .btn-ga input {
 	position:relative; display:inline-block; height:19px; margin:0; padding-left:4px; border:0;
-	background:#BE8935 url(/dist/images/item_img/ingame_img/btn_ga_bg.gif) no-repeat;
+	background:#BE8935 url(/dist/images/item_img/ingame_img/btn_ga_bg.png) no-repeat;
 	color:#2B2011; font-size:11px; line-height:19px; font-family:Tahoma,Verdana,Arial,Apple-Gothic,sans-serif; letter-spacing:1px; text-align:center;
 	text-decoration:none !important; white-space:nowrap; vertical-align:middle;
 }
@@ -137,7 +137,9 @@ h1 {float:left; width:147px; min-height:25px; _height:25px; padding:10px 22px; c
 .btn-ga-cancel *, .btn-ga-confirm *, .btn-ga-history *, .btn-ga-purchase * {width:80px;}
 .btn-ga-confirm input {width:96px;}
 .btn-ga a:link, .btn-ga a:visited, .btn-ga a:hover, .btn-ga a:active {color:#2B2011;}
-
+.btn-ga.disabled { background-position:0 -40px;}
+.btn-ga.disabled a, .btn-ga.disabled button, .btn-ga.disabled input {background-position:100% -40px;}
+.btn-ga.disabled * {width:80px;}
 
 
 /* Mall */
@@ -181,8 +183,10 @@ h1 {float:left; width:147px; min-height:25px; _height:25px; padding:10px 22px; c
 .mall-list .list .price .val {display:block; margin-left:20px;}
 .mall-list .list .action {clear:left; float:left; _display:inline; width:145px; margin:2px 9px 7px; text-align:left;}
 .mall-list .list .action button {vertical-align:top;}
-.mall-list .list .action .btn-ga {display:block; margin-right:24px;}
-.mall-list .list .action .btn-ga button {width:117px;}
+.mall-list .list .action .btn-ga {display:block;}
+.mall-list .list .action .btn-ga button {width:140px;}
+.mall-list .list .action .btn-ga.disabled {display:block;}
+.mall-list .list .action .btn-ga.disabled button {width:140px;}
 .mall-list .list .action .pre-sel {float:left; width:19px; margin-left:-19px;}
 .mall-list .list .action .pre-sel button {height:19px; margin:0; vertical-align:top;}
 
@@ -691,3 +695,12 @@ div.sexy-month div.icon {left:23px;}
 #popWinTreasure .close {position:absolute; top:2px; right:0; _right:-1px; width:30px; height:30px; background:url(/dist/images/us/item_img/treasure_win_close_btn.gif) no-repeat left top; cursor:pointer;}
 .lang-eg #popWinTreasure .close {right:auto; left:0; background-image:url(/dist/images/us/item_img/treasure_win_close_btn_eg.gif);}
 /* ìˆ¨ê²¨ì§„ ë³´ë¬¼ ì´ë²¤íŠ¸ */
+
+/* modal */
+.modal { position:fixed; background: url(/dist/images/item_img/ingame_img/modal_bg.png) repeat-x left top; display:none; z-index:1; margin:0px; padding:0px; left:0; top:0; width:800px; height:569px; }
+.modal .alert_window { margin:200px auto; width:309px; height:141px; overflow:hidden; background:url(/dist/images/item_img/ingame_img/modal_window.png) no-repeat;}
+.modal .alert_title { width:305px; max-height:26px; margin:8px auto; text-align:center; padding:0px; font-size:12px; color:white; }
+.modal .alert_content { width:305px; height:80px; margin:0 auto; text-align:center; font-size:12px; color:white; }
+.modal .alert_content p { position:relative; margin:auto 5%; overflow-wrap: break-word; word-wrap: break-word; }
+.modal .alert_footer { width:305px; height:30px; margin:0px auto; text-align:center; font-size:12px; color:white; }
+.modal .alert_close { width:85px; height:24px; margin-top:0px; padding-top:-2px; background:url(/dist/images/item_img/ingame_img/modal_button.png) no-repeat; color:#fff;}

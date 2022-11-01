@@ -13,6 +13,7 @@ $_xpt = null;
 $_xpc = null;
 $_xpn = null;
 $_xps = null;
+$_vip = null;
 
 if ($_token = $fn->readtoken($_COOKIE['webmallkey'], SITE_PASS))
 {
@@ -37,7 +38,7 @@ if ($_token = $fn->readtoken($_COOKIE['webmallkey'], SITE_PASS))
 				header("Location: ".PAGE_ERROR."?code=C122");
 				return;
 			}
-			
+
 			$_st0 =	$_REQUEST['st0'] ?? 3;
 			$_st1 =	$_REQUEST['st1'] ?? 0;
 			$_st2 =	$_REQUEST['st2'] ?? 0;
@@ -49,6 +50,8 @@ if ($_token = $fn->readtoken($_COOKIE['webmallkey'], SITE_PASS))
 
 			$_jid = $_token['jid'];
 			$_loc =	$_token['loc'];
+
+			$_vip = $fn->getvipinfo($_jid);
 
 			$_cursilk = [
 				0=>$fn->getusersilk($_jid,0),
@@ -86,7 +89,7 @@ if ($_token = $fn->readtoken($_COOKIE['webmallkey'], SITE_PASS))
 				case 6:
 					$_xpt = "buyitem";
 					break;
-				case 7:
+				case 69:
 					$_xpt = "mall-list item-search";
 					break;
 				default:
@@ -147,7 +150,7 @@ else
 			<!-- Silk owned -->
 			<div class="pod silkowned">
 				<div class="run">
-					<h2><?=strtoupper($_uid);?></h2>					
+					<h2>Silk Owned<span style="position:absolute;color:yellow;padding-left:5px"><?=VIPTIER[$_vip[1]]?>&nbsp;<?=($_vip[0] > 0 ? "<img src=\"/dist/images/item_img/ingame_img/viplevel_".$_vip[1].".jpg\" style=\"width:16px;height:16px;margin-top:-2px;\" >" : null)?></span></h2>					
 					<dl class="status">
 						<dt>Premium Silk :</dt>
 						<dd><img src="/dist/images/item_img/ingame_img/silk_premium.gif" alt="" /> <span id="silk_prem"><?=number_format($_cursilk[3]+$_cursilk[4])?></span> Silk</dd>
@@ -195,7 +198,7 @@ else
 				<div class="search">
 					<h2>Search</h2>
 					<span class="keyword">
-						<input type="hidden" name="st3" value="7" />
+						<input type="hidden" name="st3" value="69" />
 						<input type="text" id="searchWord" name="search" size="10" value="" />
 					</span>
 					<span class="btn"><button type="submit"><?=MESSAGE[$_loc][10]?></button></span>
@@ -229,7 +232,7 @@ switch ($_st3)
 	case 6:
 		include('page_itemmall_buy.php');
 		break;
-	case 7:
+	case 69:
 		include('page_itemmall_search.php');
 		break;
 	default:
@@ -249,6 +252,18 @@ switch ($_st3)
 		</div>
 	</div>
 </div>
+/* TO BE ADDED LATER */
+<div id="alert_modal" class="modal">
+	<div class="alert_window">
+		<div class="alert_title" id="alert_title"></div>
+		<div class="alert_content">
+			<p id="alert_content"></p>
+		</div>
+		<div class="alert_footer">
+			<button id="alert_close" class="alert_close">Confirm</button>
+		</div>
+	</div>
+</div>
 <script type="text/javascript" src="dist/js/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" src="dist/js/jquery.jcarousel.min.js"></script>
 <script type="text/javascript" src="dist/js/jquery.pngFix.js"></script>
@@ -256,7 +271,7 @@ switch ($_st3)
 <script type="text/javascript" src="dist/js/jquery.cluetip.js"></script>
 <script type="text/javascript" src="dist/js/jquery.scroll.js"></script>
 <script type="text/javascript" src="dist/js/ingame_shell.js"></script>
-<script type="text/javascript" src="dist/js/_common.js"></script>
+<script type="text/javascript" src="dist/js/_common.js>"></script>
 <?php if ($_st3 == 3) { include('page_itemmall_reserved_head.php'); }?>
 <?php if ($_st3 == 6) { include('page_itemmall_buy_head.php'); }?>
 </body>

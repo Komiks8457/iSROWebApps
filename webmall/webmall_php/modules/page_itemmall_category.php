@@ -63,4 +63,7 @@
 							</ul>
 						</div>
 					</li>
+<?php if($_vip[0] > 0 && $_st0 == 3) { ?>
+					<li class="<?=($_st1 == 7 ? "cur" : null)?>" id="cate_7"><a href="/itemBuyGame<?=EXT?>?st0=<?=$_st0?>&st1=7&st2=1&st3=<?=$_st3?>"><?=$fn->category(7,1,$_loc)[0]?></a></li>
+<?php } ?>
 				</ul>

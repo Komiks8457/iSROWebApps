@@ -4,7 +4,9 @@ $_config['mssql']=[
 	"ip"=>"192.168.1.78",
 	"id"=>"sror_server",
 	"pw"=>"169841",
-	"db"=>"SILKROAD_R_ACCOUNT"
+	"db"=>"SILKROAD_R_ACCOUNT",
+	"db2"=>"SILKROAD_R_ACCOUNT", //<--GB_JoymaxPortal
+	"vip"=>"TB_VIP_Info" //<--MU_VIP_Info
 ];
 $_config['site_info']=[
 	"ssl"=>false,
@@ -16,7 +18,17 @@ $_config['site_info']=[
 	"extension"=>".asp",
 	"vkey"=>"eset5ag.nsy-g6ky5.mp",
 	"servername"=>"TEST",
-	"chargeurl"=>"http://yourdomain.com/reloadsilk.asp"
+	"chargeurl"=>"http://yourdomain.com/reloadsilk.asp",
+	"viptiername"=>[
+		//you can use whatever names you want
+		0=>"Normal",
+		1=>"BRONZE", //<--VIPLv = 1
+		2=>"SILVER",
+		3=>"GOLD",
+		4=>"PLATINUM",
+		5=>"SPECIAL",
+		6=>"GM's BFF"
+	]
 ];
 $_config['pages']=[
 	'itembuygame',

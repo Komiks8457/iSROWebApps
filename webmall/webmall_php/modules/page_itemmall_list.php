@@ -75,7 +75,8 @@
 							<li class="<?=($_st0 == 0 ? "silk" : "prem")?>" style="padding-bottom: 5px;">
 								<div class="intro">
 									<a rel="#item-<?=$_item['package_id']?>" class="pic"><img src="/dist/images/itemlist_pac/<?=$_item['package_code']?>.jpg" alt="" /></a>
-									<span class="name"><?=$_item['package_name']?></span>
+									<?=(($_st0==3 && $_st1==7) && $_item['month_limit'] >= 1 ? "<div style=\"position:absolute;margin:33px 0 0;color:yellow\">Limit: ".$fn->getboughtcount($_jid, $_item['package_code'])."/{$_item['month_limit']}</div>" : null)?>
+									<span class="name"><?=$_item['package_name']?></span>									
 									<div id="item-<?=$_item['package_id']?>" class="spec">
 										<p class="spec-name"><strong><?=$_item['package_name']?></strong></p>
 										<ul>
@@ -92,12 +93,17 @@
 									</strong>
 								</div>
 								<div class="action">
+<?php if($_vip[1] >= $_item['vip_level']) { if ($_st1==7) { ?>
+									<span class="setter">
+										<span class="btn-ga <?=($fn->getboughtcount($_jid, $_item['package_code']) >= $_item['month_limit'] ? "disabled" : null)?>"><button type="button" onclick="location.href='/itemBuyGame<?=EXT?>?st3=6&pid=<?=$_item['package_id']?>&buy=1'" <?=($fn->getboughtcount($_jid, $_item['package_code']) >= $_item['month_limit'] ? "disabled" : null)?>>Purchase</button></span>
+									</span>
+<?php } else { ?>
 									<span class="setter">
 										<span class="btn-ga"><button type="button" onclick="location.href='/itemBuyGame<?=EXT?>?st3=6&pid=<?=$_item['package_id']?>&buy=1'">Purchase</button></span>
 									</span>
-									<span class="pre-sel" >
-										<button type="button" onclick="addReserved('<?=$_item['package_id']?>')"><img src="/dist/images/item_img/ingame_img/btn_presel.gif" alt="You can manage Pre-select'ed items that added on Reserved list." /></button>
-									</span>
+<?php } } else {?>
+									<div class="setter" style="color:red;width:120px;margin:3px 0 0;height:16px;">Required VIP Level: <?=$_item['vip_level']?></div>
+<?php } ?>
 								</div>
 							</li>
 <?php } ?>
