@@ -131,7 +131,7 @@ else
 <meta http-equiv='Page-Enter' content='blendTrans(Duration=0.2)'>
 <meta http-equiv='Page-Exit' content='blendTrans(Duration=0.2)'>
 <link rel="stylesheet" type="text/css" media="all" href="dist/css/droidarabickufi.css" />
-<link rel="stylesheet" type="text/css" media="all" href="dist/css/itemmall_game.css" />
+<link rel="stylesheet" type="text/css" media="all" href="dist/css/itemmall_game.css?v=<?=rand(1111111111,9999999999)?>" />
 <title>Silkroad Online</title>
 </head>
 <body class="mig<?=null//(in_array($_COOKIE['mlanguage1'], ['tr','eg']) == true ? " lang_eg" : null)?>" ondragstart="return false" onselectstart="return false">
@@ -271,7 +271,11 @@ switch ($_st3)
 <script type="text/javascript" src="dist/js/jquery.cluetip.js"></script>
 <script type="text/javascript" src="dist/js/jquery.scroll.js"></script>
 <script type="text/javascript" src="dist/js/ingame_shell.js"></script>
-<script type="text/javascript" src="dist/js/_common.js>"></script>
+<<<<<<< HEAD
+<script type="text/javascript" src="dist/js/_common.js"></script>
+=======
+<script type="text/javascript" src="dist/js/_common.js?v=<?=rand(1111111111,9999999999)?>"></script>
+>>>>>>> 9ddc683c01535afb2ff40eb25cca95d8714b5e94
 <?php if ($_st3 == 3) { include('page_itemmall_reserved_head.php'); }?>
 <?php if ($_st3 == 6) { include('page_itemmall_buy_head.php'); }?>
 </body>
