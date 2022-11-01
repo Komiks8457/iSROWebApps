@@ -271,7 +271,7 @@ switch ($_st3)
 <script type="text/javascript" src="dist/js/jquery.cluetip.js"></script>
 <script type="text/javascript" src="dist/js/jquery.scroll.js"></script>
 <script type="text/javascript" src="dist/js/ingame_shell.js"></script>
-<script type="text/javascript" src="dist/js/_common.js>"></script>
+<script type="text/javascript" src="dist/js/_common.js"></script>
 <?php if ($_st3 == 3) { include('page_itemmall_reserved_head.php'); }?>
 <?php if ($_st3 == 6) { include('page_itemmall_buy_head.php'); }?>
 </body>

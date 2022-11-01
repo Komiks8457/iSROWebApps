@@ -183,10 +183,14 @@ h1 {float:left; width:147px; min-height:25px; _height:25px; padding:10px 22px; c
 .mall-list .list .price .val {display:block; margin-left:20px;}
 .mall-list .list .action {clear:left; float:left; _display:inline; width:145px; margin:2px 9px 7px; text-align:left;}
 .mall-list .list .action button {vertical-align:top;}
-.mall-list .list .action .btn-ga {display:block;}
-.mall-list .list .action .btn-ga button {width:140px;}
-.mall-list .list .action .btn-ga.disabled {display:block;}
-.mall-list .list .action .btn-ga.disabled button {width:140px;}
+.mall-list .list .action .btn-ga {display:block; margin-right:24px;}
+.mall-list .list .action .btn-ga button {width:117px;}
+.mall-list .list .action .pre-sel {float:left; width:19px; margin-left:-19px;}
+.mall-list .list .action .pre-sel button {height:19px; margin:0; vertical-align:top;}
+.mall-list .list .action .btn-ga.vip {display:block; margin-right:1px;}
+.mall-list .list .action .btn-ga.vip button {width:140px;}
+.mall-list .list .action .btn-ga.vip.disabled {display:block; margin-right:1px;}
+.mall-list .list .action .btn-ga.vip.disabled button {width:140px;}
 .mall-list .list .action .pre-sel {float:left; width:19px; margin-left:-19px;}
 .mall-list .list .action .pre-sel button {height:19px; margin:0; vertical-align:top;}
 
