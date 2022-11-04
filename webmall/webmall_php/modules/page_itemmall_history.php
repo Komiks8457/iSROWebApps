@@ -36,28 +36,27 @@ if ($_gethistory[0] > $_entries) $_entries_count = round($_gethistory[0] / $_ent
 								<tr>
 									<th colspan="2"><?=MESSAGE[$_loc][6][3]?></th>
 									<td class="price">
-										<span class="type"><img src="/dist/images/item_img/ingame_img/silk_premium.gif" alt="Prem" /></span>
+										<span class="type"><img src="<?=CDN?>dist/images/item_img/ingame_img/silk_premium.gif" alt="Prem" /></span>
 										<span class="val"><?=number_format($_gethistoryspent[1])?> Silk</span>
 									</td>
 								</tr>
 								<tr>
 									<th colspan="2"><?=MESSAGE[$_loc][6][4]?></th>
 									<td class="price">
-										<span class="type"><img src="/dist/images/item_img/ingame_img/silk.gif" alt="Silk" /></span>
+										<span class="type"><img src="<?=CDN?>dist/images/item_img/ingame_img/silk.gif" alt="Silk" /></span>
 										<span class="val"><?=number_format($_gethistoryspent[0])?> Silk</span>
 									</td>
 								</tr>
 								<tr class="total">
 									<th colspan="1"><strong><?=MESSAGE[$_loc][6][5]?></strong></th>
 									<td colspan="2" class="price">
-										<span class="type"><img src="/dist/images/item_img/ingame_img/<?=$_ico[5]?>" alt="Silk" /></span></span>
+										<span class="type"><img src="<?=CDN?>dist/images/item_img/ingame_img/<?=$_ico[5]?>" alt="Silk" /></span></span>
 										<span class="setter"><span class="val"><?=number_format($_gethistoryspent[0]+$_gethistoryspent[1])?> Silk&nbsp;</span></span>
 									</td>
 								</tr>
 							</table>
 						</div>
 						<p class="note-serves-details"><?=MESSAGE[$_loc][6][6]?></p>
-
 						<div class="details details-buyitem">
 							<table width="528" border="1">
 								<caption><?=MESSAGE[$_loc][6][7]?></caption>
@@ -86,7 +85,7 @@ if ($_gethistory[0] > $_entries) $_entries_count = round($_gethistory[0] / $_ent
 <?php if ($_gethistory[0] > $_entries) {?>
 									<td colspan="5">
 										<div >
-											<img src='/dist/images/item_img/ingame_img/btn_prev.gif' border='0' style='vertical-align: middle;' />&nbsp;<?php for($i = 1; $i <= $_entries_count; $i++) { ?>&nbsp;<a href="/itemBuyGame_history<?=EXT?>?&st3=4&p=<?=$i?>" title="Page <?=$i?>"><?=($_page == $i ? "<font color=#EB6F4D><b>".$i."</b></font>" : $i)?></a><?php } ?>&nbsp;&nbsp;<img src='/dist/images/item_img/ingame_img/btn_next.gif' border='0' style='vertical-align: middle;' />
+											<img src='<?=CDN?>dist/images/item_img/ingame_img/btn_prev.gif' border='0' style='vertical-align: middle;' />&nbsp;<?php for($i = 1; $i <= $_entries_count; $i++) { ?>&nbsp;<a href="/itemBuyGame_history<?=EXT?>?&st3=4&p=<?=$i?>" title="Page <?=$i?>"><?=($_page == $i ? "<font color=#EB6F4D><b>".$i."</b></font>" : $i)?></a><?php } ?>&nbsp;&nbsp;<img src='<?=CDN?>dist/images/item_img/ingame_img/btn_next.gif' border='0' style='vertical-align: middle;' />
 										</div>
 									</td>
 <?php } ?>

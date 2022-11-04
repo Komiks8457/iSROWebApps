@@ -4,19 +4,19 @@ if ($req = $_REQUEST['req'] ?? null)
 {
 	switch($req)
 	{
-		case stristr($req, "itembuygame_getusersilk"):
+		case stristr($req, (ROOTDIR=="/"?null:ROOTDIR)."itembuygame_getusersilk"):
 			include('modules/api_getusersilk.php');
 			break;
-		case stristr($req, "itembuygame_addreserved"):
+		case stristr($req, (ROOTDIR=="/"?null:ROOTDIR)."itembuygame_addreserved"):
 			include('modules/api_addreserved.php');
 			break;
-		case stristr($req, "itembuygame"):
+		case stristr($req, (ROOTDIR=="/"?null:ROOTDIR)."itembuygame"):
 			include('modules/page_itemmall.php');
 			break;
-		case stristr($req, "gateway"):
+		case stristr($req, (ROOTDIR=="/"?null:ROOTDIR)."gateway"):
 			include('modules/page_gateway.php');
 			break;
-		case stristr($req, "error"):
+		case stristr($req, (ROOTDIR=="/"?null:ROOTDIR)."error"):
 			include('modules/page_error.php');
 			break;
 		default:
@@ -26,6 +26,6 @@ if ($req = $_REQUEST['req'] ?? null)
 else
 {
 	$fn->writelog("[Unkown Parameter]\t({$fn->getipvisitor()})\t{$_SERVER['QUERY_STRING']}",'samtingwong.log');
-	echo "Hello World?";
+	echo 15 - number_format(0.10, 2);
 }
 ?>

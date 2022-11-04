@@ -1,15 +1,21 @@
 <?php
 class func
 {
+	public static function getjcash($pjid)
+	{
+		$dbo=db::mssqlexec("EXEC [".PORTALDB."]..[X_GetJCash] ?", $pjid);
+		if (!$dbo || $dbo->RowCount() == 0) return [0,0,0,0,0];
+		return $dbo->FetchRow();
+	}
 	public static function getboughtcount($jid, $pcode)
 	{
 		$dbo=db::mssqlexec("SELECT * FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [cp_jid]=? AND [item_code_package]=? AND DATEPART(MONTH, [reg_date])=?", [$jid, $pcode, func::getservtime()->format('m')]);
 		if ($dbo) return $dbo->RowCount();
 		return -1;
 	}
-	public static function getvipinfo($jid)
+	public static function getvipinfo($pjid)
 	{
-		$dbo=db::mssqlexec("SELECT * FROM [".PORTALDB."]..[".VIPTABLE."] WITH (NOLOCK) WHERE [JID]=?", $jid);
+		$dbo=db::mssqlexec("SELECT * FROM [".PORTALDB."]..[MU_VIP_Info] WITH (NOLOCK) WHERE [JID]=?", $pjid);
 		if (!$dbo || $dbo->RowCount() == 0) return [0,0];
 
 		if ($vip = $dbo->FetchRow())
@@ -96,18 +102,56 @@ class func
 		if (!$dbo || $dbo->RowCount() == 0) return -1;
 		return $dbo->FetchRow()[0];
 	}
-	public static function itempurchase($jid, $st0, $price, $pid, $section, $ip, $inv_id, $cp_inv_id)
+	public static function newitempurchase($jid, $st0, $price_offset, $pid, $pt_inv_id, $cp_inv_id, $servername)
 	{
-		$args = [$jid, $st0, $price, 323, 'TEST', $pid, $section, '$game', $ip, $inv_id, $cp_inv_id];
-		$dbo=db::mssqlexec("EXEC [WEB_ITEM_BUY_X] ?,?,?,?,?,?,?,?,?,?,?", $args);
-		if (!$dbo || $dbo->RowCount() == 0) return -1;
-		return $dbo->FetchRow()[0];
-	}
-	public static function getsilkusage($jid)
-	{
-		$o = $dbo=db::mssqlexec("SELECT ISNULL(SUM([silk_own_premium]), 0) FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE DATEPART(month, [reg_date]) = DATEPART(month, GETDATE()) AND [cp_jid]=?", $jid);
-		$x = $dbo=db::mssqlexec("SELECT ISNULL(SUM([silk_own_premium]), 0) FROM [WEB_ITEM_GIVE_LIST] WITH (NOLOCK) WHERE [reg_date] >= DATEADD(MONTH, -3, GETDATE()) AND [cp_jid]=?", $jid);
-		return [$o->FetchRow()[0] ?? 0, $x->FetchRow()[0] ?? 0];
+		//JCISCode	JCISName
+		//7000		Begin PS~CP TX By PS
+		//10000		Complete PS~CP TX By PS(JCash subtracted)  --lets continue here
+		//5000		Complete PS~PG TX By PS(JCash supplied)
+		//8000		Fail PS~CP TX By CP(CPCash not supplied)
+		//6000		Fail PS~CP TX By PS(Begin PS~CP TX Error)
+		//9000		Fail PS~CP TX By PS(JCash not subtracted)
+		//4000		Fail PS~PG TX By PS(JCash not supplied)
+
+		$ip2hex = func::getipvisitor(true);
+		$tb_info = func::tbuserinfo($jid);
+		$pjid = $tb_info['PortalJID'];
+		$package_info = func::getpackagedetail($pid);
+		$package_code = $package_info['package_code'];
+		$package_name = $package_info['package_name'];		
+		$args = [$pt_inv_id,$cp_inv_id,$tb_info['ServiceCompany'],$price_offset,$st0,$pjid,hexdec($ip2hex),$package_code,$package_name,1,$servername];
+		if ($step1 = db::mssqlexec("EXEC [".PORTALDB."]..[X_DirectPaymentBeginCPTXByPS] ?,?,?,?,?,?,?,?,?,?,?", $args))
+		{
+			$retval = $step1->FetchRow();
+
+			if ($retval['ReturnCode'] < 0) return $retval['ReturnCode'];
+
+			if ($retval['ReturnCode'] == 7000)
+			{
+				if ($step2 = db::mssqlexec("EXEC [".PORTALDB."]..[X_DirectPaymentCompletedCPTXByPS] ?", $pt_inv_id))
+				{
+					$retval = $step2->FetchRow();
+
+					if ($retval['ReturnCode'] < 0) return $retval['ReturnCode'];
+					
+					if ($retval['ReturnCode'] == 10000)
+					{
+						$args = [$jid,$st0,$price_offset,323,$servername,$pid,1,'$game',func::getipvisitor(), $pt_inv_id, $cp_inv_id];
+						if ($step3 = db::mssqlexec("EXEC [WEB_ITEM_BUY_X] ?,?,?,?,?,?,?,?,?,?,?", $args))
+						{
+							$retval = $step3->FetchRow();							
+							if ($retval['RetVal'] < 0)
+							{
+								func::writelog("WEB_ITEM_BUY_X RETURNED (".$retval['RetVal'].")", "buy_function_error.log");
+								return $retval['RetVal'];
+							}
+							return $retval['RetVal'];
+						}
+						else{ func::writelog("FAILED TO EXECUTE WEB_ITEM_BUY_X", "buy_function_error.log"); return -5; }
+					} else { func::writelog("X_DirectPaymentCompletedCPTXByPS RETURNED (".$retval['ReturnCode'].")", "buy_function_error.log"); return -4; }
+				} else { func::writelog("FAILED TO EXECUTE X_DirectPaymentCompletedCPTXByPS", "buy_function_error.log"); return -3; }
+			} else { func::writelog("X_DirectPaymentBeginCPTXByPS RETURNED (".$retval['ReturnCode'].")", "buy_function_error.log"); return -2; }
+		} else { func::writelog("FAILED TO EXECUTE X_DirectPaymentBeginCPTXByPS", "buy_function_error.log"); return -1; }
 	}
 	public static function getpackagedetail($pid)
 	{
@@ -123,7 +167,7 @@ class func
 	}
 	public static function popularitem()
 	{
-		$dbo=db::mssqlexec("SELECT A.*, B.[package_code], B.[silk_price], B.[silk_type] FROM [WEB_ITEM_POPULAR] AS A WITH (NOLOCK) INNER JOIN [VW_WEB_MALL_LIST] AS B WITH (NOLOCK) ON B.[package_id] = A.[package_id] ORDER BY A.[idx]", null, 2);
+		$dbo=db::mssqlexec("SELECT A.*, B.[package_code], B.[silk_price], B.[silk_type], B.[discount_rate] FROM [WEB_ITEM_POPULAR] AS A WITH (NOLOCK) INNER JOIN [VW_WEB_MALL_LIST] AS B WITH (NOLOCK) ON B.[package_id] = A.[package_id] ORDER BY A.[idx]", null, 2);
 		if (!$dbo || $dbo->RowCount() == 0) return false;
 		return $dbo;	
 	}
@@ -139,30 +183,9 @@ class func
 				break;
 			default: return false;
 		}
-		if (!$dbo || $dbo->RowCount() == 0) return false;
+		if (!$dbo || $dbo->RowCount() == 0) return [false];
 		return [true, $dbo];
 	}
-	public static function getusersilk(int $jid, int $type = 0)
-	{
-		switch($type)
-		{
-			case 0:
-				$dbo=db::mssqlexec("SELECT [silk_own] FROM [SK_Silk] WHERE [JID]=?", $jid, 1);
-				break;
-			case 1:
-				$dbo=db::mssqlexec("SELECT [silk_gift] FROM [SK_Silk] WHERE [JID]=?", $jid, 1);
-				break;
-			case 3:
-				$dbo=db::mssqlexec("SELECT [silk_own_premium] FROM [SK_Silk] WHERE [JID]=?", $jid, 1);
-				break;
-			case 4:
-				$dbo=db::mssqlexec("SELECT [silk_gift_premium] FROM [SK_Silk] WHERE [JID]=?", $jid, 1);
-				break;
-			default: break;
-		}		
-		if (!$dbo || $dbo->RowCount() == 0) return 0;
-		return $dbo->FetchRow()[0];		
-	}		
 	public static function certifykey($jid)
 	{
 		if ($dbo=db::mssqlexec("SELECT [Certifykey] FROM [WEB_ITEM_CERTIFYKEY] WITH (NOLOCK) WHERE [UserJID]=? ORDER BY [reg_date] DESC", $jid, null, 1))
@@ -177,11 +200,11 @@ class func
 		{
 			if ($cat1==0 && $cat2==0)
 			{
-				if ($lang=="us") return ["<b>New & Best</b>","New","Best"];
-				if ($lang=="de") return ["<b>Neu & Besten</b>","Neu","Besten"];
-				if ($lang=="es") return ["<b>Nueva & Mejor</b>","Nueva","Mejor"];
-				if ($lang=="tr") return ["<b>Popüler</b>","Yeni","En İyi"];
-				if ($lang=="eg") return ["<b>جمع</b>","جديد","الأفضل"];
+				if ($lang=="us") return ["New & Best","New","Best"];
+				if ($lang=="de") return ["Neu & Besten","Neu","Besten"];
+				if ($lang=="es") return ["Nueva & Mejor","Nueva","Mejor"];
+				if ($lang=="tr") return ["Popüler","Yeni","En İyi"];
+				if ($lang=="eg") return ["جمع","جديد","الأفضل"];
 			}
 			$dbo=db::mssqlexec("SELECT A.[shop_name_$lang], B.[sub_name_$lang] FROM WEB_MALL_CATEGORY AS A WITH (NOLOCK) INNER JOIN WEB_MALL_CATEGORY_SUB AS B WITH (NOLOCK) ON B.[ref_no] = A.[shop_no] WHERE A.[shop_no]=? AND B.[sub_no]=?", [$cat1,$cat2]);
 			if (!$dbo || $dbo->RowCount() == 0) return 0;
@@ -190,7 +213,7 @@ class func
 		else
 		{
 			//new and best
-			if ($cat1==0 && $cat2==0) return ["<b>New & Best</b>","New","Best"];
+			if ($cat1==0 && $cat2==0) return ["New & Best","New","Best"];
 			//expendables tab
 			if ($cat1==1 && $cat2==1) return ["Expendables","Special"];
 			if ($cat1==1 && $cat2==2) return ["Expendables","Scroll"];
@@ -221,6 +244,11 @@ class func
 			//vip tab
 			if ($cat1==6 && $cat2==1) return ["VIP","VIP"];
 		}
+	}
+	public static function init_common()
+	{
+		if (!isset($_COOKIE['dir']) || $_COOKIE['dir'] != ROOTDIR) setcookie("dir", ROOTDIR, ['samesite'=>'strict']);
+		if (!isset($_COOKIE['ext']) || $_COOKIE['ext'] != EXT) setcookie("ext", EXT, ['samesite'=>'strict']);
 	}
 	public static function writelog($logmsg,$file="error.log")
 	{
@@ -253,7 +281,7 @@ class func
 		if (!$dbo || $dbo->RowCount() == 0) return 0;
 		return date_create($dbo->FetchRow()[0]);
 	}
-	public static function getipvisitor()
+	public static function getipvisitor($tohex=false)
 	{
 		$visitor_ip = '0.0.0.0';
 		if (!empty($_SERVER["HTTP_CF_CONNECTING_IP"]))
@@ -272,8 +300,26 @@ class func
 		{
 			$visitor_ip = $_SERVER['REMOTE_ADDR'];
 		}
+		if ($tohex) return func::ip2hex($visitor_ip);
 		return $visitor_ip;
 	}
+	public static function ip2hex($ip) 
+	{
+		if(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) !== false)
+			return sprintf("%08x",ip2long($ip));
+		if(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false)
+			return false;
+		if(($ip_n = inet_pton($ip)) === false) return false;
+		$bits = 15;
+		$ipbin = '';
+		while ($bits >= 0)
+		{
+			$bin = sprintf("%02x",(ord($ip_n[$bits])));
+			$ipbin = $bin.$ipbin;
+			$bits--;
+		}
+		return $ipbin;
+	} 
 	public static function str_clean($str)
 	{
 		return (preg_match("#[^a-zA-Z0-9]#", $str) == true ? false : $str);

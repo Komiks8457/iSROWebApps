@@ -88,5 +88,19 @@ function ItemAmountChange(qty)
 	//수량 변경시 호출하는 함수에서 마지막에 이 함수를 호출하지만
 	//Reserved 가아닌 단품구매에서만 사용하는 함수이므로 함수를 2개로 분리하지않고
 	//빈 함수를 만들어서 스크립트 오류가 생기지 않도록 함
+	//fckoff joymax
+	var fnItemPrice = 0;
+<?php if ($_reserved = $fn->getreserved($_jid)) {
+	foreach($_reserved as $_index=>$_item) {
+		if ($_item['discount_rate'] > 0)
+		{
+			$_bcmul = bcmul($_item['silk_price'],$_item['discount_rate']);
+			$_price = bcsub($_item['silk_price'],bcdiv($_bcmul,'100'));
+		}
+		else $_price = $_item['silk_price']; 
+?>
+	fnItemPrice += parseInt($("#qty_<?=$_item['package_id']?>").val() * <?=$_price?>);
+<?php } } ?>
+	document.getElementById("itemAmount").innerHTML = fnItemPrice.toLocaleString(window.document.documentElement.lang).slice(0,-3)+' Silk';
 }
 </script>

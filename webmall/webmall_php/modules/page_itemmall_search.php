@@ -9,7 +9,7 @@ $_result_silk = $fn->getmallitems(1,12,0,0,0,1,$_xch);
 <?php foreach($_result_prem as $_item) { ?>
 							<li class="prem" style="padding-bottom: 5px;">
 								<div class="intro">
-									<a rel="#item-<?=$_item['package_id']?>" class="pic"><img src="/dist/images/itemlist_pac/<?=$_item['package_code']?>.jpg" alt="" /></a>
+									<a rel="#item-<?=$_item['package_id']?>" class="pic"><img src="<?=CDN?>dist/images/itemlist_pac/<?=$_item['package_code']?>.jpg" alt="" /></a>
 									<span class="name"><?=$_item['package_name']?></span>
 									<div id="item-<?=$_item['package_id']?>" class="spec">
 										<p class="spec-name"><strong><?=$_item['package_name']?></strong></p>
@@ -17,21 +17,22 @@ $_result_silk = $fn->getmallitems(1,12,0,0,0,1,$_xch);
 											<li class="first"><strong>Description</strong><br /><?=$_item[$_loc.'_explain']?></li>
 											<li><strong>How to use</strong><br /><?=$_item[$_loc.'_use_method']?></li>
 											<li><strong>Restriction</strong><br /><?=$_item[$_loc.'_use_restriction']?></li>
+											<li><strong>Quatity</strong><br />x<?=($_item['item_quantity']==0?"1":$_item['item_quantity'])?></li>
 										</ul>
 									</div>
 								</div>
 								<div class="price">
-									<span class="type"><img src="/dist/images/item_img/ingame_img/<?=$_ico[3]?>" alt="" /></span>
+									<span class="type"><img src="<?=CDN?>dist/images/item_img/ingame_img/<?=$_ico[3]?>" alt="" /></span>
                                     <strong class="val">
 										<strong class="current"><?=$_item['silk_price']?>&nbsp;Silk</strong>
 									</strong>
 								</div>
 								<div class="action">
 									<span class="setter">
-										<span class="btn-ga"><button type="button" onclick="location.href='/itemBuyGame<?=EXT?>?pid=<?=$_item['package_id']?>&buy=1'">Purchase</button></span>
+										<span class="btn-ga"><button type="button" onclick="location.href='<?=ROOTDIR?>itemBuyGame<?=EXT?>?pid=<?=$_item['package_id']?>&buy=1'">Purchase</button></span>
 									</span>
 									<span class="pre-sel" >
-										<button type="button" onclick="addReserved('<?=$_item['package_id']?>')"><img src="/dist/images/item_img/ingame_img/btn_presel.gif" alt="You can manage Pre-select'ed items that added on Reserved list." /></button>
+										<button type="button" onclick="addReserved('<?=$_item['package_id']?>')"><img src="<?=CDN?>dist/images/item_img/ingame_img/btn_presel.gif" alt="You can manage Pre-select'ed items that added on Reserved list." /></button>
 									</span>
 								</div>
 							</li>
@@ -43,7 +44,7 @@ $_result_silk = $fn->getmallitems(1,12,0,0,0,1,$_xch);
 <?php foreach($fn->getmallitems(1,12,0,0,0,1,$_xch) as $_item) { ?>
 							<li class="silk" style="padding-bottom: 5px;">
 								<div class="intro">
-									<a rel="#item-<?=$_item['package_id']?>" class="pic"><img src="/dist/images/itemlist_pac/<?=$_item['package_code']?>.jpg" alt="" /></a>
+									<a rel="#item-<?=$_item['package_id']?>" class="pic"><img src="<?=CDN?>dist/images/itemlist_pac/<?=$_item['package_code']?>.jpg" alt="" /></a>
 									<span class="name"><?=$_item['package_name']?></span>
 									<div id="item-<?=$_item['package_id']?>" class="spec">
 										<p class="spec-name"><strong><?=$_item['package_name']?></strong></p>
@@ -51,21 +52,22 @@ $_result_silk = $fn->getmallitems(1,12,0,0,0,1,$_xch);
 											<li class="first"><strong>Description</strong><br /><?=$_item[$_loc.'_explain']?></li>
 											<li><strong>How to use</strong><br /><?=$_item[$_loc.'_use_method']?></li>
 											<li><strong>Restriction</strong><br /><?=$_item[$_loc.'_use_restriction']?></li>
+											<li><strong>Quatity</strong><br />x<?=($_item['item_quantity']==0?"1":$_item['item_quantity'])?></li>
 										</ul>
 									</div>
 								</div>
 								<div class="price">
-									<span class="type"><img src="/dist/images/item_img/ingame_img/<?=$_ico[0]?>" alt="" /></span>
+									<span class="type"><img src="<?=CDN?>dist/images/item_img/ingame_img/<?=$_ico[0]?>" alt="" /></span>
                                     <strong class="val">
 										<strong class="current"><?=$_item['silk_price']?>&nbsp;Silk</strong>
 									</strong>
 								</div>
 								<div class="action">
 									<span class="setter">
-										<span class="btn-ga"><button type="button" onclick="location.href='/itemBuyGame<?=EXT?>?pid=<?=$_item['package_id']?>&buy=1'">Purchase</button></span>
+										<span class="btn-ga"><button type="button" onclick="location.href='<?=ROOTDIR?>itemBuyGame<?=EXT?>?pid=<?=$_item['package_id']?>&buy=1'">Purchase</button></span>
 									</span>
 									<span class="pre-sel" >
-										<button type="button" onclick="addReserved('<?=$_item['package_id']?>')"><img src="/dist/images/item_img/ingame_img/btn_presel.gif" alt="You can manage Pre-select'ed items that added on Reserved list." /></button>
+										<button type="button" onclick="addReserved('<?=$_item['package_id']?>')"><img src="<?=CDN?>dist/images/item_img/ingame_img/btn_presel.gif" alt="You can manage Pre-select'ed items that added on Reserved list." /></button>
 									</span>
 								</div>
 							</li>

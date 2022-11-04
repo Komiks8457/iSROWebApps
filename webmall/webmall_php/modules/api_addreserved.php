@@ -6,8 +6,17 @@ if(!$fn->matchreferer($_SERVER['HTTP_REFERER']))
 }
 if ($_token = $fn->readtoken($_COOKIE['webmallkey'], SITE_PASS))
 {
-	if ($_token == -1) die("-4");
-	if ($_token == -2) die("-5");
+	if ($_token == -1)
+	{
+		die("-4");
+		return;
+	}
+
+	if ($_token == -2)
+	{
+		die("-5");
+		return;
+	}
 	
 	if ($_genkey = $fn->certifykey($_token['jid']))
 	{

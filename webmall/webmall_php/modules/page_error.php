@@ -83,7 +83,7 @@ $fn->writelog($errormsg, "errors.log");
 <meta name="Keywords" content="silkroad, silkroadonline, joymax, onlinesilkroad, silkroad-online" />
 <META http-equiv='Page-Enter' content='blendTrans(Duration=0.2)'>
 <META http-equiv='Page-Exit' content='blendTrans(Duration=0.2)'>
-<link rel="stylesheet" type="text/css" media="all" href="dist/css/itemmall_game.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<?=ROOTDIR?>dist/css/itemmall_game.css" />
 <title>Silkroad Online</title>
 </head>
 <body class="mig " ondragstart="return false" onselectstart="return false">

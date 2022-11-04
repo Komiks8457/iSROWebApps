@@ -1,8 +1,8 @@
 //아이템 검색 체크
 function checkSearchForm()
 {
-	country = getCookie('mlanguage1')
-	switch (country)
+	//country = getCookie('mlanguage1')
+	switch (getCookie('mlanguage1'))
 	{
 		case 'us':
 			var msg = 'Please enter the words for search.'
@@ -48,8 +48,10 @@ function isField(keyword) {
 //장바구니 추가 함수
 function addReserved(package_id)
 {
-	country = getCookie('mlanguage1')
-	switch (country)
+	dir = getCookie('dir');
+	ext = getCookie('ext');
+	//country = getCookie('mlanguage1')
+	switch (getCookie('mlanguage1'))
 	{
 		//msg = 'Reserved에 추가 하시겠습니까?'
 		//msg1 = "이미 Reserved에 추가 되어있습니다"
@@ -92,37 +94,33 @@ function addReserved(package_id)
 	}
 	$.ajax({
 		type:"POST",
-		url:"/itemBuyGame_addReserved.asp",
+		url:dir+"itemBuyGame_addReserved"+ext,
 		data:"cart="+package_id,
 		success:function(res)
 		{
 			if (res == '0')
 			{
-				if (confirm(msg))
-				{
-					location.href = 'itemBuyGame_Reserved.asp?st3=3';
-					return;
-				}
+				confirmAction(msg,dir+'itemBuyGame_Reserved'+ext+'?st3=3')
 				return;
 			}
 			else if (res == '-1')
 			{
-				alert(msg1);
+				alertmodal(msg1);
 				return;
 			}
 			else if (res == '-2')
 			{				
-				alert(msg2);
+				alertmodal(msg2);
 				return;
 			}
 			else if (res == '-3')
 			{				
-				alert(msg3);
+				alertmodal(msg3);
 				return;
 			}
 			else
 			{
-				alert('Error');
+				alertmodal('Error');
 				return;
 			}
 		}
@@ -168,35 +166,54 @@ function getCookie(name){
 	document.onclick = dOClick;
 });
 
-function getUserSilk(type)
-{	
-	$.ajax({
-		type:"POST",
-		url:"/itemBuyGame_getUserSilk.asp",
-		data:"type="+type,
-		success:function(msg){
-			switch (type){
-				case 0:
-					$("#silk_own").text('"'+msg+"'")
-					break;
-				case 3:
-					$("#silk_prem").text('"'+msg+"'")
-					break;
-				default: null;
-			}
-		}
-	});
-}
-
-function alertmodal(texts,title){
+function alertmodal(texts,title)
+{
 	if (title === undefined) {
 		title = 'Confirmation Window';
 	}
+	if (texts.length > 145) {
+		var contents = '<br><br>'+texts;
+	} else {
+		var contents = '<br><br><br>'+texts;
+	}
+
 	$('#alert_title').html(title).val();
-	$('#alert_content').html(texts).val();
+	$('#alert_content').html(contents).val();
 	$('#alert_modal').show();
+
+	$('#alert_close').click(function(){
+		$('#alert_modal').hide();
+		return;
+	});
 }
 
-$('.modal #alert_close').click(function(){
-	$('#alert_modal').hide();
-});
+function confirmAction(texts,url,title)
+{
+	if (title === undefined) {
+		title = 'Confirmation Window';
+	}
+	if (texts.length > 145) {
+		var contents = '<br><br>'+texts;
+	} else {
+		var contents = '<br><br><br>'+texts;
+	}
+
+	$('#alert_title').html(title).val();
+	$('#alert_content').html(contents).val();
+	$('#alert_modal').show();
+	$('#alert_ok').show();
+
+	$('#alert_ok').click(function(){
+		$('#alert_modal').hide();
+		$('#alert_ok').hide();
+		if (url != undefined)
+		location.href = url; //location.href = 'itemBuyGame_Reserved.asp?st3=3'
+		return;
+	});
+	
+	$('#alert_close').click(function(){
+		$('#alert_modal').hide();
+		$('#alert_ok').hide();
+		return;
+	});
+}
