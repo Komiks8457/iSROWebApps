@@ -430,7 +430,7 @@ div.sexy div.list-wrapper-up, div.sexy-year div.list-wrapper-up, div.sexy-month 
 div.sexy ul, div.sexy-year ul, div.sexy-month ul {list-style-type: none; padding: 0; margin: 0; height: 200px;}
 div.sexy li, div.sexy-year li, div.sexy-month li {padding: 0; padding-left: 5px; font:normal 11px Tahoma,Verdana,Arial,Apple-Gothic,sans-serif; cursor: pointer; margin: 0;}
 div.sexy li.active, div.sexy-year li.active, div.sexy-month li.active {background-color:#33302A;}
-/*for IE*/
+/*for IE*/ 
 div.sexy a, div.sexy a:visited, div.sexy a:active,
 div.sexy-year a, div.sexy-year a:visited, div.sexy-year a:active,
 div.sexy-month a, div.sexy-month a:visited, div.sexy-month a:active {display: block; width: 100%; width: 67px; text-decoration: none; font:normal 11px Tahoma,Verdana,Arial,Apple-Gothic,sans-serif; color: #B4A680; cursor: pointer; margin: 0; height: 20px;}
