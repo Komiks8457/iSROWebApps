@@ -96,7 +96,7 @@ if (isset($_POST['confirm']))
 		{
 			for($i = 1; $i <= $_itemqty[$_index]; $i++)
 			{
-				$_buythis = $fn->newitempurchase($_jid, $_st0, $_price, $_pid, $pt_invoice_id, $cp_invoice_id, SERVERNAME);
+				$_buythis = $fn->newitempurchase($_jid, $_item['silk_type'], $_price, $_pid, $pt_invoice_id, $cp_invoice_id, SERVERNAME);
 				if ($_buythis < 0) break;
 				//we need to run again here
 				$cp_invoice_id = rand(1111111111111111,9999999999999999);
@@ -105,7 +105,7 @@ if (isset($_POST['confirm']))
 		}
 		else
 		{
-			$_buythis = $fn->newitempurchase($_jid, $_st0, $_price, $_pid, $pt_invoice_id, $cp_invoice_id, SERVERNAME);
+			$_buythis = $fn->newitempurchase($_jid, $_item['silk_type'], $_price, $_pid, $pt_invoice_id, $cp_invoice_id, SERVERNAME);
 			if ($_buythis < 0) break;
 		}
 	}

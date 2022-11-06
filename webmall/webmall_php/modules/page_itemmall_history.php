@@ -4,10 +4,8 @@ $_entries_count = null;
 $_page  = $_REQUEST['p'] ?? 1;
 $_month = $_REQUEST['nMonth'] ?? 0;
 $_year  = $_REQUEST['nYear'] ?? date("2022");
-
 $_gethistoryspent = $fn->gethistoryspent($_jid);
 $_gethistory = $fn->gethistory($_jid, $_year, $_month, $_entries, $_page);
-
 if ($_gethistory[0] > $_entries) $_entries_count = round($_gethistory[0] / $_entries);
 ?>
 						<h2><div><?=MESSAGE[$_loc][5]?></div></h2>

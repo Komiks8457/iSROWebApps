@@ -23,9 +23,5 @@ if ($req = $_REQUEST['req'] ?? null)
 		header("Location: ".PAGE_ERROR."?code=C116");
 	}
 } 
-else
-{
-	$fn->writelog("[Unkown Parameter]\t({$fn->getipvisitor()})\t{$_SERVER['QUERY_STRING']}",'samtingwong.log');
-	echo 15 - number_format(0.10, 2);
-}
+else header("Location: ".PAGE_ERROR."?code=C777");
 ?>

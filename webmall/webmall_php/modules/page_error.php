@@ -63,8 +63,11 @@ if (isset($_REQUEST['code']))
 		case "c120": // ***CRITICAL*** $logintime returned -1
 			$errormsg = "An error [".strtoupper($msg)."] occured.<br>Please try reopening this page, if error still occur contact an administrator ASAP.";
 			break;
-		case "c121": // opening webmall url from another browser
+		case "c121": // session key already exists
 			$errormsg = "An error [".strtoupper($msg)."] occured.<br>Please try reopening this page, if error still occur contact an administrator ASAP.";
+			break;
+		case "c777": // 
+			$errormsg = "<b>WEBMALL PHP BY Komiks👀#8457</b><br><a href=\"https://github.com/Komiks8457/iSROWebApps\">https://github.com/Komiks8457/iSROWebApps</a>";
 			break;
 		default: // nothng is match from the above cases
 			$errormsg = "An error [".strtoupper($msg)."] occured.<br>Please contact administrator immediately.";

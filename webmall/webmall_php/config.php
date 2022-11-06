@@ -6,10 +6,9 @@ you need to enable urlrewrite configure .htaccess
 RewriteEngine On
 RewriteBase /
 RewriteRule ^(.*)\.asp$ /index.php?req=$1 [QSA,PT,L]
-
 */
 $_config['mssql']=[
-	// MSSQL HOST or PORT
+	// MSSQL HOST IP OR NAME
 	"ip"=>".//",
 	// MSSQL userid and password
 	// For Trusted_Connection leave this null and add IUSR user in MSSQL (*for iis)
@@ -23,14 +22,14 @@ $_config['mssql']=[
 $_config['site_info']=[
 	// Set true if you are using HTTPS
 	"ssl"=>false,
-	// Your main domain where your webmall sits
+	// Your main domain where your webmall is deployed
 	"domain"=>"webmall.cfxdb.com",
 	// Site basic info
 	"title"=>"Silkroad Online",
 	"description"=>"The most updated Silkroad server with the newest files available is ready to bring this game to the next level. The future is finally here!",
 	"keyword"=>"silkroad, silkroadonline, joymax, onlinesilkroad, silkroad-online",
 	// This key is used to encrypt/decrypt the webmalltoken cookie.
-	"secret"=>"sanay.di.nalang.kit.ana.kilala",
+	"secret"=>"megaymax",
 	// Server name will show in Reserved, Buying Item and History
 	"servername"=>"TEST",
 	// The url used to open when Recharge Silk is click in Buy Item page
@@ -41,6 +40,7 @@ $_config['site_info']=[
 	// SALTKEY, if you change this you need to change it also in GlobalManager.exe
 	"vkey"=>"eset5ag.nsy-g6ky5.mp",
 	// Since this project has repo in github why not use github as img cdn, this is temporary :D
+	// or put "" or null if you want to load image locally but you need to manually edit the css file.
 	"cdn"=>"https://raw.githubusercontent.com/Komiks8457/iSROWebApps/main/webmall/webmall_php/",
 	// The directory where you put the webmall, leave / if its in root dir
 	// if you intend to use sub-directories you should start it with / and ends with /
@@ -83,7 +83,7 @@ $_config['message']=[
 		"Item Mall",
 		"Premium Mall",
 		"Silk Mall",
-		"Reserverd",[
+		"Reserved",[
 			"Item Name",
 			"Server",
 			"Qty",
@@ -147,7 +147,7 @@ $_config['message']=[
 		"Item Mall",
 		"Premium Mall",
 		"Silk Mall",
-		"Reserverd",[
+		"Reserved",[
 			"Item Name",
 			"Server",
 			"Qty",
@@ -211,7 +211,7 @@ $_config['message']=[
 		"Item Mall",
 		"Premium Mall",
 		"Silk Mall",
-		"Reserverd",[
+		"Reserved",[
 			"Item Name",
 			"Server",
 			"Qty",
@@ -275,7 +275,7 @@ $_config['message']=[
 		"Item Mall",
 		"Premium Mall",
 		"Silk Mall",
-		"Reserverd",[
+		"Reserved",[
 			"Item Name",
 			"Server",
 			"Qty",
@@ -339,7 +339,7 @@ $_config['message']=[
 		"Item Mall",
 		"Premium Mall",
 		"Silk Mall",
-		"Reserverd",[
+		"Reserved",[
 			"Item Name",
 			"Server",
 			"Qty",
