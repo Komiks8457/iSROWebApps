@@ -9,11 +9,11 @@ RewriteRule ^(.*)\.asp$ /index.php?req=$1 [QSA,PT,L]
 */
 $_config['mssql']=[
 	// MSSQL HOST IP OR NAME
-	"ip"=>".//",
+	"ip"=>".//", //"ip"=>"localhost",
 	// MSSQL userid and password
 	// For Trusted_Connection leave this null and add IUSR user in MSSQL (*for iis)
-	"id"=>null,
-	"pw"=>null,
+	"id"=>null, //"id"=>"sa",
+	"pw"=>null, //"pw"=>"123456",
 	// Account database for silkroad
 	"db"=>"SILKROAD_R_ACCOUNT",
 	// The GB_JoymaxPortal database used by joymax
