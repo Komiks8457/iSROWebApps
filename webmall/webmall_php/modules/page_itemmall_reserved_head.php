@@ -103,4 +103,9 @@ function ItemAmountChange(qty)
 <?php } } ?>
 	document.getElementById("itemAmount").innerHTML = fnItemPrice.toLocaleString(window.document.documentElement.lang).slice(0,-3)+' Silk';
 }
+$('#recipient').focus(function() {
+	if ($(this).val()==$(this).attr("title")) { $(this).val(""); }
+}).blur(function() {
+	if ($(this).val()=="") { $(this).val($(this).attr("title")); }
+});
 </script>

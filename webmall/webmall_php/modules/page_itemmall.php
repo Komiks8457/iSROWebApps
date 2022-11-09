@@ -146,10 +146,10 @@ else
 	<div id="header">
 		<h1><?=MESSAGE[$_loc][0]?></h1>
 		<ul id="gnb">
-			<li class="prem<?=($_st3 == 1 ? " current" : null);?>"><a href="<?=ROOTDIR?>itemBuyGame<?=EXT?>?st0=3&st3=1"><?=MESSAGE[$_loc][1]?></a></li>
-			<li class="silk<?=($_st3 == 2 ? " current" : null);?>"><a href="<?=ROOTDIR?>itemBuyGame<?=EXT?>?st0=0&st3=2"><?=MESSAGE[$_loc][2]?></a></li>
-			<li class="res <?=($_st3 == 3 ? " current" : null);?>"><a href="<?=ROOTDIR?>itemBuyGame<?=EXT?>?st3=3"><?=MESSAGE[$_loc][3]?></a></li>
-			<li class="hist<?=($_st3 == 4 ? " current" : null);?>"><a href="<?=ROOTDIR?>itemBuyGame<?=EXT?>?st3=4"><?=MESSAGE[$_loc][5]?></a></li>
+			<li class="prem<?=($_st3==1?" current":null);?>"><a href="<?=$_st3==1?"#":ROOTDIR."itemBuyGame".EXT."?st3=1&st0=3"?>"><?=MESSAGE[$_loc][1]?></a></li>
+			<li class="silk<?=($_st3==2?" current":null);?>"><a href="<?=$_st3==2?"#":ROOTDIR."itemBuyGame".EXT."?st3=2&st0=0"?>"><?=MESSAGE[$_loc][2]?></a></li>
+			<li class="res <?=($_st3==3?" current":null);?>"><a href="<?=$_st3==3?"#":ROOTDIR."itemBuyGame".EXT."?st3=3"?>"><?=MESSAGE[$_loc][3]?></a></li>
+			<li class="hist<?=($_st3==4?" current":null);?>"><a href="<?=$_st3==4?"#":ROOTDIR."itemBuyGame".EXT."?st3=4"?>"><?=MESSAGE[$_loc][5]?></a></li>
 		</ul>
 	</div>
 	<div id="developer">
@@ -157,16 +157,16 @@ else
 			<!-- Silk owned -->
 			<div class="pod silkowned">
 				<div class="run">
-					<h2>Silk Owned<span style="float:right;color:yellow;margin-top:-13px;"><?=($_vip[0] > 0 ? "<img src=\"".CDN."/dist/images/item_img/ingame_img/viplevel_".$_vip[1].".jpg\" style=\"width:16px;height:16px;margin-top:-2px;\" >" : null)?>&nbsp;<?=strtoupper(VIPTIER[$_vip[1]])?></span></h2>					
+					<h2>Silk Owned<span style="float:right;color:yellow;margin-top:-13px;"><?=($_vip[0] > 0 ? "<img src=\"".CDN."dist/images/item_img/ingame_img/viplevel_".$_vip[1].".jpg\" style=\"width:16px;height:16px;margin-top:-2px;\" >" : null)?>&nbsp;<?=strtoupper(VIPTIER[$_vip[1]])?></span></h2>					
 					<dl class="status">
 					<dt>Premium Silk :</dt>
 						<dd><img src="<?=CDN?>dist/images/item_img/ingame_img/silk_premium.gif" alt="" /> <span id="silk_prem"><?=number_format($_cursilk[5])?></span> Silk</dd>
 						<dt> -Month Usage : </dt>
-						<dd><img src="<?=CDN?>dist/images/item_img/ingame_img/silk_premium.gif" alt="" /> <?=number_format($_cursilk[7])?> Silk</dd>
+						<dd><img src="<?=CDN?>dist/images/item_img/ingame_img/silk_premium.gif" alt="" /> <span id="latestmonth"><?=number_format($_cursilk[7])?></span> Silk</dd>
 						<dt> -3Month Usage : </dt>
-						<dd><img src="<?=CDN?>dist/images/item_img/ingame_img/silk_premium.gif" alt="" /> <?=number_format($_cursilk[8])?> Silk</dd>
+						<dd><img src="<?=CDN?>dist/images/item_img/ingame_img/silk_premium.gif" alt="" /> <span id="past3months"><?=number_format($_cursilk[8])?></span> Silk</dd>
 						<dt>Silk :</dt>
-						<dd><img src="<?=CDN?>dist/images/item_img/ingame_img/silk.gif" alt="" /> <span id="silk_own"><?=number_format($_cursilk[6])?></span> Silk</dd>
+						<dd><img src="<?=CDN?>dist/images/item_img/ingame_img/silk.gif" alt="" /> <span id="silk"><?=number_format($_cursilk[6])?></span> Silk</dd>
 					</dl>
 					<p class="help" style="padding: 3px 12px 3px 12px"><a href="<?=ROOTDIR?>itemBuyGame<?=EXT?>?st3=5"><?=MESSAGE[$_loc][12]?></a></p>
 				</div>
@@ -277,9 +277,7 @@ switch ($_st3)
 	<div class="alert_window">
 		<div class="alert_title" id="alert_title"></div>
 		<div class="alert_content">
-			<div class="contents" id="alert_content">
-				TEXT HERE
-			</div>
+			<div class="contents" id="alert_content"></div>
 		</div>
 		<div class="alert_footer">
 			<button id="alert_ok" class="alert_button" style="display:none">OK</button>
@@ -297,5 +295,13 @@ switch ($_st3)
 <script type="text/javascript" src="<?=ROOTDIR?>dist/js/_common.js"></script>
 <?php if ($_st3 == 3) { include('page_itemmall_reserved_head.php'); }?>
 <?php if ($_st3 == 6) { include('page_itemmall_buy_head.php'); }?>
+<script type="text/javascript">
+$(window).load(function(){
+	$('#silk_prem').html((<?=$fn->getjcash($_portal_jid)[0]?>).toLocaleString(window.document.documentElement.lang).slice(0,-3));
+	$('#silk').html((<?=$fn->getjcash($_portal_jid)[1]?>).toLocaleString(window.document.documentElement.lang).slice(0,-3));
+	$('#latestmonth').html((<?=$fn->getjcash($_portal_jid)[2]?>).toLocaleString(window.document.documentElement.lang).slice(0,-3));
+	$('#past3months').html((<?=$fn->getjcash($_portal_jid)[3]?>).toLocaleString(window.document.documentElement.lang).slice(0,-3));
+});
+</script>
 </body>
 </html>

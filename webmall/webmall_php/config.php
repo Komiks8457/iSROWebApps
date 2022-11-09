@@ -29,7 +29,7 @@ $_config['site_info']=[
 	"description"=>"The most updated Silkroad server with the newest files available is ready to bring this game to the next level. The future is finally here!",
 	"keyword"=>"silkroad, silkroadonline, joymax, onlinesilkroad, silkroad-online",
 	// This key is used to encrypt/decrypt the webmalltoken cookie.
-	"secret"=>"megaymax",
+	"secret"=>"ISRO-R Development",
 	// Server name will show in Reserved, Buying Item and History
 	"servername"=>"TEST",
 	// The url used to open when Recharge Silk is click in Buy Item page
@@ -45,7 +45,9 @@ $_config['site_info']=[
 	// The directory where you put the webmall, leave / if its in root dir
 	// if you intend to use sub-directories you should start it with / and ends with /
 	// and also edit web.config url="/index.php?req={R:1}" to your subdirectory url="/subdir/index.php?req={R:1}"
-	"rootdir"=>"/"
+	"rootdir"=>"/",
+	// Enable or Disable send as gift feature
+	"gifting"=>false
 ];
 // VIP Settings
 $_config['vipinfo']=[
@@ -135,7 +137,9 @@ $_config['message']=[
 			"History",
 			"<font color=\"#fff200\">%s</font> is limited to %d purchase per month.",
 			"You cannot buy this item more than it's monthly limit. Please try again.",
-			"Monthly limit purchase for this item has been reached."
+			"Monthly limit purchase for this item has been reached.",
+			"We cannot find the character [<font color=\"#fff200\">%s</font>] in our system.",
+			"Send as gift"
 		],
 		"Popular Items",
 		"Search",
@@ -199,7 +203,9 @@ $_config['message']=[
 			"History",
 			"<font color=\"#fff200\">%s</font> is limited to %d purchase per month.",
 			"You cannot buy this item more than it's monthly limit. Please try again.",
-			"Monthly limit purchase for this item has been reached."
+			"Monthly limit purchase for this item has been reached.",
+			"We cannot find the character [<font color=\"#fff200\">%s</font>] in our system.",
+			"Send as gift"
 		],
 		"Popular Items",
 		"Search",
@@ -263,7 +269,9 @@ $_config['message']=[
 			"History",
 			"<font color=\"#fff200\">%s</font> is limited to %d purchase per month.",
 			"You cannot buy this item more than it's monthly limit. Please try again.",
-			"Monthly limit purchase for this item has been reached."
+			"Monthly limit purchase for this item has been reached.",
+			"We cannot find the character [<font color=\"#fff200\">%s</font>] in our system.",
+			"Send as gift"
 		],
 		"Popular Items",
 		"Search",
@@ -327,7 +335,9 @@ $_config['message']=[
 			"History",
 			"<font color=\"#fff200\">%s</font> is limited to %d purchase per month.",
 			"You cannot buy this item more than it's monthly limit. Please try again.",
-			"Monthly limit purchase for this item has been reached."
+			"Monthly limit purchase for this item has been reached.",
+			"We cannot find the character [<font color=\"#fff200\">%s</font>] in our system.",
+			"Send as gift"
 		],
 		"Popular Items",
 		"Search",
@@ -391,7 +401,9 @@ $_config['message']=[
 			"History",
 			"<font color=\"#fff200\">%s</font> is limited to %d purchase per month.",
 			"You cannot buy this item more than it's monthly limit. Please try again.",
-			"Monthly limit purchase for this item has been reached."
+			"Monthly limit purchase for this item has been reached.",
+			"We cannot find the character [<font color=\"#fff200\">%s</font>] in our system.",
+			"Send as gift"
 		],
 		"Popular Items",
 		"Search",

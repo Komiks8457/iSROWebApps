@@ -1,8 +1,32 @@
 USE [SILKROAD_R_ACCOUNT]
 GO
 
+/****** Object:  Table [dbo].[WEB_ITEM_GIVE_LIST_GIFT]    Script Date: 11/9/2022 4:41:46 PM ******/
+DROP TABLE IF EXISTS [dbo].[WEB_ITEM_GIVE_LIST_GIFT]
+GO
+
+/****** Object:  Table [dbo].[WEB_ITEM_GIVE_LIST_GIFT]    Script Date: 11/9/2022 4:41:46 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[WEB_ITEM_GIVE_LIST_GIFT](
+	[idx] [bigint] IDENTITY(1,1) NOT NULL,
+	[ref_idx] [bigint] NOT NULL,
+	[to_jid] [int] NOT NULL,
+	[from_jid] [int] NOT NULL,
+ CONSTRAINT [PK_SK_ItemGiveListGift] PRIMARY KEY CLUSTERED 
+(
+	[idx] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
 /****** Object:  StoredProcedure [dbo].[WEB_ITEM_BUY_GAME_LIST_X]    Script Date: 10/19/2022 3:52:46 AM ******/
-DROP PROCEDURE [dbo].[WEB_ITEM_BUY_GAME_LIST_X]
+DROP PROCEDURE IF EXISTS [dbo].[WEB_ITEM_BUY_GAME_LIST_X]
 GO
 
 /****** Object:  StoredProcedure [dbo].[WEB_ITEM_BUY_GAME_LIST_X]    Script Date: 10/19/2022 3:52:46 AM ******/
@@ -53,7 +77,7 @@ END
 GO
 
 /****** Object:  StoredProcedure [dbo].[WEB_ITEM_BUY_X]    Script Date: 10/19/2022 3:57:57 AM ******/
-DROP PROCEDURE [dbo].[WEB_ITEM_BUY_X]
+DROP PROCEDURE IF EXISTS [dbo].[WEB_ITEM_BUY_X]
 GO
 
 /****** Object:  StoredProcedure [dbo].[WEB_ITEM_BUY_X]    Script Date: 10/19/2022 3:57:57 AM ******/
@@ -64,16 +88,10 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 /******************************************************************************  
-2022-10-19 ADDED PAY WITH GIFT SILKS FIRST
-2022-10-20 SILK ITEMS CAN BE PAYED WITH PREMIUM SILK
-2022-10-22 SILK PURCHASE METHOD IMPROVED
-		   (silk_gift->silk_own->silk_gift_premium->silk_own_premium)
-2022-10-26 FIX PURCHASE FLOWS
-2022-10-29 FIX PURCHASE FLOWS 2 - ADDED @ispaid indicator
-2022-11-01 FIX PURCHASE PREMIUM SILK ERROR
-2022-11-04 Removed the silk deduction method
+2022-11-05 GB_JoymaxPortal Implementation
+2022-11-09 GIFTING APPLIED
 ******************************************************************************/ 
-CREATE PROC [dbo].[WEB_ITEM_BUY_X]
+ALTER PROC [dbo].[WEB_ITEM_BUY_X]
 	@i_cp_jid				INT,
 	@i_silk_type			TINYINT,
 	@i_silk_offset			INT,
@@ -84,7 +102,8 @@ CREATE PROC [dbo].[WEB_ITEM_BUY_X]
 	@i_message				VARCHAR(128),
 	@i_reg_ip				VARCHAR(50),
 	@i_invoice_id			VARCHAR(32),
-	@i_cp_invoice_id		VARCHAR(32)
+	@i_cp_invoice_id		VARCHAR(32),
+	@i_gift_to_jid			INT
 AS
 BEGIN
 	SET NOCOUNT ON
@@ -110,6 +129,7 @@ BEGIN
 	SET @i_reg_ip		 = ISNULL(@i_reg_ip,'')
 	SET @i_invoice_id	 = ISNULL(@i_invoice_id,'')
 	SET @i_cp_invoice_id = ISNULL(@i_cp_invoice_id,0)
+	SET @i_gift_to_jid   = ISNULL(@i_gift_to_jid,0)
 
 	IF	( @i_cp_jid = 0 OR @i_silk_offset = 0 OR @i_shard_id = 0 OR @i_package_id = 0 OR @i_section = 0 OR len(@i_shard_name) = 0 OR len(@i_reg_ip) = 0 ) 
 	BEGIN
@@ -178,6 +198,15 @@ BEGIN TRANSACTION
 		END
 	END
 
+	DECLARE @tojid INT
+	IF (@i_gift_to_jid > 0)
+	BEGIN
+		SET @tojid = @i_gift_to_jid
+	END ELSE
+	BEGIN
+		SET @tojid = @i_cp_jid
+	END
+
 	DECLARE @v_identity BIGINT
 
 	IF @v_package_code != 'PACKAGE_ITEM_MALL_INSTANTACCESS' AND @v_package_code != 'PACKAGE_ITEM_PRE_MALL_INSTANTACCESS'
@@ -191,7 +220,7 @@ BEGIN TRANSACTION
 		)
 		VALUES
 		(
-			@i_cp_jid, @i_shard_id, null, null, 
+			@tojid, @i_shard_id, null, null, 
 			@v_package_code, @v_package_name, @v_name_code, @i_section, 
 			@v_offset_silk_own, @v_offset_silk_own_premium, 0, 0, 0, 
 			@i_message, @i_reg_ip, getdate(), null, @i_invoice_id,@i_cp_invoice_id
@@ -213,7 +242,7 @@ BEGIN TRANSACTION
 		)
 		VALUES
 		(
-			@i_cp_jid, 0, null, null, 
+			@tojid, 0, null, null, 
 			@v_package_code, @v_package_name, @v_name_code, @i_section, 
 			@v_offset_silk_own, @v_offset_silk_own_premium, 0, 0, 0, 
 			@i_message, @i_reg_ip, getdate(), getdate(), @i_invoice_id,@i_cp_invoice_id
@@ -225,7 +254,7 @@ BEGIN TRANSACTION
 			GOTO ErrorHandler
 		END
 
-		INSERT INTO _GameInstantTicket(JID, RegistrationDate) VALUES(@i_cp_jid, GETDATE())
+		INSERT INTO _GameInstantTicket(JID, RegistrationDate) VALUES(@tojid, GETDATE())
 		
 		IF ( @@error != 0 OR @@rowcount = 0 )
 		BEGIN
@@ -239,7 +268,7 @@ BEGIN TRANSACTION
 
 	IF ( @v_package_code != 'PACKAGE_ITEM_MALL_INSTANTACCESS' and @v_package_code != 'PACKAGE_ITEM_PRE_MALL_INSTANTACCESS' )
 	BEGIN
-		INSERT INTO dbo.WEB_ITEM_GIVE_NOTICE ( ref_idx, cp_jid ) VALUES ( @v_identity, @i_cp_jid  )
+		INSERT INTO dbo.WEB_ITEM_GIVE_NOTICE ( ref_idx, cp_jid ) VALUES ( @v_identity, @tojid  )
 		IF ( @@error != 0 OR @@rowcount = 0 ) BEGIN
 			SELECT -33
 			SET @o_result = -33
@@ -255,8 +284,19 @@ BEGIN TRANSACTION
 			SELECT -34 AS 'RetVal'
 			SET @o_result = -34
 			GOTO ErrorHandler
-		END	
+		END
+
+		IF ( @i_gift_to_jid > 0 )
+		BEGIN
+			INSERT INTO dbo.WEB_ITEM_GIVE_LIST_GIFT (ref_idx, to_jid, from_jid) VALUES (@v_identity, @i_gift_to_jid, @i_cp_jid)
+			IF ( @@error != 0 OR @@rowcount = 0 ) BEGIN
+				SELECT -35
+				SET @o_result = -35
+				GOTO ErrorHandler
+			END	
+		END
 	END
+
 COMMIT TRANSACTION		 
 
 SELECT 1 AS 'RetVal'
@@ -286,7 +326,7 @@ RETURN @o_result
 GO
 
 /****** Object:  StoredProcedure [dbo].[WEB_ITEM_HISTORY_X]    Script Date: 10/19/2022 3:56:14 AM ******/
-DROP PROCEDURE [dbo].[WEB_ITEM_HISTORY_X]
+DROP PROCEDURE IF EXISTS [dbo].[WEB_ITEM_HISTORY_X]
 GO
 
 /****** Object:  StoredProcedure [dbo].[WEB_ITEM_HISTORY_X]    Script Date: 10/19/2022 3:56:14 AM ******/
@@ -298,46 +338,70 @@ GO
 
 /*********************************************************************
 2022-10-19 PAGINATION APPLIED
+2022-11-09 GIFTING APPLIED
 *********************************************************************/
-CREATE PROC [dbo].[WEB_ITEM_HISTORY_X]
+ALTER PROC [dbo].[WEB_ITEM_HISTORY_X]
 	@i_page_num		int,
 	@i_page_size	int,
 	@i_year			int,
 	@i_month		int,
-	@i_cp_jid		int
+	@i_cp_jid		int,
+	@i_method		varchar(24)='get'
 AS
 BEGIN
 	SET NOCOUNT ON
 
 	DECLARE @PageNumber AS INT
 	DECLARE @RowsOfPage AS INT
+	DECLARE @TempTable TABLE (
+		[character_id] [int] NULL,
+		[item_name_package] [varchar](64) NULL,
+		[silk_own] [int] NOT NULL,
+		[silk_own_premium] [int] NOT NULL,
+		[reg_ip] [varchar](20) NOT NULL,
+		[reg_date] [datetime] NOT NULL,
+		[recieve_date] [datetime] NULL,
+		[invoice_id] [varchar](32) NULL,
+		[cp_invoice_id] [varchar](32) NULL,
+		[message] varchar(128) NOT NULL
+	)
+
 	SET @PageNumber=@i_page_num	
 	SET @RowsOfPage=@i_page_size
 
-	IF (@i_year = 0 AND @i_month = 0)
+	INSERT INTO @TempTable ([character_id], [item_name_package] ,[silk_own] ,[silk_own_premium] ,[reg_ip] ,[reg_date] ,[recieve_date] ,[invoice_id] ,[cp_invoice_id] ,[message])
+	SELECT B.[character_id], B.[item_name_package] ,B.[silk_own] ,B.[silk_own_premium] ,B.[reg_ip] ,B.[reg_date] ,B.[recieve_date] ,B.[invoice_id] ,B.[cp_invoice_id], replace(B.[message], '$game_gift', '$game')
+	FROM WEB_ITEM_GIVE_LIST_GIFT AS A WITH (NOLOCK) INNER JOIN WEB_ITEM_GIVE_LIST AS B WITH (NOLOCK) ON B.idx = A.ref_idx WHERE A.from_jid = @i_cp_jid UNION ALL
+	SELECT [character_id], [item_name_package] ,[silk_own] ,[silk_own_premium] ,[reg_ip] ,[reg_date] ,[recieve_date] ,[invoice_id] ,[cp_invoice_id] ,[message]
+	FROM WEB_ITEM_GIVE_LIST WITH(NOLOCK) WHERE cp_jid = @i_cp_jid 
+
+	IF (@i_method = 'get')
 	BEGIN
-		SELECT [character_id], [item_name_package] ,[silk_own] ,[silk_own_premium] ,[silk_gift] ,[silk_gift_premium] ,[silk_point] ,[reg_date]
-		FROM WEB_ITEM_GIVE_LIST WITH(NOLOCK)
-		WHERE cp_jid = @i_cp_jid
-		ORDER BY reg_date DESC
-		OFFSET (@PageNumber-1)*@RowsOfPage ROWS
-		FETCH NEXT @RowsOfPage ROWS ONLY
+		IF (@i_page_num = 0 AND @i_page_size = 0 AND @i_year = 0 AND @i_month = 0)
+		BEGIN
+			SELECT * FROM @TempTable ORDER BY [reg_date] DESC
+		END ELSE
+		IF (@i_page_num > 0 AND @i_page_size > 0 AND @i_year > 0 AND @i_month = 0)
+		BEGIN
+			SELECT * FROM @TempTable WHERE DATEPART(YEAR, [reg_date]) = @i_year ORDER BY [reg_date] DESC
+			OFFSET (@PageNumber-1)*@RowsOfPage ROWS
+			FETCH NEXT @RowsOfPage ROWS ONLY
+		END ELSE
+		BEGIN
+			SELECT * FROM @TempTable WHERE DATEPART(YEAR, [reg_date]) = @i_year AND DATEPART(MONTH, [reg_date]) = @i_month ORDER BY [reg_date] DESC
+			OFFSET (@PageNumber-1)*@RowsOfPage ROWS
+			FETCH NEXT @RowsOfPage ROWS ONLY
+		END
 	END ELSE
 	BEGIN
-		SELECT [character_id], [item_name_package] ,[silk_own] ,[silk_own_premium] ,[silk_gift] ,[silk_gift_premium] ,[silk_point] ,[reg_date]
-		FROM WEB_ITEM_GIVE_LIST WITH(NOLOCK)
-		WHERE cp_jid = @i_cp_jid
-			AND DATEPART(YEAR, [reg_date]) = @i_year
-			AND DATEPART(MONTH, [reg_date]) = @i_month
-		ORDER BY reg_date DESC
-		OFFSET (@PageNumber-1)*@RowsOfPage ROWS
-		FETCH NEXT @RowsOfPage ROWS ONLY
+		SELECT SUM([silk_own]) AS [silk_own], SUM([silk_own_premium]) AS [silk_own_premium] FROM @TempTable WHERE [message]='$game'
 	END
+
 END
 GO
 
 /****** Object:  StoredProcedure [dbo].[WEB_ITEM_RESERVED_X]    Script Date: 10/19/2022 3:53:10 AM ******/
-DROP PROCEDURE [dbo].[WEB_ITEM_RESERVED_X]
+DROP PROCEDURE IF EXISTS [dbo].[WEB_ITEM_RESERVED_X]
 GO
 
 /****** Object:  StoredProcedure [dbo].[WEB_ITEM_RESERVED_X]    Script Date: 10/19/2022 3:53:10 AM ******/
@@ -392,7 +456,7 @@ END
 GO
 
 /****** Object:  View [dbo].[VW_WEB_MALL_LIST]    Script Date: 11/3/2022 5:24:55 AM ******/
-DROP VIEW [dbo].[VW_WEB_MALL_LIST]
+DROP VIEW IF EXISTS [dbo].[VW_WEB_MALL_LIST]
 GO
 
 /****** Object:  View [dbo].[VW_WEB_MALL_LIST]    Script Date: 11/3/2022 5:24:55 AM ******/
@@ -439,7 +503,7 @@ USE [GB_JoymaxPortal]
 GO
 
 /****** Object:  StoredProcedure [dbo].[X_DirectPaymentBeginCPTXByPS]    Script Date: 11/4/2022 7:33:41 PM ******/
-DROP PROCEDURE [dbo].[X_DirectPaymentBeginCPTXByPS]
+DROP PROCEDURE IF EXISTS [dbo].[X_DirectPaymentBeginCPTXByPS]
 GO
 
 /****** Object:  StoredProcedure [dbo].[X_DirectPaymentBeginCPTXByPS]    Script Date: 11/4/2022 7:33:41 PM ******/
@@ -607,9 +671,7 @@ AS
 				
 				SET @CPItemID = SCOPE_IDENTITY()
 			END
-			
-			--select top 100 * from APH_CPItemSaleDetails
-			
+						
 			INSERT INTO dbo.APH_CPItemSaleDetails(PTInvoiceID, CPJCIInvoiceID, ServiceCode, CPItemCount, Price, SilkType, JCISCode, JID, UserIP, CountryCode, CPPaymentDate, CPItemID, ServerName, CharName, CharID)
 			SELECT @PTInvoiceID,@CPJCIInvoiceID,@ServiceCode,@CPItemCount,@Price,@SilkType,7000,@JID,@UserIP,@CountryCode,@CurrentDate,@CPItemID,@ServerName,@CharName,@CharID
 			
@@ -688,7 +750,7 @@ WriteErrorLog:
 GO
 
 /****** Object:  StoredProcedure [dbo].[X_DirectPaymentCompletedCPTXByPS]    Script Date: 11/4/2022 7:34:42 PM ******/
-DROP PROCEDURE [dbo].[X_DirectPaymentCompletedCPTXByPS]
+DROP PROCEDURE IF EXISTS [dbo].[X_DirectPaymentCompletedCPTXByPS]
 GO
 
 /****** Object:  StoredProcedure [dbo].[X_DirectPaymentCompletedCPTXByPS]    Script Date: 11/4/2022 7:34:42 PM ******/
@@ -913,7 +975,7 @@ WriteErrorLog:
 GO
 
 /****** Object:  StoredProcedure [dbo].[X_GetJCash]    Script Date: 11/4/2022 7:35:33 PM ******/
-DROP PROCEDURE [dbo].[X_GetJCash]
+DROP PROCEDURE IF EXISTS [dbo].[X_GetJCash]
 GO
 
 /****** Object:  StoredProcedure [dbo].[X_GetJCash]    Script Date: 11/4/2022 7:35:33 PM ******/
@@ -933,7 +995,6 @@ As
 
 	declare @PremiumSilk	Int
 	declare @Silk			Int
-	--declare @VipLevel		Int
 	declare @UsageMonth		Int
 	declare @Usage3Month	Int
 
@@ -964,21 +1025,7 @@ As
 		Select -393258  as 'StatusCode'
 		Return -393258
 	End
-/*
-	-- VIP 유저 관련
-	---------------------------------------------------------
-	SELECT @VipLevel = MAX(VipLv) FROM
-	(
-		SELECT ISNULL(MAX(VipLv),0) AS VipLv FROM MU_Vip1 WITH(NOLOCK) WHERE JID = @JID
-		UNION ALL
-		SELECT ISNULL(MAX(VipLv),0) AS VipLv FROM MU_Vip3 WITH(NOLOCK) WHERE JID = @JID
-	) TbVip
 	
-		
-	Select @VipLevel = ISNULL(VipLv,0)From MU_VIP_Info with(nolock) Where JID = @JID
-	if @VipLevel is null
-		Set @VipLevel = 0
-*/
 	DECLARE @CMonthFirstTime DateTime
 	SET @CMonthFirstTime = DATEADD(DAY, -DATEPART(DAY,@CurrentDate),CONVERT(CHAR(10),@CurrentDate,21))+1
 	-- 현재월 프리미엄실크 아이템 구매금액

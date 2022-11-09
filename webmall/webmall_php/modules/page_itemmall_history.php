@@ -68,11 +68,11 @@ if ($_gethistory[0] > $_entries) $_entries_count = round($_gethistory[0] / $_ent
 								</tr>
 <?php if ($_gethistory[0] > 0) { foreach($_gethistory[1] as $_item) {?>
 								<tr>
-									<td><?=date("Y-m-d", strtotime($_item['reg_date']))?></td>
+									<td><?=date("Y-m-d\r\nh:i A", strtotime($_item['reg_date']))?></td>
 									<td><?=$_item['item_name_package']?></td>
 									<td><?=SERVERNAME?></td>
-									<td><?=($_item['silk_own'] == 0 ? $_item['silk_own_premium']+$_item['silk_gift_premium'] : $_item['silk_own']+$_item['silk_gift'])?></td>
-									<td><?=($_item['character_id'] == null ? "Not Taken" : $fn->getcharinfo($_item['character_id'])['CharName16'])?></td>
+									<td><?=($_item['message']=='$game_gift'?"Gift":($_item['silk_own']==0?$_item['silk_own_premium']:$_item['silk_own']))?></td>
+									<td style="border-right-width:1px;"><?=($_item['character_id']==null?"Not Taken":$fn->getcharinfo($_item['character_id'])['CharName16'])?></td>
 								</tr>
 <?php }} else { ?>
 								<tr>
@@ -81,7 +81,7 @@ if ($_gethistory[0] > $_entries) $_entries_count = round($_gethistory[0] / $_ent
 <?php } ?>
 								<tr>
 <?php if ($_gethistory[0] > $_entries) {?>
-									<td colspan="5">
+									<td colspan="5" style="border-right-width:1px;">
 										<div >
 											<img src='<?=CDN?>dist/images/item_img/ingame_img/btn_prev.gif' border='0' style='vertical-align: middle;' />&nbsp;<?php for($i = 1; $i <= $_entries_count; $i++) { ?>&nbsp;<a href="/itemBuyGame_history<?=EXT?>?&st3=4&p=<?=$i?>" title="Page <?=$i?>"><?=($_page == $i ? "<font color=#EB6F4D><b>".$i."</b></font>" : $i)?></a><?php } ?>&nbsp;&nbsp;<img src='<?=CDN?>dist/images/item_img/ingame_img/btn_next.gif' border='0' style='vertical-align: middle;' />
 										</div>

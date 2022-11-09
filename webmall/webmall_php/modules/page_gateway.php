@@ -8,7 +8,7 @@ if (isset($_GET['jid']) && isset($_GET['key']))
 	else
 	{
 		$fn->gentoken(time()."|".$_GET['jid']."|".$_GET['key']."|".$_GET['loc'], SITE_PASS);
-		$_iframesrc = (!isset($_GET['pid']) ? PAGE_ITEMMALL : PAGE_ITEMMALL."?pid=".$_GET['pid']);
+		$_iframesrc = (!isset($_GET['pid'])?PAGE_ITEMMALL:PAGE_ITEMMALL."?pid=".$_GET['pid']."&buythis=true");
 	}
 }
 else

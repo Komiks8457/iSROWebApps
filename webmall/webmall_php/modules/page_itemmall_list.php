@@ -70,7 +70,7 @@
 							</li>
 <?php } ?>
 						</ul>
-<?php } if ($fn->nbetween($_st1,10,1) && $_st2 >= 1) { if ($_mallitems = $fn->getmallitems($_xpn,$_xps,$_st0,$_st1,$_st2,1)) { ?>
+<?php } if ($fn->nbetween($_st1,10,1) && $_st2 >= 1) { if ($_mallitems = $fn->getmallitems($_xpn,$_xps,$_st0,$_st1,$_st2)) { ?>
 						<h3><div><?=$fn->category($_st1,$_st2,$_loc)[1]?></div></h3>
 						<ul class="list">
 <?php foreach($_mallitems as $_item) { ?>

@@ -47,13 +47,18 @@ if ($_reserved = $fn->getreserved($_jid))
 											<span class="val"><strong class="current"><?=($_item['discount_rate'] > 0 ? $_price : $_item['silk_price'])?>&nbsp;Silk</strong></span>
 										</td>
 										<td class="action">
-											<span class="btn-ga"><a href="#" onclick="location.href='<?=ROOTDIR?>itemBuyGame<?=EXT?>?st3=6&pid=<?=$_item['package_id']?>&qty='+$('.itemqty_<?=$_item['package_id']?>').val()+'&buy=2';"><?=MESSAGE[$_loc][4][4]?></a></span>
+											<span class="btn-ga"><a href="#" onclick="location.href='<?=ROOTDIR?>itemBuyGame<?=EXT?>?st3=6&pid=<?=$_item['package_id']?>&qty='+$('.itemqty_<?=$_item['package_id']?>').val()+'&rcpient='+$('#recipient').val()+'&buy=2';"><?=MESSAGE[$_loc][4][4]?></a></span>
 											<span class="btn-ga btn-ga-cancel"><a href="<?=ROOTDIR?>itemBuyGame<?=EXT?>?st3=3&delete=<?=$_item['idx']?>"><?=MESSAGE[$_loc][4][5]?></a></span>
 										</td>
 									</tr>
 <?php } ?>
 									<tr class="total">
-										<th colspan="4"><strong>Total</strong></th>
+										<td colspan=3>
+<?php if (GIFTING) { ?>											
+											<span class="gift"><input type="text" name="rcpient" maxlength="12" value="<?=MESSAGE[$_loc][8][25]?>" id="recipient" title="<?=MESSAGE[$_loc][8][25]?>" /></span>
+<?php } ?>
+										</td>
+										<th colspan="1"><strong>Total</strong></th>
 										<td colspan="2" class="price">
 										<span class="type"><img src="<?=CDN?>dist/images/item_img/ingame_img/<?=((in_array('0', $_silks_icon) && in_array('3', $_silks_icon)) ? $_ico[5] : $_ico[$_silks_icon[0]])?>" alt="Silk" /></span>
 											<span class="setter"><span id="itemAmount" class="val"><?=number_format($_totalrp)?>&nbsp;Silk</span></span>

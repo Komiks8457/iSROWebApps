@@ -1,11 +1,13 @@
 <?php
+$_buythis = $_REQUEST['buythis'] ?? false;
 $_itempid = $_REQUEST['itempid'] ?? null;
 $_itemqty = $_REQUEST['itemqty'] ?? null;
 $_rcpient = $_REQUEST['rcpient'] ?? null;
+$_rcpient_jid = null;
 $_nedsilk = null;
 $_confirm = null;
 $_success = null;
-$_buythis = null;
+$_purchse = null;
 $_totalrp = null;
 $_price_prem = null;
 $_price_silk = null;
@@ -67,8 +69,13 @@ if (($_itempid != null && $_itemqty != null && $_buy == 2) || isset($_POST['purc
 				break;
 			}
 		}
-		
 	}
+
+	if (GIFTING && !is_null($_rcpient) && $_rcpient != MESSAGE[$_loc][8][25])
+	{
+		$_rcpient_jid = $fn->getshardcharnamejid($_rcpient);
+		if ($_rcpient_jid < 0) $_success=-65;
+	}	
 	if ($_cursilk[5]+$_cursilk[6] < $_price_prem+$_price_silk) $_nedsilk = true;
 	if ($_cursilk[5] < $_price_prem) $_nedsilk = true;
 }
@@ -76,7 +83,14 @@ if (($_itempid != null && $_itemqty != null && $_buy == 2) || isset($_POST['purc
 if (isset($_POST['confirm']))
 {
 	$_confirm = 1;
-		
+
+	if (GIFTING && !is_null($_rcpient) && $_rcpient != MESSAGE[$_loc][8][25])
+	{
+		$_rcpient_jid = $fn->getshardcharnamejid($_rcpient);
+		if ($_rcpient_jid < 0) $_success=-65;
+	}
+	else $_rcpient_jid = 0;
+
 	foreach($_itempid as $_index=>$_pid)
 	{
 		if ($_pid == 0) continue;
@@ -96,21 +110,20 @@ if (isset($_POST['confirm']))
 		{
 			for($i = 1; $i <= $_itemqty[$_index]; $i++)
 			{
-				$_buythis = $fn->newitempurchase($_jid, $_item['silk_type'], $_price, $_pid, $pt_invoice_id, $cp_invoice_id, SERVERNAME);
-				if ($_buythis < 0) break;
-				//we need to run again here
+				$_purchse = $fn->newitempurchase($_jid, $_item['silk_type'], $_price, $_pid, $pt_invoice_id, $cp_invoice_id, SERVERNAME, $_rcpient_jid);
+				if ($_purchse < 0) break;
 				$cp_invoice_id = rand(1111111111111111,9999999999999999);
 				$pt_invoice_id = "JCASH".date('YmdHis').rand(111111,999999);
 			}
 		}
 		else
 		{
-			$_buythis = $fn->newitempurchase($_jid, $_item['silk_type'], $_price, $_pid, $pt_invoice_id, $cp_invoice_id, SERVERNAME);
-			if ($_buythis < 0) break;
+			$_purchse = $fn->newitempurchase($_jid, $_item['silk_type'], $_price, $_pid, $pt_invoice_id, $cp_invoice_id, SERVERNAME, $_rcpient_jid);
+			if ($_purchse < 0) break;
 		}
 	}
 	
-	$_success = $_buythis;
+	$_success = $_purchse;
 }
 ?>
 						<h2><div><?=MESSAGE[$_loc][7]?></div></h2>
@@ -162,13 +175,14 @@ foreach($_itempid as $_index=>$_pid) {
 										<input type="hidden" name="itemqty[]" value="<?=$_itemqty[$_index]?>" />
 									</tr>
 <?php } ?>
+									<input type="hidden" name="buythis" value="<?=$_buythis?>" />
 									<tr class="total">
 										<td>
-<?php if ($_st0 == 169841) { if ($_confirm == 1) { ?>
+<?php if (GIFTING && !$_buythis) { if ($_confirm == 1) {?>
 										<span class="gift"><div class="val"><?=$_rcpient?></div></span>
 										<input type="hidden" name="rcpient" maxlength="12" value="<?=$_rcpient?>" />
 <?php } else { ?>
-										<span class="gift"><input type="text" name="rcpient" maxlength="12" value="" id="recipient" title="Send gift to.." /></span>
+										<span class="gift"><input type="text" name="rcpient" maxlength="12" value="<?=MESSAGE[$_loc][8][25]?>" id="recipient" title="<?=MESSAGE[$_loc][8][25]?>" /></span>
 <?php } } ?>
 										</td>
 										<th colspan="2"><strong>Total</strong></th>
@@ -219,7 +233,11 @@ foreach($_itempid as $_index=>$_pid) {
 								<strong style="color:#fff200;"><?=MESSAGE[$_loc][8][12]?></strong>
 							</p>
 							<div class="ga">
+<?php if ($_buythis) {?>
+								<span class="btn-ga btn-ga-cancel"><button type="button" onclick="location.href='<?=ROOTDIR?>itemBuyGame<?=EXT?>'"><?=MESSAGE[$_loc][8][18]?></button></span>
+<?php } else { ?>
 								<span class="btn-ga btn-ga-cancel"><button type="button" onclick="history.back()"><?=MESSAGE[$_loc][8][18]?></button></span>
+<?php } ?>
 								<span class="btn-ga btn-ga-confirm"><input type="submit" name="confirm" value="<?=MESSAGE[$_loc][8][17]?>" /></span>
 							</div>
 <?php } else if ($_confirm == 1 && $_success == -39) { ?>
@@ -228,6 +246,13 @@ foreach($_itempid as $_index=>$_pid) {
 							</p>
 							<div class="ga">
 								<span class="btn-ga btn-ga-cancel"><button type="button" onclick="location.href='<?=ROOTDIR?>itemBuyGame<?=EXT?>'"><?=MESSAGE[$_loc][8][19]?></button></span>
+							</div>
+<?php } else if ($_confirm == 1 && $_success == -65) { ?>
+							<p class="msg msg-result">
+								<strong style="color:red;"><?=sprintf(MESSAGE[$_loc][8][24], $_rcpient)?></strong>
+							</p>
+							<div class="ga">
+								<span class="btn-ga btn-ga-cancel"><button type="button" onclick="history.back()"><?=MESSAGE[$_loc][8][19]?></button></span>
 							</div>
 <?php } else if ($_confirm == 1 && $_success < 0) { ?>
 							<p class="msg msg-result">

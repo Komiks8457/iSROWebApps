@@ -23,3 +23,4 @@ define("VIPTIER", $_config['vipinfo']['level']);
 define("VIPLVLACCESS", $_config['vipinfo']['level_access']);
 define("MESSAGE", $_config['message']);
 define("CDN", $_config['site_info']['cdn'] ?? "/");
+define("GIFTING", $_config['site_info']['gifting'] ?? false);
