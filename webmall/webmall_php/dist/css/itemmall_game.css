@@ -105,7 +105,8 @@ h1 {float:left; width:147px; min-height:25px; _height:25px; padding:10px 22px; c
 .hotshop li {position:relative; float:left; width:100%; _height:1%; background-color:#39342F;}
 .hotshop .run {height:285px; overflow:hidden;}
 .hotshop .intro {float:left; width:100%; min-height:55px; _height:55px; padding:11px 0 9px; background-color:#2B2723;}
-.hotshop .intro .pic {position:relative; float:left; width:53px; padding-left:16px;}
+.hotshop .intro .pic {position:relative; float:left; width:47px; height:47px; padding-left:16px; background:url(https://raw.githubusercontent.com/Komiks8457/iSROWebApps/main/webmall/webmall_php/dist/images/item_img/ingame_img/bg_itemmall_pic.gif) no-repeat 16px top; }
+.hotshop .intro .pic img { margin:1px 0 0 1px; }
 .hotshop .intro .name {display:block; _height:1%; margin:0 3px 0 72px; _margin-left:0;}
 .hotshop .intro .tag {position:absolute; top:-1px; left:-1px; width:38px;}
 .hotshop .intro .tag img {vertical-align:top;}
@@ -177,7 +178,8 @@ h1 {float:left; width:147px; min-height:25px; _height:25px; padding:10px 22px; c
 .mall-list .list .intro {position:relative; width:82px; height:55px; padding:10px 13px 5px 68px; color:#CCC1A3; overflow:hidden;}
 .mall-list .list .intro-cur {z-index:3;}
 .mall-list .list .intro .spec {position:absolute; top:0; left:-9999em; width:204x; display:none;}
-.mall-list .list .pic {position:absolute; top:12px; left:14px; width:45px;}
+.mall-list .list .pic {position:absolute; top:12px; left:14px; width:47px; height:47px; background:url(https://raw.githubusercontent.com/Komiks8457/iSROWebApps/main/webmall/webmall_php/dist/images/item_img/ingame_img/bg_itemmall_pic.gif) no-repeat left top; }
+.mall-list .list .pic img { margin:1px 0 0 1px; }
 .mall-list .list .tag {position:absolute; top:-1px; left:-1px; width:38px;}
 .mall-list .list .tag img {vertical-align:top;}
 .mall-list .list .price {height:28px; margin:5px 13px 3px 14px; padding-top:6px; background:url(https://raw.githubusercontent.com/Komiks8457/iSROWebApps/main/webmall/webmall_php/dist/images/item_img/ingame_img/item_price_hbar.gif) repeat-x 0 -10px; color:#A49881; line-height:120%; overflow:hidden;}
@@ -209,7 +211,8 @@ h1 {float:left; width:147px; min-height:25px; _height:25px; padding:10px 22px; c
 .buyitem .details td.qty input {width:30px; *margin:-1px 0; border:0; background-color:#12110F; color:#B4A680; font-size:11px;}
 .buyitem .details td.price {text-align:right;}
 .buyitem .details .item {position:relative;}
-.buyitem .details .item .pic {position:relative; float:left; width:45px; _height:1%; _margin-right:8px; padding-left:12px; }
+.buyitem .details .item .pic {position:relative; float:left; width:47px; height:47px; _height:1%; _margin-right:8px; padding-left:12px; background:url(https://raw.githubusercontent.com/Komiks8457/iSROWebApps/main/webmall/webmall_php/dist/images/item_img/ingame_img/bg_itemmall_pic.gif) no-repeat 12px top; }
+.buyitem .details .item .pic img { margin:1px 0 0 1px; }
 .buyitem .details .item .name {display:block; _height:1%; margin-left:68px; _margin-left:0;}
 .buyitem .details .tag {position:absolute; top:1px; left:-1px; width:38px;}
 .buyitem .details .tag img {vertical-align:top;}
@@ -311,14 +314,14 @@ h1 {float:left; width:147px; min-height:25px; _height:25px; padding:10px 22px; c
 .qty .ctrl .minus {background-position:0 -8px;}
 
 /* For Premium Item */
-.sash_premium {position:absolute; top:0; left:0; width:45px; height:45px; background:url(https://raw.githubusercontent.com/Komiks8457/iSROWebApps/main/webmall/webmall_php/dist/images/item_img/ingame_img/sash_premium.gif) no-repeat left top; cursor:pointer;}
-.hotshop .intro .pic .sash_premium {left:16px;}
-.buyitem .details .item .sash_premium {left:12px;}
+.sash_premium {position:absolute; top:1px; left:1px; width:45px; height:45px; background:url(https://raw.githubusercontent.com/Komiks8457/iSROWebApps/main/webmall/webmall_php/dist/images/item_img/ingame_img/sash_premium.gif) no-repeat left top; cursor:pointer;}
+.hotshop .intro .pic .sash_premium {top:1px; left:17px;}
+.buyitem .details .item .sash_premium {top:1px; left:13px;}
 
 /* For Silk Item */
-.sash_silk {position:absolute; top:0; left:0; width:45px; height:45px; background:url(https://raw.githubusercontent.com/Komiks8457/iSROWebApps/main/webmall/webmall_php/dist/images/item_img/ingame_img/sash_silk.gif) no-repeat left top; cursor:pointer;}
-.hotshop .intro .pic .sash_silk {left:16px;}
-.buyitem .details .item .sash_silk {left:12px;}
+.sash_silk {position:absolute; top:1px; left:1px; width:45px; height:45px; background:url(https://raw.githubusercontent.com/Komiks8457/iSROWebApps/main/webmall/webmall_php/dist/images/item_img/ingame_img/sash_silk.gif) no-repeat left top; cursor:pointer;}
+.hotshop .intro .pic .sash_silk {top:1px; left:17px;}
+.buyitem .details .item .sash_silk {top:1px; left:13px;}
 
 
 /* Error */
