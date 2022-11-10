@@ -1,6 +1,6 @@
 <?php
-$_result_prem = $fn->getmallitems(1,12,3,0,0,1,$_xch);
-$_result_silk = $fn->getmallitems(1,12,0,0,0,1,$_xch);
+$_result_prem = $fn->getmallitems(1,12,3,0,0,$_xch);
+$_result_silk = $fn->getmallitems(1,12,0,0,0,$_xch);
 ?>
 						<h2><div><?=MESSAGE[$_loc][13]?></div></h2>
 <?php if ($_result_prem) { ?>
@@ -41,7 +41,7 @@ $_result_silk = $fn->getmallitems(1,12,0,0,0,1,$_xch);
 <?php } if ($_result_silk) { ?>
 						<h3><?=MESSAGE[$_loc][2]?></h3>
 						<ul class="list">
-<?php foreach($fn->getmallitems(1,12,0,0,0,1,$_xch) as $_item) { ?>
+<?php foreach($_result_silk as $_item) { ?>
 							<li class="silk" style="padding-bottom: 5px;">
 								<div class="intro">
 									<a rel="#item-<?=$_item['package_id']?>" class="pic"><img src="<?=CDN?>dist/images/itemlist_pac/<?=$_item['package_code']?>.jpg" alt="" /></a>

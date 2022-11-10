@@ -74,7 +74,7 @@ class func
 		}
 		else return;
 	}
-	public static function getmallitems($p, $ps, $st0, $st1, $st2, $kw="")
+	public static function getmallitems($p, $ps, $st0, $st1, $st2, $kw='')
 	{
 		$dbo=db::mssqlexec("EXEC [WEB_ITEM_BUY_GAME_LIST_X] ?,?,?,?,?,?,?", [($p==0?1:$p), $ps, $st0, $st1, $st2, 1, $kw], 2);
 		if (!$dbo || $dbo->RowCount() == 0) return false;
