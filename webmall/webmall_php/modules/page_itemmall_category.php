@@ -23,13 +23,13 @@
 							</ul>
 						</div>
 					</li>
-					<li class="<?=($_st1==3?"cur":null)?>" id="cate_3"><a href="<?=($_st1==3&&$_st2==1?"#":ROOTDIR."itemBuyGame".EXT."?st0=".$_st0."&st1=3&st2=1&st3=".$_st3)?>"><?=$fn->category(3,2,$_loc)[0]?></a>
+					<li class="<?=($_st1==3?"cur":null)?>" id="cate_3"><a href="<?=($_st1==3&&$_st2==2?"#":ROOTDIR."itemBuyGame".EXT."?st0=".$_st0."&st1=3&st2=2&st3=".$_st3)?>"><?=$fn->category(3,2,$_loc)[0]?></a>
 						<div class="lower">
 							<div class="pointer"></div>
 							<ul>
-								<li><a href="<?=($_st1==3&&$_st2==1?"#":ROOTDIR."itemBuyGame".EXT."?st0=".$_st0."&st1=3&st2=1&st3=".$_st3)?>"><?=$fn->category(3,2,$_loc)[1]?></a></li>
-								<li><a href="<?=($_st1==3&&$_st2==2?"#":ROOTDIR."itemBuyGame".EXT."?st0=".$_st0."&st1=3&st2=2&st3=".$_st3)?>"><?=$fn->category(3,3,$_loc)[1]?></a></li>
-								<li><a href="<?=($_st1==3&&$_st2==3?"#":ROOTDIR."itemBuyGame".EXT."?st0=".$_st0."&st1=3&st2=3&st3=".$_st3)?>"><?=$fn->category(3,5,$_loc)[1]?></a></li>
+								<li><a href="<?=($_st1==3&&$_st2==2?"#":ROOTDIR."itemBuyGame".EXT."?st0=".$_st0."&st1=3&st2=2&st3=".$_st3)?>"><?=$fn->category(3,2,$_loc)[1]?></a></li>
+								<li><a href="<?=($_st1==3&&$_st2==3?"#":ROOTDIR."itemBuyGame".EXT."?st0=".$_st0."&st1=3&st2=3&st3=".$_st3)?>"><?=$fn->category(3,3,$_loc)[1]?></a></li>
+								<li><a href="<?=($_st1==3&&$_st2==5?"#":ROOTDIR."itemBuyGame".EXT."?st0=".$_st0."&st1=3&st2=5&st3=".$_st3)?>"><?=$fn->category(3,5,$_loc)[1]?></a></li>
 							</ul>
 						</div>
 					</li>
