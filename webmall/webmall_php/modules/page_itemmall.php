@@ -138,7 +138,7 @@ else
 <meta name="Description" content="<?=SITE_DESC?>" />
 <meta http-equiv='Page-Enter' content='blendTrans(Duration=0.2)'>
 <meta http-equiv='Page-Exit' content='blendTrans(Duration=0.2)'>
-<link rel="stylesheet" type="text/css" media="all" href="<?=ROOTDIR?>dist/css/itemmall_game.css?v=<?=rand(111111,999999)?>" />
+<link rel="stylesheet" type="text/css" media="all" href="<?=ROOTDIR?>dist/css/itemmall_game.css" />
 <title>Silkroad Online</title>
 </head>
 <body class="mig<?=null//(in_array($_COOKIE['mlanguage1'], ['tr','eg']) == true ? " lang_eg" : null)?>" ondragstart="return false" onselectstart="return false">
