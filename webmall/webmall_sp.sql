@@ -1,17 +1,18 @@
 USE [SILKROAD_R_ACCOUNT]
 GO
 
-/****** Object:  Table [dbo].[WEB_ITEM_GIVE_LIST_GIFT]    Script Date: 11/9/2022 4:41:46 PM ******/
-DROP TABLE IF EXISTS [dbo].[WEB_ITEM_GIVE_LIST_GIFT]
+DROP TABLE [dbo].[WEB_ITEM_GIVE_LIST_GIFT]
+DROP PROCEDURE [dbo].[WEB_ITEM_BUY_GAME_LIST_X]
+DROP PROCEDURE [dbo].[WEB_ITEM_BUY_X]
+DROP PROCEDURE [dbo].[WEB_ITEM_HISTORY_X]
+DROP PROCEDURE [dbo].[WEB_ITEM_RESERVED_X]
 GO
 
-/****** Object:  Table [dbo].[WEB_ITEM_GIVE_LIST_GIFT]    Script Date: 11/9/2022 4:41:46 PM ******/
+/****** Object:  Table [dbo].[WEB_ITEM_GIVE_LIST_GIFT]    Script Date: 11/15/2022 8:57:03 AM ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE TABLE [dbo].[WEB_ITEM_GIVE_LIST_GIFT](
 	[idx] [bigint] IDENTITY(1,1) NOT NULL,
 	[ref_idx] [bigint] NOT NULL,
@@ -23,16 +24,9 @@ CREATE TABLE [dbo].[WEB_ITEM_GIVE_LIST_GIFT](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-
-
-/****** Object:  StoredProcedure [dbo].[WEB_ITEM_BUY_GAME_LIST_X]    Script Date: 10/19/2022 3:52:46 AM ******/
-DROP PROCEDURE IF EXISTS [dbo].[WEB_ITEM_BUY_GAME_LIST_X]
-GO
-
-/****** Object:  StoredProcedure [dbo].[WEB_ITEM_BUY_GAME_LIST_X]    Script Date: 10/19/2022 3:52:46 AM ******/
+/****** Object:  StoredProcedure [dbo].[WEB_ITEM_BUY_GAME_LIST_X]    Script Date: 11/15/2022 8:57:03 AM ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
@@ -75,15 +69,9 @@ BEGIN
 
 END
 GO
-
-/****** Object:  StoredProcedure [dbo].[WEB_ITEM_BUY_X]    Script Date: 10/19/2022 3:57:57 AM ******/
-DROP PROCEDURE IF EXISTS [dbo].[WEB_ITEM_BUY_X]
-GO
-
-/****** Object:  StoredProcedure [dbo].[WEB_ITEM_BUY_X]    Script Date: 10/19/2022 3:57:57 AM ******/
+/****** Object:  StoredProcedure [dbo].[WEB_ITEM_BUY_X]    Script Date: 11/15/2022 8:57:03 AM ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
@@ -91,7 +79,7 @@ GO
 2022-11-05 GB_JoymaxPortal Implementation
 2022-11-09 GIFTING APPLIED
 ******************************************************************************/ 
-ALTER PROC [dbo].[WEB_ITEM_BUY_X]
+CREATE PROC [dbo].[WEB_ITEM_BUY_X]
 	@i_cp_jid				INT,
 	@i_silk_type			TINYINT,
 	@i_silk_offset			INT,
@@ -324,15 +312,9 @@ ErrorHandler:
 
 RETURN @o_result
 GO
-
-/****** Object:  StoredProcedure [dbo].[WEB_ITEM_HISTORY_X]    Script Date: 10/19/2022 3:56:14 AM ******/
-DROP PROCEDURE IF EXISTS [dbo].[WEB_ITEM_HISTORY_X]
-GO
-
-/****** Object:  StoredProcedure [dbo].[WEB_ITEM_HISTORY_X]    Script Date: 10/19/2022 3:56:14 AM ******/
+/****** Object:  StoredProcedure [dbo].[WEB_ITEM_HISTORY_X]    Script Date: 11/15/2022 8:57:03 AM ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
@@ -340,7 +322,7 @@ GO
 2022-10-19 PAGINATION APPLIED
 2022-11-09 GIFTING APPLIED
 *********************************************************************/
-ALTER PROC [dbo].[WEB_ITEM_HISTORY_X]
+CREATE PROC [dbo].[WEB_ITEM_HISTORY_X]
 	@i_page_num		int,
 	@i_page_size	int,
 	@i_year			int,
@@ -399,15 +381,9 @@ BEGIN
 
 END
 GO
-
-/****** Object:  StoredProcedure [dbo].[WEB_ITEM_RESERVED_X]    Script Date: 10/19/2022 3:53:10 AM ******/
-DROP PROCEDURE IF EXISTS [dbo].[WEB_ITEM_RESERVED_X]
-GO
-
-/****** Object:  StoredProcedure [dbo].[WEB_ITEM_RESERVED_X]    Script Date: 10/19/2022 3:53:10 AM ******/
+/****** Object:  StoredProcedure [dbo].[WEB_ITEM_RESERVED_X]    Script Date: 11/15/2022 8:57:03 AM ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
@@ -455,61 +431,19 @@ BEGIN
 END
 GO
 
-/****** Object:  View [dbo].[VW_WEB_MALL_LIST]    Script Date: 11/3/2022 5:24:55 AM ******/
-DROP VIEW IF EXISTS [dbo].[VW_WEB_MALL_LIST]
-GO
-
-/****** Object:  View [dbo].[VW_WEB_MALL_LIST]    Script Date: 11/3/2022 5:24:55 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-/******************************************************************************  
-2022-11-03 added item_quantity
-******************************************************************************/ 
-CREATE VIEW [dbo].[VW_WEB_MALL_LIST]
-AS
-	SELECT 
-		TB1.service, TB1.package_code, TB1.name_code, TB1.silk_type, TB1.silk_price, TB1.silk_price_grow, TB1.silk_price_item, TB1.discount_rate, TB1.discount_rate_grow, TB1.discount_rate_item, TB1.origin_server, TB1.grow_server, TB1.item_server, TB1.vip_level, TB1.month_limit,
-		TB2.*,
-		TB3.shop_name_us, TB4.sub_name_us, TB3.shop_order, TB4.sub_order,
-		TB3.shop_name_tr, TB4.sub_name_tr, 
-		TB3.shop_name_eg, TB4.sub_name_eg, 
-		TB3.shop_name_es, TB4.sub_name_es, 
-		TB3.shop_name_de, TB4.sub_name_de, 
-		TB4.ref_no, TB4.sub_no,
-		TB5.item_order, TB5.is_best, TB5.is_new, TB5.is_list, TB5.active, TB6.item_quantity, reg_date 
-	FROM 
-		WEB_PACKAGE_ITEM TB1, 
-		WEB_PACKAGE_ITEM_LANG TB2,
-		WEB_MALL_CATEGORY TB3,
-		WEB_MALL_CATEGORY_SUB TB4,
-		WEB_PACKAGE_ITEM_MALL TB5,
-		WEB_PACKAGE_ITEM_DETAIL TB6
-	WHERE 
-		TB1.package_id = TB2.package_id AND
-		( 
-			( TB1.shop_no = TB3.shop_no AND TB1.shop_no_sub = TB4.sub_no ) OR
-			( TB1.event_no = TB3.shop_no AND TB1.event_no_sub = TB4.sub_no )
-		) AND
-		TB3.shop_no = TB4.ref_no AND
-		TB1.package_id = TB5.package_id AND
-		TB1.package_id = TB6.package_id
-GO
-
 USE [GB_JoymaxPortal]
 GO
 
-/****** Object:  StoredProcedure [dbo].[X_DirectPaymentBeginCPTXByPS]    Script Date: 11/4/2022 7:33:41 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[X_DirectPaymentBeginCPTXByPS]
+DROP PROCEDURE [dbo].[X_DirectPaymentBeginCPTXByPS]
+DROP PROCEDURE [dbo].[X_DirectPaymentCompletedCPTXByPS]
+DROP PROCEDURE [dbo].[X_GetBeginCPTXByPSInfo]
+DROP PROCEDURE [dbo].[X_GetJCash]
+DROP PROCEDURE [dbo].[X_GetUserInfo]
 GO
 
-/****** Object:  StoredProcedure [dbo].[X_DirectPaymentBeginCPTXByPS]    Script Date: 11/4/2022 7:33:41 PM ******/
+/****** Object:  StoredProcedure [dbo].[X_DirectPaymentBeginCPTXByPS]    Script Date: 11/15/2022 8:58:47 AM ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
@@ -671,7 +605,9 @@ AS
 				
 				SET @CPItemID = SCOPE_IDENTITY()
 			END
-						
+			
+			--select top 100 * from APH_CPItemSaleDetails
+			
 			INSERT INTO dbo.APH_CPItemSaleDetails(PTInvoiceID, CPJCIInvoiceID, ServiceCode, CPItemCount, Price, SilkType, JCISCode, JID, UserIP, CountryCode, CPPaymentDate, CPItemID, ServerName, CharName, CharID)
 			SELECT @PTInvoiceID,@CPJCIInvoiceID,@ServiceCode,@CPItemCount,@Price,@SilkType,7000,@JID,@UserIP,@CountryCode,@CurrentDate,@CPItemID,@ServerName,@CharName,@CharID
 			
@@ -748,15 +684,9 @@ WriteErrorLog:
 	SELECT -65544 as 'ReturnCode'
 	RETURN -65544
 GO
-
-/****** Object:  StoredProcedure [dbo].[X_DirectPaymentCompletedCPTXByPS]    Script Date: 11/4/2022 7:34:42 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[X_DirectPaymentCompletedCPTXByPS]
-GO
-
-/****** Object:  StoredProcedure [dbo].[X_DirectPaymentCompletedCPTXByPS]    Script Date: 11/4/2022 7:34:42 PM ******/
+/****** Object:  StoredProcedure [dbo].[X_DirectPaymentCompletedCPTXByPS]    Script Date: 11/15/2022 8:58:47 AM ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
@@ -973,15 +903,73 @@ WriteErrorLog:
 	SELECT -65544 as 'StatusCode'
 	RETURN -65544 
 GO
-
-/****** Object:  StoredProcedure [dbo].[X_GetJCash]    Script Date: 11/4/2022 7:35:33 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[X_GetJCash]
-GO
-
-/****** Object:  StoredProcedure [dbo].[X_GetJCash]    Script Date: 11/4/2022 7:35:33 PM ******/
+/****** Object:  StoredProcedure [dbo].[X_GetBeginCPTXByPSInfo]    Script Date: 11/15/2022 8:58:47 AM ******/
 SET ANSI_NULLS ON
 GO
+SET QUOTED_IDENTIFIER ON
+GO
 
+/*********************************************************************************************************
+2022-11-04 Since its so fucking complicated to work on sp with output in ADOdb5 library we need to modify
+**********************************************************************************************************/
+CREATE procedure [dbo].[X_GetBeginCPTXByPSInfo]
+	 @PTInvoiceID	varchar(32)
+as
+	set nocount on
+
+	if @PTInvoiceID is null begin
+		select -65543 as 'ReturnCode'
+		return -65543
+	end
+
+	declare @JCISCode smallint
+	declare @JID int
+	declare @ServiceCode smallint
+	declare @SilkType tinyint
+	declare @Price int
+	declare @CPItemCount int
+	declare @CPItemCode varchar(128)
+
+	select
+		 @JID = a.JID
+		,@ServiceCode = a.ServiceCode
+		,@SilkType = a.SilkType
+		,@Price = a.Price
+		,@CPItemCount = a.CPItemCount
+		,@CPItemCode = b.CPItemCode
+		,@JCISCode = a.JCISCode
+	from
+		dbo.APH_CPItemSaleDetails as a
+		inner join dbo.M_CPItem as b on a.CPItemID=b.CPItemID
+	where a.PTInvoiceID = @PTInvoiceID
+	
+	if @@rowcount <> 1 begin
+		select -327699 as 'ReturnCode'
+		return -327699
+	end
+
+	if @JCISCode = 10000 begin
+		select -327724 as 'ReturnCode'
+		return -327724
+	end
+
+	if @JCISCode = 7000 begin
+		select @JID as 'JID'
+		      ,@ServiceCode as 'ServiceCode'
+			  ,@SilkType as 'SilkType'
+			  ,@Price as 'Price'
+			  ,@CPItemCount as 'CPItemCount'
+			  ,@CPItemCode as 'CPItemCode'
+			  ,@JCISCode as 'JCISCode'
+		return 0
+	end
+
+	select -65543 as 'ReturnCode'
+	return -65543
+GO
+/****** Object:  StoredProcedure [dbo].[X_GetJCash]    Script Date: 11/15/2022 8:58:47 AM ******/
+SET ANSI_NULLS ON
+GO
 SET QUOTED_IDENTIFIER ON
 GO
 
@@ -995,6 +983,7 @@ As
 
 	declare @PremiumSilk	Int
 	declare @Silk			Int
+	--declare @VipLevel		Int
 	declare @UsageMonth		Int
 	declare @Usage3Month	Int
 
@@ -1025,7 +1014,21 @@ As
 		Select -393258  as 'StatusCode'
 		Return -393258
 	End
-	
+/*
+	-- VIP 유저 관련
+	---------------------------------------------------------
+	SELECT @VipLevel = MAX(VipLv) FROM
+	(
+		SELECT ISNULL(MAX(VipLv),0) AS VipLv FROM MU_Vip1 WITH(NOLOCK) WHERE JID = @JID
+		UNION ALL
+		SELECT ISNULL(MAX(VipLv),0) AS VipLv FROM MU_Vip3 WITH(NOLOCK) WHERE JID = @JID
+	) TbVip
+	--
+*/		
+	--Select @VipLevel = ISNULL(VipLv,0)From MU_VIP_Info with(nolock) Where JID = @JID
+	--if @VipLevel is null
+	--	Set @VipLevel = 0
+		
 	DECLARE @CMonthFirstTime DateTime
 	SET @CMonthFirstTime = DATEADD(DAY, -DATEPART(DAY,@CurrentDate),CONVERT(CHAR(10),@CurrentDate,21))+1
 	-- 현재월 프리미엄실크 아이템 구매금액
@@ -1047,4 +1050,69 @@ As
 	
 	SELECT @PremiumSilk as 'PremiumSilk', @Silk as 'Silk', @UsageMonth as 'UsageMonth', @Usage3Month as 'Usage3Month'
 	Return 0
+GO
+/****** Object:  StoredProcedure [dbo].[X_GetUserInfo]    Script Date: 11/15/2022 8:58:47 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE proc [dbo].[X_GetUserInfo]
+	@JID				INT
+AS
+BEGIN
+	SET NOCOUNT ON
+
+	DECLARE @Userid				VARCHAR(38)
+	DECLARE @NickName			VARCHAR(38)
+	DECLARE @EmailAddr			VARCHAR(50)
+	DECLARE @CountryName		VARCHAR(20)
+	DECLARE @isBlock			CHAR(1)
+	DECLARE @isPaymentBLock		CHAR(1)
+	DECLARE @isCertification	CHAR(1)
+	DECLARE @JoiningDate		DATETIME
+	DECLARE @userIP				VARCHAR(18)
+	DECLARE @userName			VARCHAR(50)
+
+	SELECT @Userid = UserID, @NickName = NickName , @EmailAddr = b.EmailAddr, @CountryName = c.CountryName
+	,@JoiningDate = d.JoiningDate,@userIP = dbo.F_MakeIPBinaryToIPString(D.UserIP)
+	FROM MU_User AS A (NOLOCK)
+	INNER JOIN MU_Email AS B (NOLOCK) on a.JID = b.JID
+	INNER JOIN K_Country AS C (NOLOCK) ON a.CountryCode = c.CountryCode
+	INNER JOIN MU_JoiningInfo AS D (NOLOCK) ON a.JID = d.JID
+	WHERE a.JID = @JID
+	
+	SELECT @isBlock = CASE WHEN (SELECT TOP 1 jid FROM MUH_Blocked (NOLOCK)
+	WHERE JID = @JID AND EndDate >= GETDATE() AND StartDate <= GETDATE()) IS NULL Then 'N' ELSE 'Y' END
+		
+	SELECT @isPaymentBLock =  CASE WHEN (SELECT TOP 1 jid FROM MPUH_Blocked (NOLOCK)
+	WHERE JID = @JID AND EndDate >= GETDATE() AND StartDate <= GETDATE()) IS NULL Then 'N' ELSE 'Y' END
+	
+	SELECT @isCertification = 
+	(
+		SELECT TOP 1 EmailCertificationStatus 
+		FROM MUH_AlteredInfo (NOLOCK)
+		WHERE JID = @JID
+		ORDER BY AlterationDate DESC
+	)
+	
+	SELECT TOP 1 @userName = LastName + ' ' + FirstName FROM MUH_AlteredInfo (NOLOCK) WHERE JID = @JID ORDER BY AlterationDate DESC
+	
+	SELECT
+		@Userid as 'Userid'
+	   ,@NickName as 'NickName'
+	   ,@EmailAddr as 'EmailAddr'
+	   ,@CountryName as 'CountryName'
+	   ,@isBlock as 'isBlock'
+	   ,@isPaymentBLock as 'isPaymentBLock'
+	   ,@isCertification as 'isCertification'
+	   ,@JoiningDate as 'JoiningDate'
+	   ,@userIP as 'userIP'
+	   ,@userName as 'userName'
+
+	RETURN 0
+END    
+
+
 GO
