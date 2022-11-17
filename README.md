@@ -3,5 +3,6 @@ ISRO Web Applications - PHP
 
 Changelog:
 ```
+2022-11-18 - Fixed rand() issue on php 8
 2022-11-16 - Fixed missing item_quantity column
 ```
