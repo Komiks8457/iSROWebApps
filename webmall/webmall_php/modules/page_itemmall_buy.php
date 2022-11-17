@@ -103,7 +103,7 @@ if (isset($_POST['confirm']))
 		}
 		else $_price = $_item['silk_price'];
 
-		$cp_invoice_id = rand(1111111111111111,9999999999999999);
+		$cp_invoice_id = rand(1111111111,2147483647);
 		$pt_invoice_id = "JCASH".date('YmdHis').rand(111111,999999);
 		
 		if ($_itemqty[$_index] > 1)
@@ -112,7 +112,7 @@ if (isset($_POST['confirm']))
 			{
 				$_purchse = $fn->newitempurchase($_jid, $_item['silk_type'], $_price, $_pid, $pt_invoice_id, $cp_invoice_id, SERVERNAME, $_rcpient_jid);
 				if ($_purchse < 0) break;
-				$cp_invoice_id = rand(1111111111111111,9999999999999999);
+				$cp_invoice_id = rand(1111111111,2147483647);
 				$pt_invoice_id = "JCASH".date('YmdHis').rand(111111,999999);
 			}
 		}
