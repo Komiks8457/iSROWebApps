@@ -12,7 +12,7 @@
 							</ul>
 						</div>
 					</li>
-					<li class="<?=($_st1==2?"cur":null)?>" id="cate_2"><a href="<?=($_st2==1&&$_st2==1?"#":ROOTDIR."itemBuyGame".EXT."?st0=".$_st0."&st1=2&st2=1&st3=".$_st3)?>"><?=$fn->category(2,1,$_loc)[0]?></a>
+					<li class="<?=($_st1==2?"cur":null)?>" id="cate_2"><a href="<?=($_st1==2&&$_st2==1?"#":ROOTDIR."itemBuyGame".EXT."?st0=".$_st0."&st1=2&st2=1&st3=".$_st3)?>"><?=$fn->category(2,1,$_loc)[0]?></a>
 						<div class="lower">
 							<div class="pointer"></div>
 							<ul>
