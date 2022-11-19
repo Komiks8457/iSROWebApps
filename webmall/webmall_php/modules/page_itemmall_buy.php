@@ -68,6 +68,13 @@ if (($_itempid != null && $_itemqty != null && $_buy == 2) || isset($_POST['purc
 				$_limit_itemx = $_item['package_name'];
 				break;
 			}
+
+			if ($fn->getboughtcount($_jid, $_item['package_code'])+$_limit > $_item['month_limit'])
+			{
+				$_limit_reach = true;
+				$_limit_count = $_item['month_limit'];
+				$_limit_itemx = $_item['package_name'];
+			}
 		}
 	}
 
@@ -78,6 +85,8 @@ if (($_itempid != null && $_itemqty != null && $_buy == 2) || isset($_POST['purc
 	}	
 	if ($_cursilk[5]+$_cursilk[6] < $_price_prem+$_price_silk) $_nedsilk = true;
 	if ($_cursilk[5] < $_price_prem) $_nedsilk = true;
+
+	
 }
 
 if (isset($_POST['confirm']))
@@ -112,7 +121,7 @@ if (isset($_POST['confirm']))
 			{
 				if ($_item['month_limit'] > 0)
 				{
-					if ($fn->getboughtcount($_jid, $_item['package_code']) == $_item['month_limit'])
+					if ($fn->getboughtcount($_jid, $_item['package_code']) > $_item['month_limit'])
 					{
 						$_limit_reach = true;
 						$_limit_count = $_item['month_limit'];
@@ -129,6 +138,17 @@ if (isset($_POST['confirm']))
 		}
 		else
 		{
+			if ($_item['month_limit'] > 0)
+			{
+				if ($fn->getboughtcount($_jid, $_item['package_code']) > $_item['month_limit'])
+				{
+					$_limit_reach = true;
+					$_limit_count = $_item['month_limit'];
+					$_limit_itemx = $_item['package_name'];
+					break;
+				}
+			}
+
 			$_purchse = $fn->newitempurchase($_jid, $_item['silk_type'], $_price, $_pid, $pt_invoice_id, $cp_invoice_id, SERVERNAME, $_rcpient_jid);
 			if ($_purchse < 0) break;
 		}
