@@ -82,7 +82,7 @@ h1 {float:left; width:147px; min-height:25px; _height:25px; padding:10px 22px; c
 #screen .closer {background-position:0 100%;}
 #screen .cropped {position:relative; height:479px; margin:-5px 0; padding:15px 22px 3px; overflow:auto;}
 
-.mig .pagex {margin:13px 0; text-align:center;}
+.mig .pagex {margin:8px 0; text-align:center;}
 .hidden {display:none;}
 
 /* Lead */
@@ -148,7 +148,7 @@ h1 {float:left; width:147px; min-height:25px; _height:25px; padding:10px 22px; c
 
 /* Mall */
 .mall-list #screen {clear:left;}
-.mall-list #screen .cropped {height:424px;}
+.mall-list #screen .cropped {height:435px;}
 
 /* Mall - Category */
 .mall-list .category {position:relative; float:left; width:100%; min-height:30px; _height:30px; z-index:3;}
@@ -271,6 +271,9 @@ h1 {float:left; width:147px; min-height:25px; _height:25px; padding:10px 22px; c
 .item-search .list {margin-bottom:10px;}
 .item-search .no-results {margin:30px 0 50px;}
 
+/* Item Search */
+.item-edit #screen .cropped {height:465px;}
+
 /* History */
 .history h3 {float:left; _display:inline; margin:4px 7px 5px; padding:0 15px; background:url(https://raw.githubusercontent.com/Komiks8457/iSROWebApps/main/webmall/webmall_php/dist/images/item_img/ingame_img/content_h3_bul.gif) no-repeat -7px 2px; color:#CAC0AC; font-size:12px; font-weight:normal;}
 .history h3 em {color:#DEA10F;}
@@ -349,7 +352,7 @@ h1 {float:left; width:147px; min-height:25px; _height:25px; padding:10px 22px; c
 
 .cropped .scrollbar-pane {margin-right: 16px; padding:15px 22px 3px;}
 .cropped .scrollbar-handle-container {right:0; _right:-1px; width:21px; border:1px solid #433F38; border-top:0; border-bottom:0; background:#161412;}
-.cropped .scrollbar-handle-container.hover, .cropped .scrollbar-handle-container.move {}
+/*.cropped .scrollbar-handle-container.hover, .cropped .scrollbar-handle-container.move {}*/
 .cropped .scrollbar-handle-up, .cropped .scrollbar-handle-down {background-image: url(https://raw.githubusercontent.com/Komiks8457/iSROWebApps/main/webmall/webmall_php/dist/images/item_img/ingame_img/btn_scrollbar_arrow_bg.gif); background-repeat: no-repeat;}
 
 /* handle */
@@ -367,7 +370,7 @@ h1 {float:left; width:147px; min-height:25px; _height:25px; padding:10px 22px; c
 
 
 
-.jcarousel-skin-tango .jcarousel-container {}
+/*.jcarousel-skin-tango .jcarousel-container {}*/
 .jcarousel-skin-tango .jcarousel-direction-rtl {direction: rtl;}
 .jcarousel-skin-tango .jcarousel-container-vertical {width: 168px; height: 260px;}
 .jcarousel-skin-tango .jcarousel-clip-vertical {width: 168px; height: 260px;}
@@ -413,17 +416,17 @@ div.combo {position:relative; left: 0px; top: 0px;}
 	z-index: 99999;
 }
 /*"drop-up" list wrapper*/
-.combo div.list-wrapper-up {}
+/*.combo div.list-wrapper-up {}*/
 /*dropdown list*/
-.combo ul {}
+/*.combo ul {}*/
 /*dropdown list item*/
 .combo  li {height:14px;}
 /*active (hovered) list item*/
-.combo li.active {}
+/*.combo li.active {}*/
 .combo .visible {display: block;}
 .combo .invisible {display: none;}
 /*used when emptyText config opt is set. Applied to text input*/
-.combo input.empty {}
+/*.combo input.empty {}*/
 
 /**
 	sexy-combo 2.1.3 : http://code.google.com/p/sexy-combo/
@@ -620,7 +623,7 @@ div.sexy-month div.icon {left:23px;}
 
 
 /* Quantity Adjustment */
-.lang_eg .qty {}
+/*.lang_eg .qty {}*/
 .lang_eg .qty .setter {float:right; margin-left:-16px;}
 .lang_eg .qty .cont {display:block; margin-right:0; margin-left:16px;}
 .lang_eg .qty .ctrl {float:right; margin-left:0;}

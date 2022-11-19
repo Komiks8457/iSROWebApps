@@ -69,6 +69,7 @@ if (($_itempid != null && $_itemqty != null && $_buy == 2) || isset($_POST['purc
 				break;
 			}
 
+			//check for user who already bought some of the limited item (purchase attemp)
 			if ($fn->getboughtcount($_jid, $_item['package_code'])+$_limit > $_item['month_limit'])
 			{
 				$_limit_reach = true;
@@ -119,6 +120,7 @@ if (isset($_POST['confirm']))
 		{
 			for($i = 1; $i <= $_itemqty[$_index]; $i++)
 			{
+				//check and stop the loop if the user reached the limit (bulk buy)
 				if ($_item['month_limit'] > 0)
 				{
 					if ($fn->getboughtcount($_jid, $_item['package_code']) > $_item['month_limit'])
@@ -138,6 +140,7 @@ if (isset($_POST['confirm']))
 		}
 		else
 		{
+			//check and stop the loop if the user reached the limit (single buy)
 			if ($_item['month_limit'] > 0)
 			{
 				if ($fn->getboughtcount($_jid, $_item['package_code']) > $_item['month_limit'])

@@ -71,7 +71,7 @@
 <?php } ?>
 						</ul>
 <?php } if ($fn->nbetween($_st1,10,1) && $_st2 >= 1) { if ($_mallitems = $fn->getmallitems($_xpn,$_xps,$_st0,$_st1,$_st2)) { ?>
-						<h3><div><?=$fn->category($_st1,$_st2,$_loc)[1]?></div></h3>
+						<h3><div><?=$fn->category($_st1,$_st2,$_loc)[1]?><span style="float:right;margin-top:-13px;font-size:smaller"><?=($fn->i_am_gm($_jid) ? "<a href=\"".ROOTDIR."itemBuyGame".EXT."?st0=".$_st0."&st1=".$_st1."&st2=".$_st2."&st3=7&nameidx=1\">Edit List</a>" : null)?></span></div></h3>
 						<ul class="list">
 <?php foreach($_mallitems as $_item) { ?>
 							<li class="<?=($_st0 == 0 ? "silk" : "prem")?>" style="padding-bottom: 5px;">

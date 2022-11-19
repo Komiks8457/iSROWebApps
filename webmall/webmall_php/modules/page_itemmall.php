@@ -53,8 +53,6 @@ if ($_token = $fn->readtoken($_COOKIE['webmallkey'], SITE_PASS))
 
 			$_jid = $_token['jid'];
 			$_loc =	$_token['loc'];
-			
-			$_vip = $fn->getvipinfo($_jid);
 
 			$_portal_jid = $fn->tbuserinfo($_jid)['PortalJID'];
 			$_portal_silk = $fn->getjcash($_portal_jid);
@@ -96,6 +94,9 @@ if ($_token = $fn->readtoken($_COOKIE['webmallkey'], SITE_PASS))
 					break;
 				case 6:
 					$_xpt = "buyitem";
+					break;
+				case 7:
+					$_xpt = "mall-list item-edit";
 					break;
 				case 69:
 					$_xpt = "mall-list item-search";
@@ -253,6 +254,9 @@ switch ($_st3)
 	case 6:
 		include('page_itemmall_buy.php');
 		break;
+	case 7:
+		include('page_itemmall_edit.php');
+		break;
 	case 69:
 		include('page_itemmall_search.php');
 		break;
@@ -264,7 +268,7 @@ switch ($_st3)
 					</div>
 					<div class="closer mold"></div>
 				</div>
-<?php if ($fn->getitemscount($_st0, $_st1, $_st2) > $_xps) { ?>
+<?php if ($fn->getitemscount($_st0, $_st1, $_st2) > $_xps && $_st3 != 7) { ?>
 				<div class="pagex">
 					<img src="<?=CDN?>dist/images/item_img/ingame_img/btn_prev.gif" border="0" style="vertical-align: middle;" />&nbsp;<?php for($i = 1; $i <= $_xpc; $i++) { ?>&nbsp;<a href="<?=ROOTDIR?>itemBuyGame<?=EXT?>?st0=<?=$_st0?>&st1=<?=$_st1?>&st2=<?=$_st2?>&page=<?=$i?>" title="Page <?=$i?>"><?=($_xpn == $i ? "<font color=#EB6F4D><b>".$i."</b></font>" : $i)?></a><?php } ?>&nbsp;&nbsp;<img src="<?=CDN?>dist/images/item_img/ingame_img/btn_next.gif" border="0" style="vertical-align: middle;" />
 				</div>

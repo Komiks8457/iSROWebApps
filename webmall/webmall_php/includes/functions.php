@@ -1,6 +1,16 @@
 <?php
 class func
 {
+	public static function mallpackageitems($st0, $st1, $st2)
+	{
+		$dbo=db::mssqlexec("SELECT * FROM [VW_WEB_MALL_LIST] WITH (NOLOCK) WHERE [silk_type]=? AND [ref_no]=? AND [sub_no]=?", [$st0, $st1, $st2], 2);
+		if (!$dbo || $dbo->RowCount() == 0) return -1;
+		return $dbo;
+	}
+	public static function i_am_gm($jid)
+	{
+		return (func::tbuserinfo($jid)['sec_primary'] == 1 && func::tbuserinfo($jid)['sec_content'] == 1);
+	}
 	public static function getjcash($pjid)
 	{
 		$dbo=db::mssqlexec("EXEC [".PORTALDB."]..[X_GetJCash] ?", $pjid);

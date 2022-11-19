@@ -77,6 +77,7 @@ GO
 /*********************************************************************
 2022-10-19 PAGINATION
 2022-11-03 ADDED item_quantity column
+2022-11-20 ADDED ref_no
 *********************************************************************/
 CREATE PROC [dbo].[WEB_ITEM_BUY_GAME_LIST_X]
 	@i_page_num		int,
@@ -96,7 +97,7 @@ BEGIN
 	SET @RowsOfPage=@i_page_size
 
 	SELECT
-		service, package_code, silk_type, silk_price, discount_rate, package_id, package_name, us_explain, us_use_method, us_use_restriction, tr_explain, tr_use_method, tr_use_restriction, eg_explain, eg_use_method, eg_use_restriction, es_explain, es_use_method, es_use_restriction, de_explain, de_use_method, de_use_restriction, shop_name_us, sub_name_us, item_order, is_best, is_new, is_list, active, vip_level, month_limit, item_quantity
+		service, package_code, silk_type, silk_price, discount_rate, package_id, package_name, us_explain, us_use_method, us_use_restriction, tr_explain, tr_use_method, tr_use_restriction, eg_explain, eg_use_method, eg_use_restriction, es_explain, es_use_method, es_use_restriction, de_explain, de_use_method, de_use_restriction, shop_name_us, sub_name_us, item_order, is_best, is_new, is_list, active, vip_level, month_limit, item_quantity, ref_no
 	FROM
 		VW_WEB_MALL_LIST WITH(NOLOCK)
 	WHERE
