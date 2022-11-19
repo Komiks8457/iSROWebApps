@@ -110,6 +110,17 @@ if (isset($_POST['confirm']))
 		{
 			for($i = 1; $i <= $_itemqty[$_index]; $i++)
 			{
+				if ($_item['month_limit'] > 0)
+				{
+					if ($fn->getboughtcount($_jid, $_item['package_code']) == $_item['month_limit'])
+					{
+						$_limit_reach = true;
+						$_limit_count = $_item['month_limit'];
+						$_limit_itemx = $_item['package_name'];
+						break;
+					}
+				}
+				
 				$_purchse = $fn->newitempurchase($_jid, $_item['silk_type'], $_price, $_pid, $pt_invoice_id, $cp_invoice_id, SERVERNAME, $_rcpient_jid);
 				if ($_purchse < 0) break;
 				$cp_invoice_id = rand(1111111111,2147483647);
