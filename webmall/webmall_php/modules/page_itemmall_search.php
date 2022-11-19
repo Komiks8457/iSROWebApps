@@ -11,6 +11,9 @@ $_result_silk = $fn->getmallitems(1,12,0,0,0,$_xch);
 								<div class="intro">
 									<a rel="#item-<?=$_item['package_id']?>" class="pic"><img src="<?=CDN?>dist/images/itemlist_pac/<?=$_item['package_code']?>.jpg" alt="" /></a>
 									<span class="name"><?=$_item['package_name']?></span>
+<?php if ($_item['discount_rate'] > 0) { ?>
+									<span class="tag"><img src="<?=CDN?>dist/images/item_img/ingame_img/item_sale_icon.png" alt="SALE" /></span>
+<?php } ?>
 									<div id="item-<?=$_item['package_id']?>" class="spec">
 										<p class="spec-name"><strong><?=$_item['package_name']?></strong></p>
 										<ul>
@@ -23,9 +26,18 @@ $_result_silk = $fn->getmallitems(1,12,0,0,0,$_xch);
 								</div>
 								<div class="price">
 									<span class="type"><img src="<?=CDN?>dist/images/item_img/ingame_img/<?=$_ico[3]?>" alt="" /></span>
-                                    <strong class="val">
+<?php if ($_item['discount_rate'] > 0) { ?>
+									<strong class="val">
+										<strong class="normal"><?=$_item['silk_price']?>&nbsp;Silk</strong>
+									</strong>
+									<strong class="val">
+										<strong class="current"><?=bcsub($_item['silk_price'], bcdiv(bcmul($_item['silk_price'], $_item['discount_rate']), '100'))?> Silk (<?=$_item['discount_rate']?>% off)</strong>
+									</strong>
+<?php } else { ?>
+									<strong class="val">
 										<strong class="current"><?=$_item['silk_price']?>&nbsp;Silk</strong>
 									</strong>
+<?php } ?>
 								</div>
 								<div class="action">
 									<span class="setter">
