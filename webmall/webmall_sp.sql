@@ -14,42 +14,24 @@ GO
 ******************************************************************************/ 
 CREATE VIEW [dbo].[VW_WEB_MALL_LIST]
 AS
-SELECT X.*,Y.package_id AS add_mall FROM
-(
-	SELECT 
-		TB1.service, TB1.package_code, TB1.name_code, TB1.silk_type, TB1.silk_price, TB1.silk_price_grow, TB1.silk_price_item, TB1.discount_rate, TB1.discount_rate_grow, TB1.discount_rate_item, TB1.origin_server, TB1.grow_server, TB1.item_server, TB1.vip_level, TB1.month_limit,
-		TB2.*,
-		TB3.shop_name_us, TB4.sub_name_us, TB3.shop_order, TB4.sub_order,
-		TB3.shop_name_tr, TB4.sub_name_tr, 
-		TB3.shop_name_eg, TB4.sub_name_eg, 
-		TB3.shop_name_es, TB4.sub_name_es, 
-		TB3.shop_name_de, TB4.sub_name_de, 
-		TB4.ref_no, TB4.sub_no,
-		TB5.item_order, TB5.is_best, TB5.is_new, TB5.is_list, TB5.active, TB6.item_quantity, reg_date 
-	FROM 
-		WEB_PACKAGE_ITEM TB1, 
-		WEB_PACKAGE_ITEM_LANG TB2,
-		WEB_MALL_CATEGORY TB3,
-		WEB_MALL_CATEGORY_SUB TB4,
-		WEB_PACKAGE_ITEM_MALL TB5,
-		WEB_PACKAGE_ITEM_DETAIL TB6
-	WHERE 
-		TB1.package_id = TB2.package_id AND
-		( 
-			( TB1.shop_no = TB3.shop_no AND TB1.shop_no_sub = TB4.sub_no ) OR
-			( TB1.event_no = TB3.shop_no AND TB1.event_no_sub = TB4.sub_no )
-		) AND
-		TB3.shop_no = TB4.ref_no AND
-		TB1.package_id = TB5.package_id AND
-		TB1.package_id = TB6.package_id
-) X
-INNER JOIN
-(
-	SELECT package_id FROM WEB_PACKAGE_ITEM_MALL
-) Y
-ON
-	X.package_id = Y.package_id
-
+SELECT   TB1.service, TB1.package_code, TB1.name_code, TB1.silk_type, TB1.silk_price, TB1.silk_price_grow, TB1.silk_price_item, TB1.discount_rate, TB1.discount_rate_grow, TB1.discount_rate_item, TB1.origin_server, 
+         TB1.grow_server, TB1.item_server, TB1.vip_level, TB1.month_limit, TB2.package_id, TB2.package_name, TB2.us_explain, TB2.us_use_method, TB2.us_use_restriction, TB2.tr_explain, TB2.tr_use_method, 
+         TB2.tr_use_restriction, TB2.eg_explain, TB2.eg_use_method, TB2.eg_use_restriction, TB2.es_explain, TB2.es_use_method, TB2.es_use_restriction, TB2.de_explain, TB2.de_use_method, TB2.de_use_restriction, 
+         TB3.shop_order, TB4.sub_order, TB3.shop_name_us, TB4.sub_name_us, TB3.shop_name_tr, TB4.sub_name_tr, TB3.shop_name_eg, TB4.sub_name_eg, TB3.shop_name_es, TB4.sub_name_es, TB3.shop_name_de, 
+         TB4.sub_name_de, TB4.ref_no, TB4.sub_no, TB5.item_order, TB5.is_best, TB5.is_new, TB5.is_list, TB5.active, TB6.item_quantity, TB5.reg_date
+FROM     dbo.WEB_PACKAGE_ITEM_MALL AS TB5 INNER JOIN
+         dbo.WEB_PACKAGE_ITEM AS TB1 INNER JOIN
+         dbo.WEB_PACKAGE_ITEM_LANG AS TB2 ON TB1.package_id = TB2.package_id ON TB5.package_id = TB1.package_id INNER JOIN
+         dbo.WEB_PACKAGE_ITEM_DETAIL AS TB6 ON TB5.package_id = TB6.package_id CROSS JOIN
+         dbo.WEB_MALL_CATEGORY_SUB AS TB4 INNER JOIN
+         dbo.WEB_MALL_CATEGORY AS TB3 ON TB4.ref_no = TB3.shop_no
+WHERE    (TB1.shop_no = TB3.shop_no) AND (TB1.shop_no_sub = TB4.sub_no) OR
+         (TB1.event_no = TB3.shop_no) AND (TB1.event_no_sub = TB4.sub_no)
+GROUP BY TB1.service, TB1.package_code, TB1.name_code, TB1.silk_type, TB1.silk_price, TB1.silk_price_grow, TB1.silk_price_item, TB1.discount_rate, TB1.discount_rate_grow, TB1.discount_rate_item, TB1.origin_server, 
+         TB1.grow_server, TB1.item_server, TB1.vip_level, TB1.month_limit, TB2.package_id, TB2.package_name, TB2.us_explain, TB2.us_use_method, TB2.us_use_restriction, TB2.tr_explain, TB2.tr_use_method, 
+         TB2.tr_use_restriction, TB2.eg_explain, TB2.eg_use_method, TB2.eg_use_restriction, TB2.es_explain, TB2.es_use_method, TB2.es_use_restriction, TB2.de_explain, TB2.de_use_method, TB2.de_use_restriction, 
+         TB3.shop_order, TB3.shop_name_us, TB4.sub_name_us, TB3.shop_name_tr, TB4.sub_name_tr, TB3.shop_name_eg, TB4.sub_name_eg, TB3.shop_name_es, TB4.sub_name_es, TB3.shop_name_de, TB4.sub_name_de, 
+         TB4.ref_no, TB4.sub_no, TB4.sub_order, TB5.item_order, TB5.is_best, TB5.is_new, TB5.is_list, TB5.active, TB6.item_quantity, TB5.reg_date
 GO
 
 /****** Object:  Table [dbo].[WEB_ITEM_GIVE_LIST_GIFT]    Script Date: 11/15/2022 8:57:03 AM ******/
