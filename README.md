@@ -4,6 +4,7 @@ ISRO Web Applications - PHP
 Changelog:
 ```
 2022-11-20
+| Fixed duplicate entries showing on fellow package
 | VIP items in search result should be the same on what you see on VIP tab
 | Search item now shows discount for discounted items
 | Fixed another bug on VIP limited items purchase flow
